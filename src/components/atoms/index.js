@@ -1,0 +1,6 @@
+export { default as Title } from './title'
+export { default as Badge } from './badge'
+export { default as Label } from './label'
+export { default as Select } from './Select'
+export { default as Input } from './input'
+export { default as Icon } from './icon'

@@ -1,0 +1,94 @@
+import React from "react";
+import PropTypes from 'prop-types';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
+import CancelIcon from '@mui/icons-material/Cancel';
+import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
+import DisplaySettingsIcon from '@mui/icons-material/DisplaySettings';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import AutorenewIcon from '@mui/icons-material/Autorenew';
+import AddCircleIcon from '@mui/icons-material/AddCircle';
+import ImportExportIcon from '@mui/icons-material/ImportExport';
+import { COLOR_BUTTON_MAB } from "src/config/config";
+import { COLOR_GREEN } from "src/utils/constants";
+import SearchIcon from '@mui/icons-material/Search';
+import DownloadIcon from '@mui/icons-material/Download';
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
+import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
+import Tooltip from '@mui/material/Tooltip';
+
+function TypeButton(value) {
+  switch (value) {
+    case 1:
+      return (<SaveAsIcon />);
+    case 2:
+      return (<CancelIcon />);
+    case 3:
+      return (<BookmarkAddedIcon />);
+    case 4: //Setting
+      return (<DisplaySettingsIcon />);
+    case 5: //Check
+      return (<CheckCircleIcon />);
+    case 6:
+      return (<AutorenewIcon />)
+    case 7:
+      return (<AddCircleIcon />)
+    case 8:
+      return (<ImportExportIcon />)
+    case 9:
+      return (<SearchIcon />)
+    case 10:
+      return (<DownloadIcon />)
+    case 11:
+      return (<WhatsAppIcon />)
+    case 12:
+      return (<AlternateEmailIcon />)
+    default:
+      break;
+  }
+}
+
+export default function ButtonFormControl({
+  title = '',
+  color = '',
+  onClick,
+  float = '',
+  type = 0,
+  disabled = false
+}) {
+  function colorBackGround() {
+    let color = '';
+    switch (type) {
+      case 1:
+        color = COLOR_GREEN;
+        break;
+      case 2:
+        color = COLOR_BUTTON_MAB;
+        break;
+      case 5:
+        color = COLOR_GREEN;
+        break;
+      default:
+        break;
+    }
+    return color;
+  }
+  return (
+    <>
+      <Tooltip title={title}>
+        <button disabled={disabled} className={`${color} text-white mt-1`} onClick={onClick} style={{ float: float, backgroundColor: colorBackGround() }}>
+          {TypeButton(type)}&nbsp;
+          {title}
+        </button>
+      </Tooltip>
+    </>
+  )
+}
+ButtonFormControl.propTypes = {
+  title: PropTypes.string,
+  disabled: PropTypes.bool,
+  color: PropTypes.string,
+  icon: PropTypes.string,
+  onClick: PropTypes.func,
+  float: PropTypes.string,
+  type: PropTypes.number
+};
