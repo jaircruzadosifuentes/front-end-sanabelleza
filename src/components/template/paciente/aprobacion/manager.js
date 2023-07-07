@@ -370,7 +370,13 @@ export default function Manager(props) {
       </div>
       <div className="row mt-2">
         <div className="col-md-12">
-          {
+          <List
+            rows={result}
+            handleClickAprobarSolicitud={handleClickAprobarSolicitud}
+            handleCancelRequest={handleCancelRequest}
+            typeList={1}
+          /> 
+          {/* {
             selectedValue === 'a' ?
               <List
                 rows={result}
@@ -386,7 +392,7 @@ export default function Manager(props) {
                 handleSendWhatsapp={handleSendWhatsapp}
                 handleChangeSendMsgWssp={handleChangeSendMsgWssp}
               />
-          }
+          } */}
         </div>
       </div>
       {
