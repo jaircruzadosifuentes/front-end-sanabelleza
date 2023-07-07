@@ -43,11 +43,11 @@ function Row({
           </IconButton>
         </TableCell>
         <TableCell component="th" scope="row">
-          {row.nro}
+          {row.correlative}
         </TableCell>
-        <TableCell align="left">{row.patientName}</TableCell>
-        <TableCell align="left">{convertDateTimeToDate(row.dayReserved)}</TableCell>
-        <TableCell align="left">{row.hourReserved}</TableCell>
+        <TableCell align="left">{row.person.surnames} {row.person.names}</TableCell>
+        <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
+        <TableCell align="left">{row.patientSolicitude.hourAttention}</TableCell>
         <TableCell align="left">{row.reason}</TableCell>
         <TableCell align="left">{row.state}</TableCell>
         <td>
@@ -67,16 +67,16 @@ function Row({
               </Typography>
               <div className='row'>
                 <div className='col-md-6'>
-                  <Label title={'Nombres y apellidos'} />: <span>{row.patientName}</span>
+                  <Label title={'Nombres y apellidos'} />: <span>{row.person.surnames} {row.person.names}</span>
                 </div>
                 <div className='col-md-2'>
-                  <Label title={'Dia de atención'} />: <span>{convertDateTimeToDate(row.dayReserved)}</span>
+                  <Label title={'Dia de atención'} />: <span>{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</span>
                 </div>
                 <div className='col-md-2'>
-                  <Label title={'Hora reservada'} />: <span>{row.hourReserved}</span>
+                  <Label title={'Hora reservada'} />: <span>{row.patientSolicitude.hourAttention}</span>
                 </div>
                 <div className='col-md-2'>
-                  <Label title={'Tiempo duración'} />: <span>{row.timeDemoration} minutos</span>
+                  <Label title={'Tiempo duración'} />: <span>30 minutos</span>
                 </div>
               </div>
             </Box>
@@ -87,10 +87,10 @@ function Row({
               </Typography>
               <div className='row'>
                 <div className='col-md-2'>
-                  <Label title={'Cargo'} />: <span>{row.employeed.role.name}</span>
+                  <Label title={'Cargo'} />: <span>{row.patientSolicitude.employeed.role.name}</span>
                 </div>
                 <div className='col-md-4'>
-                  <Label title={'Nombres y apellidos'} />: <span>{row.employeed.person.surnames}/{row.employeed.person.names}</span>
+                  <Label title={'Nombres y apellidos'} />: <span>{row.patientSolicitude.employeed.person.surnames}/{row.patientSolicitude.employeed.person.names}</span>
                 </div>
               </div>
             </Box>
