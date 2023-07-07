@@ -17,10 +17,10 @@ export default function Form({
               </div>
               <div className="col-md-12">
                 <img
-                  alt={objPatient.surNames}
-                  src={`images/avatars/${objPatient?.profilePicture}`}
+                  alt={objPatient?.person?.surnames}
+                  src={`images/avatars/${objPatient?.person?.profilePicture}`}
                   className="rounded float-righ"
-                  title={`${objPatient.surNames}/${objPatient.names}`}
+                  title={`${objPatient?.person?.surnames}/${objPatient?.person?.names}`}
                   height={'320px'}
                   width={'275px'}
                 />
@@ -36,7 +36,7 @@ export default function Form({
                 className="col-md-4"
                 label="Apellidos"
                 isLabel
-                defaultValue={objPatient.surNames}
+                defaultValue={objPatient?.person?.surnames}
                 readOnly
               />
               <InputFormControl
@@ -44,7 +44,7 @@ export default function Form({
                 className="col-md-3"
                 isLabel
                 label="Nombres"
-                defaultValue={objPatient.names}
+                defaultValue={objPatient?.person?.names}
                 readOnly
               />
               <InputFormControl
@@ -52,7 +52,7 @@ export default function Form({
                 className="col-md-2"
                 isLabel
                 label="Fecha Nacimiento"
-                defaultValue={objPatient.birthDate}
+                defaultValue={objPatient?.person?.birthDate}
                 readOnly
               />
               <InputFormControl
@@ -60,7 +60,7 @@ export default function Form({
                 className="col-md-1"
                 isLabel
                 label="Edad"
-                defaultValue={objPatient.age}
+                defaultValue={objPatient?.person?.age}
                 readOnly
               />
               <InputFormControl
@@ -68,7 +68,7 @@ export default function Form({
                 className="col-md-2"
                 isLabel
                 label="Nro Documento"
-                defaultValue={objPatient.nroDocument}
+                defaultValue={objPatient?.person?.personDocument?.nroDocument}
                 readOnly
               />
             </div>
@@ -77,19 +77,19 @@ export default function Form({
             <div className="row">
               <div className="col-md-4">
                 <Label title={'Nombres y Apellidos'} /> <br />
-                <span>{objPatient.employeed?.person?.surnames}/{objPatient.employeed?.person?.names}</span>
+                <span>{objPatient?.patientSolicitude?.employeed?.person?.surnames}/{objPatient?.patientSolicitude?.employeed?.person?.names}</span>
               </div>
               <div className="col-md-2">
                 <Label title={'Hora de Atención'} /> <br />
-                <span>{objPatient.hourInitial}</span>
+                <span>{objPatient?.patientSolicitude?.hourAttention}</span>
               </div>
               <div className="col-md-2">
                 <Label title={'Fecha Atención'} /> <br />
-                <span>{objPatient.reservedDay}</span>
+                <span>{objPatient?.patientSolicitude?.dateAttention}</span>
               </div>
               <div className="col-md-2">
                 <Label title={'Tiempo Estimado'} /> <br />
-                <span>{objPatient.timeInAttention} minutos.</span>
+                <span>{objPatient?.patientSolicitude?.timeAttention} minutos.</span>
               </div>
             </div>
             <br />

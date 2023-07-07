@@ -21,13 +21,12 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.surNames}/${row.names}`}</TableCell>
-        <TableCell align="left">{convertDateTimeToDate(row.reservedDay)}</TableCell>
-        <TableCell align="left">{row.hourInitial}</TableCell>
+        <TableCell align="left">{`${row.person.surnames} / ${row.person.names}`}</TableCell>
+        <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
+        <TableCell align="left">{row.patientSolicitude.hourAttention}</TableCell>
         <TableCell align="left">{row.reason}</TableCell>
-        <TableCell align="left">{row.timeInAttention} minutos.</TableCell>
-        <TableCell align="left">{row.age} años.</TableCell>
-        <TableCell align="left">{row.disabilityDescription}</TableCell>
+        <TableCell align="left">{row.patientSolicitude.timeAttention} minutos.</TableCell>
+        <TableCell align="left">{row.person.age} años.</TableCell>
         <td>
           <WrappedMenuItems 
             row={row} 
@@ -77,12 +76,11 @@ export default function List({
             <TableCell align="left">Motivo</TableCell>
             <TableCell align="left">Tiempo</TableCell>
             <TableCell align="left">Edad</TableCell>
-            <TableCell align="left">Tiene Discapacidad?</TableCell>
             <TableCell align="left"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row, index) => (
+          {rows?.length > 0 ? rows.map((row, index) => (
             <Row 
               key={row.nro} 
               row={row} 
@@ -90,7 +88,7 @@ export default function List({
               handleChangeCaptureIdPatientAprrove={handleChangeCaptureIdPatientAprrove}
               handleStartAnalyzing={handleStartAnalyzing}
             />
-          ))}
+          )): <span>No existen datos para mostrar</span>}
         </TableBody>
       </Table>
     </TableContainer>

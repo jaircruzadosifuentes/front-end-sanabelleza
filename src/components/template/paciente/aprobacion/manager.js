@@ -62,9 +62,8 @@ export default function Manager(props) {
 
   const handleCancelRequest = async (e, row) => {
     let patient = row;
-    let isNew = parseInt(patient.isNew);
     let patientId = parseInt(patient.patientId);
-    let namePatient = patient.patientName;
+    let namePatient = `${patient.person.surnames}/${patient.person.names}` ;
     if (isNaN(patientId)) {
       Swal.fire({
         icon: 'warning',
@@ -75,7 +74,7 @@ export default function Manager(props) {
     }
     Swal.fire({
       title: '¿Desea rechazar la solicitud?',
-      text: `Usted está rechazando la ${!isNew ? 'solicitud' : 'sesión'} del paciente ${namePatient}`,
+      text: `Usted está rechazando la solicitud del paciente ${namePatient}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -84,16 +83,11 @@ export default function Manager(props) {
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
-        let insert = true;
-        if (isNew === 0) {
-          insert = await ServicePutApprovePatientNew(patientId, 'R')
-        } else {
-          insert = await ServicePutApprovePatient(patientId, 'R');
-        }
+        let insert = await ServicePutApprovePatient(patientId, 'R');
         if (insert.ok) {
           await handleLoadData();
           Swal.fire(
-            'Rechazo exitosa',
+            'Rechazo exitoso',
             'El rechazo ha sido realizado con éxito.',
             'success'
           );
@@ -113,9 +107,8 @@ export default function Manager(props) {
   const handleClickAprobarSolicitud = async (e, row, type = 1) => {
     if (type === 1) {
       let patient = row;
-      let isNew = parseInt(patient.isNew);
       let patientId = parseInt(patient.patientId);
-      let namePatient = patient.patientName;
+      let namePatient = `${patient.person.surnames}/${patient.person.names}` ;
       if (isNaN(patientId)) {
         Swal.fire({
           icon: 'warning',
@@ -124,7 +117,7 @@ export default function Manager(props) {
         });
         return;
       }
-      if (!patient.hourReserved) {
+      if (!patient.patientSolicitude.hourAttention) {
         Swal.fire({
           icon: 'warning',
           title: 'Advertencia',
@@ -132,7 +125,7 @@ export default function Manager(props) {
         });
         return;
       }
-      if (convertDateTimeToDate(patient.dayReserved) !== convertDateTimeToDate(getDateNow())) {
+      if (convertDateTimeToDate(patient.patientSolicitude.dateAttention) !== convertDateTimeToDate(getDateNow())) {
         Swal.fire({
           icon: 'warning',
           title: 'Advertencia',
@@ -142,7 +135,7 @@ export default function Manager(props) {
       }
       Swal.fire({
         title: '¿Desea aprobar la solicitud?',
-        text: `Usted está aprobando la ${!isNew ? 'solicitud' : 'sesión'} del paciente ${namePatient}`,
+        text: `Usted está aprobando la solicitud del paciente ${namePatient}`,
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -152,7 +145,7 @@ export default function Manager(props) {
       }).then(async (result) => {
         if (result.isConfirmed) {
           let insert = true;
-          insert = await ServicePutApprovePatientNew(patientId, 'A')
+          insert = await ServicePutApprovePatient(patientId, 'A')
           if (insert.ok) {
             await handleLoadData();
             Swal.fire(
