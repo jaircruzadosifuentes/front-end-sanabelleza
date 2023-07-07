@@ -109,24 +109,42 @@ export default function Manager(props) {
       })
       return;
     }
+    if(!birthDate) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `Debe de ingresar la fecha de nacimiento del paciente.`,
+      })
+      return;
+    }
     let data = {
-      names, 
-      surNames,
-      birthDate,
-      nroDocument,
-      document: {
-        value: parseInt(documentTypeId),
+      person: {
+        names, 
+        surNames,
+        birthDate,
+        personDocument: {
+          nroDocument,
+        },
+        personCellphone: {
+          cellPhoneNumber: cellPhone
+        },
+        document: {
+          value: parseInt(documentTypeId),
+        },
+        gender: selectedValue === 'a'? 'M': 'F',
+        personEmail: {
+          emailDescription: email
+        }
       },
-      employeed: {
-        employeedId: employeedId,
-      },
-      hourInitial,
-      hourFinished,
-      reservedDay: dateOfRegister,
+      saveInDraft: false,
       cellPhone,
-      email,
-      createdAt: new Date().toLocaleDateString(),
-      gender: selectedValue === 'a'? 'M': 'F'
+      patientSolicitude: {
+        hourAttention: hourInitial,
+        dateAttention: dateOfRegister,
+        employeed: {
+          employeedId: employeedId
+        }
+      }
     };
     Swal.fire({
       title: '¿Desea guardar la solicitud?',
@@ -156,7 +174,7 @@ export default function Manager(props) {
           Swal.fire({
             icon: 'warning',
             title: 'Advertencia',
-            text: `Error: ${insert.status}. Comuniquese con Sistemas.`,
+            text: `Error: ${insert.title}. Comuniquese con Sistemas.`,
           })
           return;
         }
