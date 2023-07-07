@@ -25,8 +25,8 @@ export async function ServiceGetAdvanceCliniciForPatientId(patientId) {
 export async function ServiceGetByIdPatientProgress(patientId) {
   return await EntityGetById(Uri_GetByIdPatientProgress(patientId));
 }
-export async function ServicePutApprovePatientNew(patientId, type) {
-  return await EntityUpdate(Uri_PutApprovePatientNew(patientId, type));
+export async function ServicePutApprovePatientNew(patientId) {
+  return await EntityUpdate(Uri_PutApprovePatientNew(patientId));
 }
 export async function ServicePutApprovePatient(patientId, type) {
   return await EntityUpdate(Uri_PutApprovePatient(patientId, type));

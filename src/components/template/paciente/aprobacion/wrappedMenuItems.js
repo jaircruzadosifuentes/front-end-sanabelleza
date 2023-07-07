@@ -101,7 +101,7 @@ export default function WrappedMenuItems({
             <StyledMenuItem onClick={(e) =>handleApproveRequest(e, row, 1)} style={{cursor: 'pointer'}}>
               Aprobar solicitud
             </StyledMenuItem>
-            <StyledMenuItem onClick={(e) =>handleCancelRequest(e, row)} style={{cursor: 'pointer'}}>
+            <StyledMenuItem onClick={(e) =>handleCancelRequest(e, row, 1)} style={{cursor: 'pointer'}}>
               Rechazar solicitud
             </StyledMenuItem>
           </MenuSection>:

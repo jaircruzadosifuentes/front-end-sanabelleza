@@ -26,7 +26,8 @@ export function getDay() {
   return new Date().getDate();
 }
 export function getDateNow() {
-  return getYear() + "-" + fillWithZeros(getMonth()) + "-" + fillWithZeros(getDay());
+  // return getYear() + "-" + fillWithZeros(getMonth()) + "-" + fillWithZeros(getDay());
+  return new Date(Date.now());
 }
 export function convertDateTimeToDate(fullDate) {
   return new Date(fullDate).toLocaleDateString()
