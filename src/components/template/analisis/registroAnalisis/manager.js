@@ -60,7 +60,7 @@ export default function Manager(props) {
   const handleCancelRegister = (e) => {
     Swal.fire({
       title: '¿Desea cancelar el registro del análisis clínico?',
-      text: `Usted está cancelando el registro clínico del paciente ${objPatient.surNames}/${objPatient.names}`,
+      text: `Usted está cancelando el registro clínico del paciente ${objPatient.person.surnames}/${objPatient.person.names}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -131,26 +131,28 @@ export default function Manager(props) {
       return;
     }
     let data = {
-      patientNewId: objPatient.patientNewId,
-      weight: parseFloat(weight),
-      disease: descriptionEnf,
-      descOperation: descriptionOperation,
-      physicalExploration: descExploraFisica,
-      shadowPain: numeroUmbralDolor,
-      diagnosis: descriptionDiag,
-      descMedicine: descriptionMedic,
-      additionalInformation: informationAdic,
-      takeMedicine: openSwitchTieneAlergiaMedic,
-      hasDisease: openSwitchTieneEnf,
-      hasOperation: openSwitchTieneOper,
-      frecuencyId: idFrecuencia,
-      packetsOrUnitSessions: {
-        packetsOrUnitSessionsId: idSelectPacket
-      } 
+      patientId: objPatient.patientId,
+      clinicalHistory: {
+        weight: parseFloat(weight),
+        disease: descriptionEnf,
+        descriptionOperation: descriptionOperation,
+        physicalExploration: descExploraFisica,
+        shadowPain: numeroUmbralDolor,
+        descriptionDiagnostica: descriptionDiag,
+        descriptionMedic: descriptionMedic,
+        informationAdditional: informationAdic,
+        takeMedicina: openSwitchTieneAlergiaMedic,
+        hasDisease: openSwitchTieneEnf,
+        hasOperation: openSwitchTieneOper,
+        frecuencyId: idFrecuencia,
+        packetsOrUnitSessions: {
+          packetsOrUnitSessionsId: idSelectPacket
+        } 
+      }
     }
     Swal.fire({
       title: '¿Desea guardar el registro del análisis clínico?',
-      text: `Usted está guardando el registro clínico del paciente ${objPatient.surNames}/${objPatient.names}`,
+      text: `Usted está guardando el registro clínico del paciente ${objPatient.person.surnames}/${objPatient.person.names}`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -163,7 +165,7 @@ export default function Manager(props) {
         if(insert.ok) {
           Swal.fire(
             'Registro exitoso',
-            `El registro para el paciente ${objPatient.surNames}/${objPatient.names}, ha sido registrado de manera exitosa. Indicar al paciente pasar con la Asistente de Fisioterapia, para la programación y cancelación de sus sesiones.`,
+            `El registro para el paciente ${objPatient.person.surnames}/${objPatient.person.names}, ha sido registrado de manera exitosa. Indicar al paciente pasar con la Asistente de Fisioterapia, para la programación y cancelación de sus sesiones.`,
             'success'
           );
           setTimeout(() => {

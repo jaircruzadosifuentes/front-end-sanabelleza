@@ -81,7 +81,7 @@ export default function Form({
               </div>
               <div className="col-md-2">
                 <Label title={'Hora de Atención'} /> <br />
-                <span>{objPatient?.patientSolicitude?.hourAttention}</span>
+                <span>{objPatient?.patientSolicitude?.hourAttention} - {objPatient?.patientSolicitude?.systemHour}</span>
               </div>
               <div className="col-md-2">
                 <Label title={'Fecha Atención'} /> <br />
@@ -96,12 +96,13 @@ export default function Form({
             <Label title={'DATOS OPCIONALES'} isBold />
             <div className="row">
               <div className="col-md-4">
-                <Label title={'Celular'} /> <br />
-                <span>{objPatient?.cellPhone}</span>
+                <Label 
+                title={'Celular'} /> <br />
+                <span>-</span>
               </div>
               <div className="col-md-4">
                 <Label title={'Email'} /> <br />
-                <span>{objPatient?.email}</span>
+                <span>{objPatient?.person?.personEmail?.emailDescription}</span>
               </div>
             </div>
           </div>
