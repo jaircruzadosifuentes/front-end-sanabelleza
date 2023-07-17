@@ -1,17 +1,12 @@
 {
-  "name": "@coreui/coreui-free-react-admin-template",
+  "name": "@jair-cruzado-sifuentes/sana-belleza",
   "version": "4.5.0",
-  "description": "CoreUI Free React Admin Template",
+  "description": "",
   "homepage": ".",
-  "bugs": {
-    "url": "https://github.com/coreui/coreui-free-react-admin-template/issues"
-  },
   "repository": {
-    "type": "git",
-    "url": "git@github.com:coreui/coreui-free-react-admin-template.git"
+    "type": "git"
   },
   "license": "MIT",
-  "author": "The CoreUI Team (https://github.com/orgs/coreui/people)",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
