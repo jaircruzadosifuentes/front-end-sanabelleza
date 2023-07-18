@@ -1,15 +1,15 @@
 
 import { useEffect, useState } from 'react';
-import { ServiceGetAllPatientsClinicalCareEnds, ServiceGetAllPayMethods, ServiceGetAllSchedulePatient } from '../services';
+import { ServiceGetAllPayMethods, ServiceGetAllSchedulePatient, ServiceGetPacientesConPrimeraAtencionClinica } from '../services';
 
-export const useGetAllPatientsClinicalCareEnds = () => {
+export const useGetPacientesConPrimeraAtencionClinica = () => {
   const [listPatients, setListPatients] = useState([]);
   useEffect(() => {
-    async function getAllPatientsClinicalCareEnds() {
-      let list = await ServiceGetAllPatientsClinicalCareEnds();
+    async function getPacientesConPrimeraAtencionClinica() {
+      let list = await ServiceGetPacientesConPrimeraAtencionClinica();
       setListPatients(list);
     }
-    getAllPatientsClinicalCareEnds();
+    getPacientesConPrimeraAtencionClinica();
   }, []);
   return { listPatients, setListPatients }
 }

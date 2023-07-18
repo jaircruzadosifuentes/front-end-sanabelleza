@@ -2,6 +2,7 @@ import React from "react";
 import { Label } from "src/components/atoms";
 import PropTypes from 'prop-types';
 import { InputFormControl } from "src/components/molecules";
+import { convertDateTimeToDate } from "src/utils/utils";
 
 export default function FormDetailPatient({
   objPatient = {}
@@ -17,10 +18,10 @@ export default function FormDetailPatient({
               </div>
               <div className="col-md-12">
                 <img
-                  alt={objPatient.surNames}
-                  src={`images/avatars/${objPatient?.profilePicture}`}
+                  alt={objPatient?.person.surnames}
+                  src={`images/avatars/${objPatient?.person.profilePicture}`}
                   className="rounded float-righ"
-                  title={`${objPatient.surNames}/${objPatient.names}`}
+                  title={`${objPatient?.person.surnames}/${objPatient?.person.names}`}
                   height={'330px'}
                   width={'275px'}
                 />
@@ -36,7 +37,7 @@ export default function FormDetailPatient({
                 className="col-md-7"
                 label="Nombres y Apellidos"
                 isLabel
-                defaultValue={`${objPatient.surNames}/${objPatient.names}`}
+                defaultValue={`${objPatient?.person.surnames}/${objPatient?.person.names}`}
                 readOnly
               />
               <InputFormControl
@@ -44,7 +45,7 @@ export default function FormDetailPatient({
                 className="col-md-2"
                 isLabel
                 label="Edad"
-                defaultValue={objPatient.age}
+                defaultValue={objPatient.person.age}
                 readOnly
               />
               <InputFormControl
@@ -52,7 +53,7 @@ export default function FormDetailPatient({
                 className="col-md-3"
                 isLabel
                 label="Nro Documento"
-                defaultValue={objPatient.nroDocument}
+                defaultValue={objPatient.person.personDocument.nroDocument}
                 readOnly
               />
             </div>
@@ -61,15 +62,15 @@ export default function FormDetailPatient({
             <div className="row">
               <div className="col-md-4">
                 <Label title={'Nombres y Apellidos'} /> <br />
-                <span>{objPatient.employeed?.person?.surnames}/{objPatient.employeed?.person?.names}</span>
+                <span>{objPatient?.patientSolicitude.employeed?.person?.surnames}/{objPatient?.patientSolicitude.employeed?.person?.names}</span>
               </div>
               <div className="col-md-4">
                 <Label title={'Hora de Atención'} /> <br />
-                <span>{objPatient.hourInitial}</span>
+                <span>{objPatient?.patientSolicitude?.hourAttention}</span>
               </div>
               <div className="col-md-4">
                 <Label title={'Fecha Atención'} /> <br />
-                <span>{objPatient.reservedDay}</span>
+                <span>{convertDateTimeToDate(objPatient?.patientSolicitude.dateAttention)}</span>
               </div>
             </div>
             <br />

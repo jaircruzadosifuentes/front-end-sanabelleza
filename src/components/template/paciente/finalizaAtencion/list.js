@@ -22,13 +22,13 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="center">{`${row.surNames}/${row.names}`}</TableCell>
-        <TableCell align="center">{convertDateTimeToDate(row.reservedDay)}</TableCell>
-        <TableCell align="center">{row.hourInitial}</TableCell>
-        <TableCell align="left">{row.age} años.</TableCell>
-        <TableCell align="left">{row.nroDocument}</TableCell>
-        <TableCell align="center">{row.employeed.person.surnames}/{row.employeed.person.names}</TableCell>
-        <TableCell align="center">{row.state}</TableCell>
+        <TableCell align="center">{`${row.person.surnames}/${row.person.names}`}</TableCell>
+        <TableCell align="center">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
+        <TableCell align="center">{row.patientSolicitude.hourAttention}</TableCell>
+        <TableCell align="left">{row.person.age} años.</TableCell>
+        <TableCell align="left">{row.person?.personDocument?.nroDocument}</TableCell>
+        <TableCell align="center">{row.patientSolicitude?.employeed?.person.surnames}/{row.patientSolicitude?.employeed?.person?.names}</TableCell>
+        <TableCell align="center">{row.patientState.description}</TableCell>
         <td>
           <WrappedMenuItems 
             row={row} 

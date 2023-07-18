@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Title } from "src/components/atoms";
 import Filter from "./filter";
-import { useGetAllPatientsClinicalCareEnds, useGetAllPayMethods } from "./hooks";
+import { useGetPacientesConPrimeraAtencionClinica, useGetAllPayMethods } from "./hooks";
 import List from "./list";
 import { Modal } from "src/components/molecules";
 import FormTabs from "./form-tabs";
@@ -10,11 +10,11 @@ import { formatDecimales, getDateNow } from "src/utils/utils";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { ServiceGetAllSchedulePatient, ServicePostGenerateSchedule } from "src/service/schedule/service.schedule";
 import ListScheduleForPatient from './list-schedule-patient';
-import { ServiceGetAllPatientsClinicalCareEnds } from "./services";
+import { ServiceGetPacientesConPrimeraAtencionClinica } from "./services";
 import { ServicePostInsertPaySolicitud } from "src/service/pay/service.pay";
 
 export default function Manager(props) {
-  const { listPatients, setListPatients } = useGetAllPatientsClinicalCareEnds(props);
+  const { listPatients, setListPatients } = useGetPacientesConPrimeraAtencionClinica(props);
   const { packetsOrUnitSession } = useGetAllPacketsOrUnitSessions(props);
   const { payMethods } = useGetAllPayMethods(props);
 
@@ -50,14 +50,14 @@ export default function Manager(props) {
     e.preventDefault();
     setObjPatient(row);
     setOpenModalEndClinic(true);
-    let cost = row.packetsOrUnitSessions.costPerUnit;
-    let unit = row.packetsOrUnitSessions.numberSessions;
-    let dues = row.packetsOrUnitSessions.maximumFeesToPay;
+    let cost = row?.clinicalHistory.packetsOrUnitSessions.costPerUnit;
+    let unit = row?.clinicalHistory.packetsOrUnitSessions.numberSessions;
+    let dues = row?.clinicalHistory.packetsOrUnitSessions.maximumFeesToPay;
     setTotal(formatDecimales((cost * unit) / dues));
     setIgv(formatDecimales(((cost * unit) * 0.18) / dues));
     setSubTotal(formatDecimales(((cost * unit) - (cost * unit) * 0.18) / dues));
-    setNumberDues(row.packetsOrUnitSessions.maximumFeesToPay);
-    setStateGenerateSchedule(row.generateSchedule);
+    setNumberDues(row.clinicalHistory?.packetsOrUnitSessions.maximumFeesToPay);
+    // setStateGenerateSchedule(row.generateSchedule);
   }
   function showMountSubTotal() {
     return (formatDecimales(showMountTotal() - showMountIgv()));
@@ -66,13 +66,13 @@ export default function Manager(props) {
     return (formatDecimales(showMountTotal() * 0.18));
   }
   function showMountTotal() {
-    let cost = objPatient.packetsOrUnitSessions.costPerUnit;
-    let unit = parseInt(objPatient.packetsOrUnitSessions.numberSessions);
+    let cost = objPatient?.clinicalHistory.packetsOrUnitSessions.costPerUnit;
+    let unit = parseInt(objPatient?.clinicalHistory.packetsOrUnitSessions.numberSessions);
     return (formatDecimales(cost * unit));
   }
   const handleChangeCuotas = (e) => {
     let cuotas = parseInt(e.target.value);
-    let maximumFeesToPay = objPatient.packetsOrUnitSessions.maximumFeesToPay;
+    let maximumFeesToPay = objPatient?.clinicalHistory.packetsOrUnitSessions.maximumFeesToPay;
 
     if (cuotas > maximumFeesToPay) {
       Swal.fire({
@@ -111,7 +111,7 @@ export default function Manager(props) {
   const handleCloseModalEndCare = (e) => {
     Swal.fire({
       title: '¿Desea cancelar el registro?',
-      text: `Usted está cancelando la finalización del registro clínico del paciente ${objPatient.surNames}/${objPatient.names}. Tener en cuenta que toda la información digitada, se perderá.`,
+      text: `Usted está cancelando la finalización del registro clínico del paciente ${objPatient?.person.surnames}/${objPatient?.person.names}. Tener en cuenta que toda la información digitada, se perderá.`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -183,7 +183,7 @@ export default function Manager(props) {
             `La generación del cronograma ha sido realizada con éxito`,
             'success'
           );
-          let list = await ServiceGetAllPatientsClinicalCareEnds();
+          let list = await ServiceGetPacientesConPrimeraAtencionClinica();
           setListPatients(list)
           let listSchedules = await ServiceGetAllSchedulePatient(patientId);
           setListSchedulesPatient(listSchedules);
@@ -262,7 +262,7 @@ export default function Manager(props) {
             `El pago se ha realizado con éxito`,
             'success'
           );
-          let list = await ServiceGetAllPatientsClinicalCareEnds();
+          let list = await ServiceGetPacientesConPrimeraAtencionClinica();
           setListPatients(list)
           setOpenModalEndClinic(false);
         } else {
@@ -295,7 +295,7 @@ export default function Manager(props) {
       {
         openModalEndClinic && (
           <Modal
-            title={`FINALIZAR LA SOLICITUD DEL PACIENTE - ${objPatient.surNames}/${objPatient.names}`}
+            title={`FINALIZAR LA SOLICITUD DEL PACIENTE - ${objPatient?.person.surnames}/${objPatient?.person.names}`}
             size={"modal-xl"}
             close
             openModal={openModalEndClinic}
@@ -304,8 +304,8 @@ export default function Manager(props) {
             <FormTabs
               objPatient={objPatient}
               packetsOrUnitSession={packetsOrUnitSession}
-              idSelectPacket={objPatient.packetsOrUnitSessions.packetsOrUnitSessionsId}
-              idFrecuencia={objPatient.frecuencyId}
+              idSelectPacket={objPatient?.clinicalHistory?.packetsOrUnitSessions?.packetsOrUnitSessionsId}
+              idFrecuencia={objPatient?.clinicalHistory?.frecuencyId}
               total={total}
               igv={igv}
               subTotal={subTotal}

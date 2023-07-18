@@ -53,7 +53,7 @@ export default function FormPay({
           className="col-md-6"
           label="Nombres y Apellidos"
           isLabel
-          defaultValue={`${objPatient.surNames}/${objPatient.names}`}
+          defaultValue={`${objPatient?.person.surnames}/${objPatient?.person?.names}`}
           readOnly
         />
       </div>
@@ -65,7 +65,7 @@ export default function FormPay({
           className="col-md-6"
           label="PAQUETE Y FRECUENCIA"
           isLabel
-          defaultValue={`${objPatient.packetsOrUnitSessions.abbreviation} - ${showFrecuency(objPatient?.frecuencyId)}`}
+          defaultValue={`${objPatient?.clinicalHistory?.packetsOrUnitSessions?.abbreviation} - ${showFrecuency(objPatient?.clinicalHistory?.frecuencyId)}`}
           readOnly
         />
         <InputFormControl
@@ -75,7 +75,7 @@ export default function FormPay({
           label="COSTO POR SESIÓN"
           isLabel
           align="RIGHT"
-          defaultValue={`S/. ${formatDecimales(objPatient.packetsOrUnitSessions.costPerUnit)}`}
+          defaultValue={`S/. ${formatDecimales(objPatient?.clinicalHistory?.packetsOrUnitSessions.costPerUnit)}`}
           readOnly
         />
         <InputFormControl
@@ -85,7 +85,7 @@ export default function FormPay({
           label="CUOTAS A PAGAR"
           isLabel
           align="CENTER"
-          defaultValue={`${objPatient.packetsOrUnitSessions.maximumFeesToPay} Cuotas`}
+          defaultValue={`${objPatient?.clinicalHistory?.packetsOrUnitSessions.maximumFeesToPay} Cuotas`}
           readOnly
         />
         <InputFormControl
@@ -95,7 +95,7 @@ export default function FormPay({
           label="TOTAL A PAGAR"
           isLabel
           align="center"
-          defaultValue={`S/.${formatDecimales(objPatient.packetsOrUnitSessions.costPerUnit * objPatient.packetsOrUnitSessions.numberSessions)}`}
+          defaultValue={`S/.${formatDecimales(objPatient?.clinicalHistory?.packetsOrUnitSessions.costPerUnit * objPatient?.clinicalHistory?.packetsOrUnitSessions.numberSessions)}`}
           readOnly
         />
       </div>
