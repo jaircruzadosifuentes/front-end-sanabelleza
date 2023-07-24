@@ -79,9 +79,10 @@ export default function Manager(props) {
     let data = {
       hourOffAttention: hourAttention,
       patientProgressId: parseInt(objSesion.patientProgressId),
-      employeedId: parseInt(employeedId)
+      employeed: {
+        employeedId: parseInt(employeedId)
+      }
     }
-    console.log(data);
     if(!hourAttention) {
       Swal.fire({
         icon: 'warning',
@@ -107,7 +108,7 @@ export default function Manager(props) {
           handleDefaultData();
           Swal.fire(
             'Actualización exitosa',
-            'La solicitud ha sido actualizada con éxito.',
+            'La sesión ha sido actualizada con éxito.',
             'success'
           );
           setOpenEditSesion(false);

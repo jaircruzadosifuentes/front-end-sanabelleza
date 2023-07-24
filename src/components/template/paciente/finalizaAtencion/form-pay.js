@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import PropTypes from 'prop-types';
 import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
-import { formatDecimales, getDateNow } from "src/utils/utils";
+import { convertDateTimeToDate, formatDecimales } from "src/utils/utils";
 
 function showFrecuency(value) {
   let result = '';
@@ -133,17 +133,25 @@ export default function FormPay({
       </div>
       <div className="row mt-3">
         <Label title={'INICIO DEL TRATAMIENTO'} isBold />
-        <InputFormControl
-          type="date"
-          autoFocus
-          className="col-md-2"
-          label="Fecha Inicio"
-          align="center"
-          isLabel
-          readOnly={stateGenerateSchedule}
-          onChange={handleChangeInitialDate}
-          defaultValue={getDateNow()}
-        />
+        {
+          !stateGenerateSchedule ?
+            <InputFormControl
+              type="date"
+              autoFocus
+              className="col-md-2"
+              label="Fecha Inicio"
+              align="center"
+              isLabel
+              onChange={handleChangeInitialDate}
+            /> :
+            <>
+              <span className="col-md-4">
+                Fecha Inicio: {convertDateTimeToDate(objPatient.pay.dateInitial)}
+              </span>
+            </>
+        }
+      </div>
+      <div className="row mt-3">
         <InputFormControl
           type="time"
           autoFocus

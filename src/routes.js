@@ -66,6 +66,7 @@ const RegistroAnalisis = React.lazy(() => import('./views/analisis/registroAnali
 //LISTA DE PACIENTES CON ANÁLISIS CLÍNICO
 const PatientsWithAnalytics = React.lazy(() => import('./views/analisis/patienteWithAnalytics/patientWithAnalytics'));
 const ClinicalTreatment = React.lazy(() => import('./views/analisis/clinical-treatment/clinical-treatment-layout'));
+const FinishedTreatment = React.lazy(() => import('./views/analisis/finished-treatment/finished-treatment-layout'));
 
 const routes = [
   { path: '/', exact: true, name: 'Inicio' },
@@ -126,6 +127,7 @@ const routes = [
   { path: '/registro-analisis', name: 'Registro de análisis clínico', element: RegistroAnalisis },
   { path: '/pacientes-con-analisis-clinico', name: 'Pacientes con Análisis clínico', element: PatientsWithAnalytics },
   { path: '/tratamiento-clinico', name: 'Tratamiento Clínico', element: ClinicalTreatment },
+  { path: '/pacientes/tratamiento/finalizado', name: 'Tratamientos finalizados', element: FinishedTreatment },
 
 ]
 

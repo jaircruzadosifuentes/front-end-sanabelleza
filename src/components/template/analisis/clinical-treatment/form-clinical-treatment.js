@@ -45,7 +45,7 @@ export default function FormClinicalTreatment({
           onChange={handleChangeDiagnostico}
           rows={3}
         />
-        <div className="col-md-6 mt-4">
+        <div className="col-md-4 mt-4">
           <Label title={`Exploración física (1: SIN DOLOR, 2: DOLOR MEDIO, 3: DOLOR INTENSO)`}/>
           <Box sx={{ width: '100%' }}>
             <Slider
