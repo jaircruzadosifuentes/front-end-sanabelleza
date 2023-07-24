@@ -26,7 +26,6 @@ export function getDay() {
   return new Date().getDate();
 }
 export function getDateNow() {
-  // return getYear() + "-" + fillWithZeros(getMonth()) + "-" + fillWithZeros(getDay());
   return new Date(Date.now());
 }
 export function convertDateTimeToDate(fullDate) {
@@ -35,3 +34,6 @@ export function convertDateTimeToDate(fullDate) {
 export function formatDecimales(value = 0) {
   return value.toFixed(2);
 }
+export const formatoNumero = (valor) => {
+  return valor < 10 ? '0' + valor : valor;
+};

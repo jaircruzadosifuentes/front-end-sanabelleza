@@ -36,7 +36,7 @@ function Row({
         <TableCell align="left">
           <div className='row'>
             <div className='col-md-2'>
-              {row.state === 'Pendiente' ? <CancelIcon style={{color: COLOR_BUTTON_MAB}} />: <CheckCircleIcon style={{color: COLOR_GREEN}}/>}
+              {row.state === 'PENDIENTE' ? <CancelIcon style={{color: COLOR_BUTTON_MAB}} />: <CheckCircleIcon style={{color: COLOR_GREEN}}/>}
             </div>
           </div>
         </TableCell>

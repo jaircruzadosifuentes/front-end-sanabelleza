@@ -6,7 +6,7 @@ import List from "./list";
 import { Modal } from "src/components/molecules";
 import FormTabs from "./form-tabs";
 import { useGetAllPacketsOrUnitSessions } from "../../mnt-paquetes/hooks";
-import { formatDecimales, getDateNow } from "src/utils/utils";
+import { formatDecimales } from "src/utils/utils";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { ServiceGetAllSchedulePatient, ServicePostGenerateSchedule } from "src/service/schedule/service.schedule";
 import ListScheduleForPatient from './list-schedule-patient';
@@ -27,7 +27,7 @@ export default function Manager(props) {
   const [subTotal, setSubTotal] = useState(0.00);
   const [showControlRefPay, setShowControlRefPay] = useState(false);
   const [descriptionLabelSelectPayMethod, setDescriptionLabelSelectPayMethod] = useState('');
-  const [initialDate, setInitialDate] = useState(getDateNow());
+  const [initialDate, setInitialDate] = useState();
   const [stateGenerateSchedule, setStateGenerateSchedule] = useState(false);
   const [listSchedulesPatient, setListSchedulesPatient] = useState([]);
   const [openModalSchedule, setOpenModalSchedule] = useState(false);
@@ -57,7 +57,7 @@ export default function Manager(props) {
     setIgv(formatDecimales(((cost * unit) * 0.18) / dues));
     setSubTotal(formatDecimales(((cost * unit) - (cost * unit) * 0.18) / dues));
     setNumberDues(row.clinicalHistory?.packetsOrUnitSessions.maximumFeesToPay);
-    // setStateGenerateSchedule(row.generateSchedule);
+    setStateGenerateSchedule(row.scheduleGenerate);
   }
   function showMountSubTotal() {
     return (formatDecimales(showMountTotal() - showMountIgv()));
@@ -72,6 +72,7 @@ export default function Manager(props) {
   }
   const handleChangeCuotas = (e) => {
     let cuotas = parseInt(e.target.value);
+    setNumberDues(cuotas);
     let maximumFeesToPay = objPatient?.clinicalHistory.packetsOrUnitSessions.maximumFeesToPay;
 
     if (cuotas > maximumFeesToPay) {
@@ -131,13 +132,12 @@ export default function Manager(props) {
     });
   }
   const handleProcesarCronograma = async (e) => {
-    e.preventDefault();
-    let patientId = parseInt(objPatient.patientNewId);
+    let patientId = parseInt(objPatient.patientId);
     if (stateGenerateSchedule) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
-        text: `El cronograma para el paciente ${objPatient.surNames}/${objPatient.names} ya ha sido generado.`,
+        text: `El cronograma para el paciente ${objPatient.person.surnames}/${objPatient.person.names} ya ha sido generado.`,
       });
       return;
     }
@@ -158,15 +158,15 @@ export default function Manager(props) {
       return;
     }
     let data = {
-      patientNew: {
-        patientNewId: patientId,
+      patient: {
+        patientId: patientId,
       },
       dues: numberDues,
       initialDate: initialDate
     };
     Swal.fire({
       title: '¿Desea generar el cronograma del paciente?',
-      text: `Usted está generando el cronograma del paciente ${objPatient.surNames}/${objPatient.names}.`,
+      text: `Usted está generando el cronograma del paciente ${objPatient.person.surnames}/${objPatient.person.names}.`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -207,7 +207,7 @@ export default function Manager(props) {
   }
   const handleClickViewSchedulePay = async (e) => {
     setOpenModalSchedule(true);
-    let patientId = parseInt(objPatient.patientNewId);
+    let patientId = parseInt(objPatient.patientId);
     let listSchedules = await ServiceGetAllSchedulePatient(patientId);
     setListSchedulesPatient(listSchedules);
   }
@@ -220,7 +220,7 @@ export default function Manager(props) {
   const handleHandlePaySave = async(e) => {
     e.preventDefault();
 
-    let patientId = parseInt(objPatient.patientNewId);
+    let patientId = parseInt(objPatient.patientId);
     if (!numberDues || numberDues === 0) {
       Swal.fire({
         icon: 'warning',
@@ -238,28 +238,28 @@ export default function Manager(props) {
       return; 
     }
     let data = {
-      patientNew: {
-        patientNewId: patientId
+      patient: {
+        patientId: patientId
       },
       hourInitial,
-      dateInitial: initialDate
+      dateInitial: objPatient.pay.dateInitial
     };
     Swal.fire({
-      title: `¿Desea guardar el pago del paciente?`,
-      text: `Usted está pagando el pago del paciente ${objPatient.surNames}/${objPatient.names}.`,
+      title: `¿Desea finalizar la solicitud de atención del paciente?`,
+      text: `Usted está finalizando la solicitud del paciente ${objPatient.person.surnames}/${objPatient.person.names}. Iniciará su tratamiento, en base a la fecha y hora inicial programada.`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Si, pagar',
+      confirmButtonText: 'Si, finalizar',
       cancelButtonText: 'Cancelar'
     }).then(async (result) => {
       if (result.isConfirmed) {
         let pay = await ServicePostInsertPaySolicitud(data);
         if (pay.ok) {
           Swal.fire(
-            'Pago exitoso',
-            `El pago se ha realizado con éxito`,
+            'Finalización del proceso de solicitud exitoso',
+            `El proceso se ha realizado con éxito`,
             'success'
           );
           let list = await ServiceGetPacientesConPrimeraAtencionClinica();
@@ -331,7 +331,7 @@ export default function Manager(props) {
       {
         openModalSchedule && (
           <Modal
-            title={`CRONOGRAMA DEL PACIENTE - ${objPatient.surNames}/${objPatient.names}`}
+            title={`CRONOGRAMA DEL PACIENTE - ${objPatient.person.surnames}/${objPatient.person.names}`}
             size={"modal-lg"}
             close
             openModal={openModalSchedule}

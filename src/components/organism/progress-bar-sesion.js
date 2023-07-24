@@ -21,7 +21,7 @@ const ProgressBarSesion = ({
               <span className="text-medium-emphasis">Fecha Inicio:{convertDateTimeToDate(item.dateInitial)} - Fecha Fin:{convertDateTimeToDate(item.dateFinished)}</span>
             </div>
           </div>
-          <CProgress thin color={'success'} value={item.percentaje} />
+          <CProgress thin color={`${item.percentaje === 100 ? 'success': 'warning'}`} value={item.percentaje} />
         </div>
       ))}
 

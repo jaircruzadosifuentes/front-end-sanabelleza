@@ -38,7 +38,7 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.patientNew.surNames}/${row.patientNew.names}`}</TableCell>
+        <TableCell align="left">{`${row.patient.person.surnames}/${row.patient.person.names}`}</TableCell>
         <TableCell align="center">{row.patientNew.packetsOrUnitSessions.description} - {row.patientNew.frecuencyDesc}</TableCell>
         <TableCell align="center">{row.dues} </TableCell>
         <TableCell align="center">S/.{formatDecimales(row.mountDue)} </TableCell>

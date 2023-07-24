@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Label, Title } from "src/components/atoms";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +10,8 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import ListIcon from '@mui/icons-material/List';
 import { ServicePostRegistrProgressSesion } from "src/service/patient/service.patient";
+import { formatoNumero } from "src/utils/utils";
+import PropTypes from 'prop-types';
 
 const showComponentSelectTreeView = (nodeId) => {
   switch (parseInt(nodeId)) {
@@ -19,7 +21,7 @@ const showComponentSelectTreeView = (nodeId) => {
           <Label title={'GRABACIÓN DE SESIÓN'} isBold />
           <div className="row">
             <div className="col-md-12">
-            <iframe width="100%" height="492" src="https://www.youtube.com/embed/0XG_0L9Rrc0" title="Ejercicios de Fisioterapia para hacer en casa. La automovilización" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            </div>
+              <iframe width="100%" height="492" src="https://www.youtube.com/embed/0XG_0L9Rrc0" title="Ejercicios de Fisioterapia para hacer en casa. La automovilización" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            </div>
           </div>
         </>
       )
@@ -52,9 +54,26 @@ export default function Manager() {
   const [observaciones, setObservaciones] = useState('');
   const [recomendacion, setRecomendacion] = useState('');
   const [file, setFile] = useState(null);
+  const [timer, setTimer] = useState(0);
+  const [timeDemoration, setTimeDemoration] = useState('');
+
   useEffect(() => {
     setObjPatient(location.state.objPatientDetail)
   }, [location.state.objPatientDetail]);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTimer((timer) => timer + 1);
+    }, 1000);
+   
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+  useEffect(() => {
+    setTimeDemoration(
+      formatoNumero(Math.floor(timer / 3600)) + ':' + formatoNumero(Math.floor((timer / 60) % 60)) + ':' + formatoNumero(timer % 60)
+    )
+  }, [timer])
 
   const handleChange = (file) => {
     setFile(file);
@@ -72,8 +91,8 @@ export default function Manager() {
   const handleChangeDiagnostico = (e) => {
     setObservaciones(e.target.value);
   }
-  const handleSaveSesion = async(e) => {
-    if(parseInt(numeroUmbralDolor) === 0) {
+  const handleSaveSesion = async (e) => {
+    if (parseInt(numeroUmbralDolor) === 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -81,7 +100,7 @@ export default function Manager() {
       })
       return;
     }
-    if(!observaciones) {
+    if (!observaciones) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -89,7 +108,7 @@ export default function Manager() {
       })
       return;
     }
-    if(!recomendacion) {
+    if (!recomendacion) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -97,12 +116,13 @@ export default function Manager() {
       })
       return;
     }
-    
+
     let data = {
       progressDescription: observaciones,
       recommendation: recomendacion,
       patientProgressId: objPatient.patientProgressId,
-      numeroUmbralDolor
+      numeroUmbralDolor,
+      time: timeDemoration
     };
     Swal.fire({
       title: '¿Desea guardar el registro de la sesión?',
@@ -116,7 +136,7 @@ export default function Manager() {
     }).then(async (result) => {
       if (result.isConfirmed) {
         let insert = await ServicePostRegistrProgressSesion(data);
-        if(insert.ok) {
+        if (insert.ok) {
           Swal.fire(
             'Registro exitoso',
             `El registro de la sesión ha sido realizada con éxito`,
@@ -124,7 +144,7 @@ export default function Manager() {
           );
           setTimeout(() => {
             navigate("/pacientes-con-analisis-clinico");
-          }, 2000);
+          }, 1000);
         } else {
           Swal.fire({
             icon: 'warning',
@@ -139,14 +159,8 @@ export default function Manager() {
     let umbral = (e.target.value);
     setNumeroUmbralDolor(umbral);
     switch (umbral) {
-      case 5:
-        setColorUmbral(COLOR_BUTTON_MAB)
-        break;
-      case 4:
-        setColorUmbral(COLOR_BUTTON_MAB)
-        break;
       case 3:
-        setColorUmbral('darkorange');
+        setColorUmbral(COLOR_BUTTON_MAB);
         break;
       case 2:
         setColorUmbral('darkorange');
@@ -166,11 +180,9 @@ export default function Manager() {
   }
   return (
     <div className="container-fluid">
-      <Title value={`TRATAMIENTO DEL PACIENTE Nro ${objPatient.sessionNumber}`} type={'h1'} handleBack={handleBack} arrowBack />
+      <Title value={`TRATAMIENTO DEL PACIENTE SESIÓN Nro ${objPatient.sessionNumber}`} type={'h1'} handleBack={handleBack} arrowBack />
       <div className="row">
-        <div className="col-md-12">
-        </div>
-        <div className="col-md-12 mt-1">
+        {/* <div className="col-md-12 mt-1">
           <div className="row">
             <div className="col-md-4">
               <div className="row">
@@ -200,6 +212,15 @@ export default function Manager() {
               {showComponentSelectTreeView(nodeId)}
             </div>
           </div>
+        </div> */}
+        <div className="col-md-12">
+          <DetailEmployeed employeed={objPatient.employeed}/>
+        </div>
+        <div className="col-md-12">
+          <DetailPatient patient={objPatient.patient}/>
+        </div>
+        <div className="col-md-12">
+          <Label title={`Tiempo transcurrido de atención: ${timeDemoration}`} />
         </div>
         <hr />
         <div className="col-md-12">
@@ -227,3 +248,29 @@ export default function Manager() {
     </div>
   )
 }
+
+export const DetailEmployeed = ({
+  employeed = {}
+}) => {
+  let role = employeed?.role?.name
+  return (
+    <>
+      Bienvenido(a): {role}. {employeed?.person?.surnames} / {employeed?.person?.names}
+    </>
+  )
+}
+DetailEmployeed.propTypes = {
+  employeed: PropTypes.object,
+};
+export const DetailPatient = ({
+  patient = {}
+}) =>{
+  return(
+    <>
+      Paciente: {patient?.person?.surnames} / {patient?.person?.names}
+    </>
+  )
+}
+DetailPatient.propTypes = {
+  patient: PropTypes.object,
+};

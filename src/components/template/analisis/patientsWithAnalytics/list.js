@@ -79,7 +79,7 @@ function Row({
                 </div>
                 <div className='col-md-12'>
                   <span>
-                    Paquete y Frecuencia: {row.patientNew.packetsOrUnitSessions.abbreviation} - {row.patientNew.frecuencyDesc}
+                    Paquete y Frecuencia: {row.clinicalHistory.packetsOrUnitSessions.abbreviation} - {row.clinicalHistory.frecuency.frecuencyDescription}
                   </span>
                 </div>
                 <div className='col-md-12'>
@@ -145,7 +145,7 @@ function Row({
                         <TableCell align="center">{p.hourOffAttention} {p.systemHour}</TableCell>
                         <TableCell align="center">{p.sessionNumber}</TableCell>
                         <TableCell align="center">
-                          {p.typeAttention.description}  &nbsp;
+                          {p.state}  &nbsp;
                           {
                             p.isFlag ?
                               <Tooltip title={"Histórico de notificaciones emitidas a usuario, para reprogramación."} placement="top">

@@ -67,7 +67,7 @@ export default function List({
             <TableCell align="center">Hora reservada</TableCell>
             <TableCell align="left">Edad</TableCell>
             <TableCell align="left">Nro Documento</TableCell>
-            <TableCell align="center">Emplead@</TableCell>
+            <TableCell align="center">Empleado(a)</TableCell>
             <TableCell align="center">Estado</TableCell>
             <TableCell align="center"></TableCell>
           </TableRow>

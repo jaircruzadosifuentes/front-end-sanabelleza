@@ -58,14 +58,20 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Primer análisis clínico',
+        name: 'Primer Análisis Clínico',
         to: '/primer-analisis',
       },
       {
         component: CNavItem,
-        name: 'Pacientes en tratamiento',
+        name: 'En Tratamiento',
         to: '/pacientes-con-analisis-clinico',
       },
+      {
+        component: CNavItem,
+        name: 'Tratamiento Finalizado',
+        to: '/pacientes/tratamiento/finalizado',
+      },
+      
     ],
   },
   // {
