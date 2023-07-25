@@ -16,11 +16,10 @@ import { Label } from 'src/components/atoms';
 import WrappedMenuItems from './wrappedMenuItems';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-// import { COLOR_BUTTON_MAB, COLOR_YELLOW } from 'src/config/config';
-// import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-// import CancelIcon from '@mui/icons-material/Cancel';
-// import { COLOR_GREEN } from 'src/utils/constants';
-// import Tooltip from '@mui/material/Tooltip';
+import { COLOR_BUTTON_MAB, COLOR_GREEN, COLOR_YELLOW } from 'src/config/config';
+import { Tooltip } from '@mui/material';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 function Row({
   row = {},
@@ -95,7 +94,7 @@ function Row({
               </div>
             </Box>
             <hr />
-            {/* <Box sx={{ margin: 1 }}>
+            <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 Sesiones programadas ({(row.patientProgresses.length)})
               </Typography>
@@ -129,7 +128,7 @@ function Row({
                   ))}
                 </TableBody>
               </Table>
-            </Box> */}
+            </Box>
           </Collapse>
         </TableCell>
       </TableRow>

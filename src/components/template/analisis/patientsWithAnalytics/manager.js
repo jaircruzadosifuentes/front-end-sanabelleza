@@ -66,8 +66,8 @@ export default function Manager(props) {
   }
   const handleEditSesion = (e, row) => {
     setOpenEditSesion(true);
-    console.log(row);
     setObjSesion(row);
+    setHourAttention(row?.hourOffAttention)
   } 
   const handleCloseEditSesion = (e) => {
     setOpenEditSesion(false);
@@ -196,6 +196,7 @@ export default function Manager(props) {
               handleSaveHour={handleSaveHour}
               handleChangeEmployeed={handleChangeEmployeed}
               employeeds={employeeds}
+              objSesion={objSesion}
             />
           </Modal>
         )

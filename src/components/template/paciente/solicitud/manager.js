@@ -167,7 +167,7 @@ export default function Manager(props) {
             'success'
           )
           setTimeout(() => {
-            navigate("/aprobacion-solicitud");
+            navigate("/aprobacion-rechazo-solicitud");
           }, 2000);
         }
         else {
@@ -247,27 +247,30 @@ export default function Manager(props) {
     setHourFinished('');
     setDateOfRegister('');
   }
-  const handleAsignarSchedule = async (e) => {
-    let data = [];
-    data = await ServiceGetAllPatientsWithSchedule(hourInitial, hourFinished, dateOfRegister, employeedId);
-    setEmployeedWithScheduleResult(data);
-    if (!hourInitial) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Advertencia',
-        text: 'Ingrese la hora inicio.',
-      })
-      return;
-    }
-    else if (data.length > 0) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Advertencia',
-        text: 'Existe interferencia de horarios, no puede asignar el horario ingresado. Por favor, verifique.',
-      })
-      return;
-    }
-    setOpenModalViewDisponibility(false);
+  const handleAsignarSchedule = (data) => {
+    Swal.fire({
+      title: `¿Desea asignar el horario seleccionado?`,
+      text: `Usted está seleccionando el horario de atención de ${data.hourInitial} - ${data.hourFinished}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, Asignar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        setHourInitial(data.hourInitial);
+        setHourFinished(data.hourFinished);
+        setDateOfRegister(data.dateProgramming);
+        setEmployeedWithScheduleResult(data);
+        setOpenModalViewDisponibility(false);
+        Swal.fire(
+          'Asignación exitosa',
+          'La Asignación de Horario ha sido registrada con éxito.',
+          'success'
+        )
+      }
+    })
   }
   const handleChangeHourFinishedRegisterSchedule = (e) => {
     setHourFinished(e.target.value);
@@ -299,6 +302,9 @@ export default function Manager(props) {
   }
   const handleChangeCellPhone = (e) => {
     setCellPhone(e.target.value);
+  }
+  const handleItemEditSchedule = (item) => {
+    handleAsignarSchedule(item);
   }
   //#region Metodos
   return (
@@ -353,6 +359,7 @@ export default function Manager(props) {
               hourInitial={hourInitial}
               hourFinished={hourFinished}
               handleCloseModalEmployeedDisponibility={handleCloseModalViewDisponibility}
+              handleItemEditSchedule={handleItemEditSchedule}
             />
           </Modal>
         )
@@ -365,6 +372,7 @@ Manager.propTypes = {
   handleViewDisponibilty: PropTypes.func,
   handleAsignarSchedule: PropTypes.func,
   handleViewDisponibiltyForIdEmployeed: PropTypes.func,
+  handleItemEditSchedule: PropTypes.func,
   documents: PropTypes.array,
   employeedsDisponibiltyResult: PropTypes.array,
   employeeds: PropTypes.array,

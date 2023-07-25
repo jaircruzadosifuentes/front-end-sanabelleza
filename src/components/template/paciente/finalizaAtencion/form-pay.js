@@ -41,7 +41,8 @@ export default function FormPay({
   handleClickViewSchedulePay,
   handleDescriptionRefPayMethod,
   handleHandlePaySave,
-  handleChangeHourInitial
+  handleChangeHourInitial,
+  initialDate
 }) {
   return (
     <Fragment>
@@ -146,7 +147,7 @@ export default function FormPay({
             /> :
             <>
               <span className="col-md-4">
-                Fecha Inicio: {convertDateTimeToDate(objPatient.pay.dateInitial)}
+                Fecha Inicio: {convertDateTimeToDate(objPatient?.pay?.dateInitial)}
               </span>
             </>
         }
@@ -226,6 +227,7 @@ FormPay.propTypes = {
   total: PropTypes.any,
   subTotal: PropTypes.any,
   igv: PropTypes.any,
+  initialDate: PropTypes.any,
   numberDues: PropTypes.number,
   payMethods: PropTypes.array,
 };

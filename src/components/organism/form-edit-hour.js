@@ -1,8 +1,6 @@
 import React, { Fragment } from "react";
 import { ButtonFormControl, InputFormControl } from "../molecules";
-import { Label } from "../atoms";
 import PropTypes from 'prop-types';
-import { COLOR_BUTTON_MAB, COLOR_GREEN } from "src/config/config";
 import Box from '@mui/material/Box';
 import Autocomplete from '@mui/material/Autocomplete';
 import TextField from '@mui/material/TextField';
@@ -13,7 +11,8 @@ export default function FormEditHour({
   handleChangeHourAttention,
   handleSaveHour,
   handleChangeEmployeed,
-  employeeds = []
+  employeeds = [],
+  objSesion = {}
 }) {
   return (
     <Fragment>
@@ -27,6 +26,7 @@ export default function FormEditHour({
             getOptionLabel={(option) => option.label}
             onChange={handleChangeEmployeed}
             sx={{ width: '100%' }}
+            defaultValue={employeeds.filter(e => e.employeedId === objSesion?.employeed?.employeedId)[0]}
             renderOption={(props, option) => (
               <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
                 <img
@@ -56,19 +56,8 @@ export default function FormEditHour({
           isLabel
           label="Ingrese hora de atención"
           onChange={handleChangeHourAttention}
+          defaultValue={objSesion.hourOffAttention}
         />
-        {/* <div className="col-md-4 mt-4">
-          <span style={{ color: COLOR_GREEN }}>
-            No Hay conflictos de horarios
-          </span>
-        </div> */}
-        {/* <div className="col-md-4 mt-5">
-          <ButtonFormControl
-            title="Validar hora"
-            color='btn btn-primary'
-            type={3}
-          />
-        </div> */}
         <div className="col-md-12">
           <div className="btn-toolbar" style={{ float: 'right' }}>
             <div className="btn-group">
@@ -99,4 +88,5 @@ FormEditHour.propTypes = {
   handleSaveHour: PropTypes.func,
   handleChangeEmployeed: PropTypes.func,
   employeeds: PropTypes.array,
+  objSesion: PropTypes.object
 };

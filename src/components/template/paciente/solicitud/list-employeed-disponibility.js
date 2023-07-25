@@ -246,7 +246,6 @@ import { convertDateTimeToDate } from 'src/utils/utils';
 const headCells = [
   {
     id: 'name',
-    
     label: 'Motivo',
   },
   {
@@ -412,7 +411,7 @@ export default function ListEmployeedDisponibility({
                       scope="row"
                       padding="none"
                     >
-                      {row.name}
+                      &nbsp;{row.name}
                     </TableCell>
                     <TableCell align="left">{row.personnelInCharge}</TableCell>
                     <TableCell align="left">{convertDateTimeToDate(row.dateProgramming)}</TableCell>

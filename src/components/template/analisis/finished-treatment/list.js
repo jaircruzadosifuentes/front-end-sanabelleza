@@ -12,8 +12,7 @@ import TableRow from '@mui/material/TableRow';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
-import WrappedMenuItems from './wrappedMenuItems';
-import MenuItemSesion from './menuItemSesion';
+import ItemList from './item-list';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
@@ -21,17 +20,20 @@ import CancelIcon from '@mui/icons-material/Cancel';
 import { COLOR_BLUE_MAB, COLOR_BUTTON_MAB } from 'src/config/config';
 import { COLOR_GREEN } from 'src/utils/constants';
 import Tooltip from '@mui/material/Tooltip';
-import { Label } from 'src/components/atoms';
-import { ButtonFormControl } from 'src/components/molecules';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
+import SubItemList from './sub-item-list';
+import ProgressBarSesion from '../../../organism/progress-bar-sesion';
+
 function Row({
   row = {},
   handleClickAprobarSolicitud,
   handleCancelRequest,
   index = 0,
-  typeList = 0,
-  handleSendWhatsapp,
-  handleChangeSendMsgWssp
+  handleViewShedulePay,
+  handleChangeSendMsgWssp,
+  handleViewAdvanceClinic,
+  handleStarEvaluation,
+  handleEditSesion
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -51,57 +53,72 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.person.surnames}/${row.person.names}`}</TableCell>
-        <TableCell align="center">{row.person.age} años</TableCell>
-        {/* <TableCell align="center">{row.patientCode}</TableCell> */}
-        <TableCell align="center">{row.patientState.description}</TableCell>
+        <TableCell align="left">
+          <div className='row'>
+            <div className='col-md-2'>
+              <img
+                alt={row.person.names}
+                src={`../../images/avatars/${row?.person.profilePicture}`}
+                className="rounded float-righ"
+                title={`${row.person.surnames}/${row.person.names}`}
+                height={'115px'}
+                width={'100px'}
+              />
+            </div>
+            <div className='col-md-10 mt-1'>
+              <div className='row'>
+                <div className='col-md-12'>
+                  <span>
+                    Paciente: {`${row.person.surnames}/${row.person.names}`}
+                  </span>
+                </div>
+                <div className='col-md-12'>
+                  <span>
+                    Edad: {row.person.age} años
+                  </span>
+                </div>
+                <div className='col-md-12'>
+                  <span>
+                    Paquete y Frecuencia: {row.clinicalHistory.packetsOrUnitSessions.abbreviation} - {row.clinicalHistory.frecuency.frecuencyDescription}
+                  </span>
+                </div>
+                <div className='col-md-12'>
+                  <ProgressBarSesion 
+                    patientId={row.patientId}
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </TableCell>
+        <TableCell align="center">
+          <Tooltip title="Descargar hoja de consentimiento de pago y cumplimiento de asistencia de citas programadas.">
+            <a href="../../images/myw3schoolsimage.jpg" download>
+              <img src="../../images/pdf.png" width={'50px'} style={{ cursor: 'pointer' }} alt={row.person.names} ></img>
+            </a>
+          </Tooltip>
+        </TableCell>
+        <TableCell align="center">
+          <span>
+            {row.person.gender}
+          </span>
+        </TableCell>
+        <TableCell align="center">
+          <span>
+            {row.patientState.description}
+          </span>
+        </TableCell>
         <td>
-          <WrappedMenuItems
+          <ItemList
             row={row}
-            handleApproveRequest={handleClickAprobarSolicitud}
-            handleCancelRequest={handleCancelRequest}
-            typeList={typeList}
+            handleViewShedulePay={handleViewShedulePay}
+            handleViewAdvanceClinic={handleViewAdvanceClinic}
           />
         </td>
       </TableRow>
       <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
           <Collapse in={open} timeout="auto" unmountOnExit >
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div" >
-                Contacto
-              </Typography>
-              <div className='row'>
-                <div className='col-md-4'>
-                  <Label title={'Celular'} />: <span>{row.cellphone} </span>
-                </div>
-                <div className='col-md-4'>
-                  <Label title={'Operador Celular'} />: <span>{row.operator} </span>
-                </div>
-                <div className='col-md-4'>
-                  <Label title={'Email'} />: <span>{(row.email)}</span>
-                </div>
-                <div className='col-md-6'>
-                  <div className="btn-group">
-                    <ButtonFormControl
-                      title="Enviar WhatsApp"
-                      color='btn btn-success'
-                      onClick={(e) => handleSendWhatsapp(e, row.cellphone)}
-                      type={11}
-                    />
-                  </div>&nbsp;
-                  <div className="btn-group">
-                    <ButtonFormControl
-                      title="Enviar Email"
-                      color='btn btn-primary'
-                      type={12}
-                      disabled
-                    />
-                  </div>&nbsp;
-                </div>
-              </div>
-            </Box>
-            <hr />
             <Box sx={{ margin: 1 }}>
               <Typography variant="h6" gutterBottom component="div">
                 Sesiones programadas ({(row.patientProgresses.length)})
@@ -131,10 +148,10 @@ function Row({
                           {p.state}  &nbsp;
                           {
                             p.isFlag ?
-                            <Tooltip title={"Histórico de notificaciones emitidas a usuario, para reprogramación."} placement="top">
-                              <RuleFolderIcon style={{color: COLOR_BLUE_MAB, cursor: 'pointer'}} />
-                            </Tooltip>
-                            : ''
+                              <Tooltip title={"Histórico de notificaciones emitidas a usuario, para reprogramación."} placement="top">
+                                <RuleFolderIcon style={{ color: COLOR_BLUE_MAB, cursor: 'pointer' }} />
+                              </Tooltip>
+                              : ''
                           }
                         </TableCell>
                         <TableCell align="center">
@@ -145,19 +162,21 @@ function Row({
                         </TableCell>
                         <TableCell align="center">
                           <span>{p.isAttention ? 'SI' : 'NO'}</span>&nbsp;&nbsp;&nbsp;
-                          <Tooltip title={p.isAttention ? 'SI ASISTIÓ' : 'NO ASISTIÓ'} placement="top">
+                          <Tooltip title={p.isAttention ? 'FUE ATENDIDO' : 'NO ATENDIDO'} placement="top">
                             {p.isAttention ? < CheckCircleIcon style={{ color: COLOR_GREEN, cursor: 'pointer' }} /> : <CancelIcon style={{ color: COLOR_BUTTON_MAB, cursor: 'pointer' }} />}
                           </Tooltip>
                         </TableCell>
                         <td align="center">
-                          <MenuItemSesion
+                          <SubItemList
                             row={p}
                             dataHead={row}
                             handleApproveRequest={handleClickAprobarSolicitud}
                             handleCancelRequest={handleCancelRequest}
                             handleChangeSendMsgWssp={handleChangeSendMsgWssp}
                             disabled={p.isFlag}
+                            handleStarEvaluation={handleStarEvaluation}
                             disabledAttention={p.isAttention}
+                            handleEditSesion={handleEditSesion}
                           />
                         </td>
                       </TableRow>
@@ -175,6 +194,11 @@ function Row({
 }
 
 Row.propTypes = {
+  patientId: PropTypes.number,
+  handleStarEvaluation: PropTypes.func,
+  handleEditSesion: PropTypes.func,
+  handleViewAdvanceClinic: PropTypes.func,
+  handleViewShedulePay: PropTypes.func,
   handleChangeSendMsgWssp: PropTypes.func,
   handleSendWhatsapp: PropTypes.func,
   handleClickAprobarSolicitud: PropTypes.func,
@@ -202,20 +226,21 @@ export default function List({
   rows = [],
   handleClickAprobarSolicitud,
   handleCancelRequest,
-  typeList = 0,
-  handleSendWhatsapp,
-  handleChangeSendMsgWssp
+  handleViewShedulePay,
+  handleViewAdvanceClinic,
+  handleStarEvaluation,
+  handleEditSesion
 }) {
   return (
     <TableContainer component={Paper}>
-      <Table aria-label="collapsible table" size='small'>
+      <Table aria-label="collapsible table" size='large'>
         <TableHead>
           <TableRow>
             <TableCell />
             <TableCell>Nro</TableCell>
             <TableCell align="left">Paciente</TableCell>
-            <TableCell align="center">Edad</TableCell>
-            {/* <TableCell align="center">Código del Paciente</TableCell> */}
+            <TableCell align="center">Hoja Consentimiento</TableCell>
+            <TableCell align="center">Género</TableCell>
             <TableCell align="center">Estado</TableCell>
             <TableCell align="left"></TableCell>
           </TableRow>
@@ -228,9 +253,10 @@ export default function List({
               handleClickAprobarSolicitud={handleClickAprobarSolicitud}
               handleCancelRequest={handleCancelRequest}
               index={index}
-              typeList={typeList}
-              handleSendWhatsapp={handleSendWhatsapp}
-              handleChangeSendMsgWssp={handleChangeSendMsgWssp}
+              handleViewShedulePay={handleViewShedulePay}
+              handleViewAdvanceClinic={handleViewAdvanceClinic}
+              handleStarEvaluation={handleStarEvaluation}
+              handleEditSesion={handleEditSesion}
             />
           )) : <span>No existen datos para mostrar</span>
           }
@@ -245,5 +271,8 @@ List.propTypes = {
   handleClickAprobarSolicitud: PropTypes.func,
   handleChangeSendMsgWssp: PropTypes.func,
   handleCancelRequest: PropTypes.func,
-  handleSendWhatsapp: PropTypes.func,
+  handleViewShedulePay: PropTypes.func,
+  handleViewAdvanceClinic: PropTypes.func,
+  handleStarEvaluation: PropTypes.func,
+  handleEditSesion: PropTypes.func,
 };
