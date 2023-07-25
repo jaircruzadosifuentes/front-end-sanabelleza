@@ -38,13 +38,13 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.patient.person.surnames}/${row.patient.person.names}`}</TableCell>
-        <TableCell align="center">{row.patientNew.packetsOrUnitSessions.description} - {row.patientNew.frecuencyDesc}</TableCell>
+        {/* <TableCell align="left">{`${row.patient.person.surnames}/${row.patient.person.names}`}</TableCell> */}
+        <TableCell align="center">{row.patient?.clinicalHistory?.packetsOrUnitSessions?.description} - {row.patient?.clinicalHistory?.frecuency?.frecuencyDescription}</TableCell>
         <TableCell align="center">{row.dues} </TableCell>
         <TableCell align="center">S/.{formatDecimales(row.mountDue)} </TableCell>
         <TableCell align="center">S/.{formatDecimales(row.mountDue)} </TableCell>
         <TableCell align="center">{convertDateTimeToDate(row.paymentDay)} </TableCell>
-        <TableCell align="center">{<Badge text={row.state} value={row.stateId} />} </TableCell>
+        <TableCell align="center">{row.state} </TableCell> 
         {/* <td>
           <SchedulePayItem
             row={row}
@@ -165,7 +165,7 @@ export default function List({
           <TableRow>
             <TableCell />
             <TableCell align="left">Nro</TableCell>
-            <TableCell align="left">Paciente</TableCell>
+            {/* <TableCell align="left">Paciente</TableCell> */}
             <TableCell align="center">Paquete y Frecuencia</TableCell>
             <TableCell align="center">Nro de Cuota</TableCell>
             <TableCell align="center">Monto a pagar</TableCell>

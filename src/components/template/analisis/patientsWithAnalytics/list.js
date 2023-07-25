@@ -36,7 +36,7 @@ function Row({
   handleEditSesion
 }) {
   const [open, setOpen] = React.useState(false);
-
+  console.log(row.patientProgresses);
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>

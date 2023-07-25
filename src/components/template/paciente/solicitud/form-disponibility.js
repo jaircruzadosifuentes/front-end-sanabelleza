@@ -70,7 +70,8 @@ export default function FormDisponibilty({
   dateOfRegister,
   hourInitial,
   hourFinished,
-  handleCloseModalEmployeedDisponibility
+  handleCloseModalEmployeedDisponibility,
+  handleItemEditSchedule
 }) {
   const [value, setValue] = React.useState(0);
   const [startDate, setStartDate] = useState(new Date());
@@ -163,7 +164,7 @@ export default function FormDisponibilty({
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Ver Modo Horario" {...a11yProps(0)} />
           <Tab label="Ver Modo Listado" {...a11yProps(1)} />
-          <Tab label="Registro de Disponibilidad" {...a11yProps(2)} />
+          {/* <Tab label="Registro de Disponibilidad" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -177,11 +178,13 @@ export default function FormDisponibilty({
             rowsPerHour={6}
             itemColors={COLOR_SCHEDULE}
             locale={'es'}
-            autoScale
+            autoScale={false}
             fixedHeader={false}
             startAtTime={9}
+            onItemEdit={handleItemEditSchedule}
             endAtTime={20.90}
             cellHeight={15}
+            disablePrevButton={false}
           />
         </div>
       </TabPanel>
@@ -275,6 +278,7 @@ FormDisponibilty.propTypes = {
   handleAsignarSchedule: PropTypes.func,
   handleChangeDateRegisterSchedule: PropTypes.func,
   handleChangeHourInitialRegisterSchedule: PropTypes.func,
+  handleItemEditSchedule: PropTypes.func,
   handleChangeHourFinishedRegisterSchedule: PropTypes.func,
   dateOfRegister: PropTypes.string,
   hourInitial: PropTypes.string,

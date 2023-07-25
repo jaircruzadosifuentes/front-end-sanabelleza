@@ -4,6 +4,7 @@ export const Uri_GetAllPatientsWithSchedule = (hourInitial, hourFinished, fechaR
 export const Uri_GetAllPatientsPendApro= `${URI_DEV}/api/patient/GetAllPatientsPendApro`;
 export const Uri_GetAllPatientsPatientWithAppoiment = `${URI_DEV}/api/patient/GetAllPatientsPatientWithAppoiment`;
 export const Uri_GetAllPatientsInTreatment = `${URI_DEV}/api/patient/GetAllPatientsInTreatment`;
+export const Uri_GetAllPatientsFinishedTreatment= `${URI_DEV}/api/patient/GetAllPatientsFinishedTreatment`;
 export const Uri_PutApprovePatientNew = (patientId, type) => `${URI_DEV}/api/patient/PutApprovePatientNew/${patientId}/${type}`;
 export const Uri_PutApprovePatient = (patientId, type) => `${URI_DEV}/api/patient/PutApprovePatient/${patientId}/${type}`;
 export const Uri_GetAlLPatientsNewAttentionByEmployeedId = (employeedId) => `${URI_DEV}/api/patient/GetAllPatientsNewAttentionByEmployeedId/${employeedId}`;

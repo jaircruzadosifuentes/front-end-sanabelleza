@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 import { Label } from "src/components/atoms";
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-
+import InfoIcon from '@mui/icons-material/Info';
+import { Tooltip } from "@mui/material";
 const marks = [
   {
     value: 1,
@@ -39,14 +40,32 @@ export default function FormClinicalTreatment({
       <div className="row">
         <TextAreaFormControl
           type="text"
-          className="col-md-6"
+          className="col-md-4"
           label="Observaciones: (Escriba detalladamente)"
           isLabel
           onChange={handleChangeDiagnostico}
-          rows={3}
+          rows={6}
+        />
+
+        <TextAreaFormControl
+          type="text"
+          className="col-md-4"
+          label="Recomendación: (Escriba detalladamente)"
+          isLabel
+          rows={6}
+          onChange={handleChangeRecomendacion}
         />
         <div className="col-md-4 mt-4">
-          <Label title={`Exploración física (1: SIN DOLOR, 2: DOLOR MEDIO, 3: DOLOR INTENSO)`}/>
+          <div className="row">
+            <div className="col-md-11">
+              <Label title={`Exploración física:`} />
+            </div>
+            <div className="col-md-1 mt-1" style={{ cursor: 'pointer' }}>
+              <Tooltip title='(1: SIN DOLOR, 2: DOLOR MODERADO, 3: DOLOR INTENSO)'>
+                <InfoIcon />
+              </Tooltip>
+            </div>
+          </div>
           <Box sx={{ width: '100%' }}>
             <Slider
               aria-label="Always visible"
@@ -59,14 +78,6 @@ export default function FormClinicalTreatment({
             />
           </Box>
         </div>
-        <TextAreaFormControl
-          type="text"
-          className="col-md-6"
-          label="Recomendación: (Escriba detalladamente)"
-          isLabel
-          rows={4}
-          onChange={handleChangeRecomendacion}
-        />
       </div>
     </>
   )

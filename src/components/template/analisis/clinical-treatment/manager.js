@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Label, Title } from "src/components/atoms";
 import { useNavigate } from "react-router-dom";
@@ -8,10 +8,10 @@ import FooterButton from "./footer-button";
 import { COLOR_BLUE_MAB, COLOR_BUTTON_MAB, COLOR_GRIS } from "src/config/config";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
-import ListIcon from '@mui/icons-material/List';
 import { ServicePostRegistrProgressSesion } from "src/service/patient/service.patient";
 import { formatoNumero } from "src/utils/utils";
 import PropTypes from 'prop-types';
+import Alert from '@mui/material/Alert';
 
 const showComponentSelectTreeView = (nodeId) => {
   switch (parseInt(nodeId)) {
@@ -56,15 +56,17 @@ export default function Manager() {
   const [file, setFile] = useState(null);
   const [timer, setTimer] = useState(0);
   const [timeDemoration, setTimeDemoration] = useState('');
+  const [missingAsignedEmployeed, setMissingAsignedEmployeed] = useState(false);
 
   useEffect(() => {
-    setObjPatient(location.state.objPatientDetail)
+    setObjPatient(location.state.objPatientDetail);
+    setMissingAsignedEmployeed(location.state.objPatientDetail.employeed.employeedId === 0)
   }, [location.state.objPatientDetail]);
   useEffect(() => {
     const interval = setInterval(() => {
       setTimer((timer) => timer + 1);
     }, 1000);
-   
+
     return () => {
       clearInterval(interval);
     };
@@ -182,42 +184,19 @@ export default function Manager() {
     <div className="container-fluid">
       <Title value={`TRATAMIENTO DEL PACIENTE SESIÓN Nro ${objPatient.sessionNumber}`} type={'h1'} handleBack={handleBack} arrowBack />
       <div className="row">
-        {/* <div className="col-md-12 mt-1">
-          <div className="row">
-            <div className="col-md-4">
-              <div className="row">
-                <div className="col-md-12 text-center">
-                  <span>
-                    {objPatient?.patient?.person?.surnames} / {objPatient?.patient?.person?.names}
-                  </span>
-                </div>
-                <div className="col-md-12 text-center">
-                  <img
-                    alt={objPatient.surNames}
-                    src={`images/avatars/${objPatient?.patient?.person?.profilePicture}`}
-                    className="rounded float-righ"
-                    height={'250px'}
-                    width={'220px'}
-                  />
-                </div>
-                <div className="col-md-12">
-                  <span><ListIcon />&nbsp;Menú de Opciones</span>
-                  <SidebarClinicalTreatmentTreeView
-                    handleChangeTreViewSelect={handleChangeTreViewSelect}
-                  />
-                </div>
-              </div>
-            </div>
-            <div className="col-md-8">
-              {showComponentSelectTreeView(nodeId)}
-            </div>
-          </div>
-        </div> */}
+        {
+          missingAsignedEmployeed ?
+          <Alert severity="warning">Falta asignar la persona que se encargará de esta sesión fisioterapeutica.</Alert>
+          : ''
+        }
         <div className="col-md-12">
-          <DetailEmployeed employeed={objPatient.employeed}/>
+          <DetailEmployeed 
+            employeed={objPatient.employeed} 
+            missingAsignedEmployeed={missingAsignedEmployeed} 
+          />
         </div>
         <div className="col-md-12">
-          <DetailPatient patient={objPatient.patient}/>
+          <DetailPatient patient={objPatient.patient} />
         </div>
         <div className="col-md-12">
           <Label title={`Tiempo transcurrido de atención: ${timeDemoration}`} />
@@ -242,6 +221,7 @@ export default function Manager() {
           <FooterButton
             handleCancelRegister={handleCancelRegister}
             handleSaveSesion={handleSaveSesion}
+            missingAsignedEmployeed={missingAsignedEmployeed}
           />
         </div>
       </div>
@@ -250,22 +230,32 @@ export default function Manager() {
 }
 
 export const DetailEmployeed = ({
-  employeed = {}
+  employeed = {},
+  missingAsignedEmployeed = false
 }) => {
   let role = employeed?.role?.name
   return (
-    <>
-      Bienvenido(a): {role}. {employeed?.person?.surnames} / {employeed?.person?.names}
-    </>
+    <Fragment>
+      {
+        !missingAsignedEmployeed ?
+        <>
+          Bienvenido(a): {role}. {employeed?.person?.surnames} / {employeed?.person?.names}
+        </>:
+        <strong>
+          Por favor, comuniquese con la persona que está a cargo de turno, para la configuración pertinente.
+        </strong>
+      }
+    </Fragment>
   )
 }
 DetailEmployeed.propTypes = {
   employeed: PropTypes.object,
+  missingAsignedEmployeed: PropTypes.bool
 };
 export const DetailPatient = ({
   patient = {}
-}) =>{
-  return(
+}) => {
+  return (
     <>
       Paciente: {patient?.person?.surnames} / {patient?.person?.names}
     </>

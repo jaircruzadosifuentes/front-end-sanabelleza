@@ -58,17 +58,17 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Primer Análisis Clínico',
+        name: 'Análisis Clínico',
         to: '/primer-analisis',
       },
       {
         component: CNavItem,
-        name: 'En Tratamiento',
+        name: 'Tratamientos en Proceso',
         to: '/pacientes-con-analisis-clinico',
       },
       {
         component: CNavItem,
-        name: 'Tratamiento Finalizado',
+        name: 'Tratamientos Finalizado',
         to: '/pacientes/tratamiento/finalizado',
       },
       
@@ -104,12 +104,17 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Solicitud',
-        to: '/mantenimiento-paquetes',
+        to: '/contrato/solicitud',
       },
       {
         component: CNavItem,
         name: 'Aprobación',
-        to: '/mantenimiento-paquetes',
+        to: '/contrato/aprobacion',
+      },
+      {
+        component: CNavItem,
+        name: 'Empleados con Contrato',
+        to: '/contrato/empleados/contratados',
       },
     ],
   },
@@ -125,8 +130,8 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Pago de Cuotas',
-        to: '/mantenimiento-paquetes',
+        name: 'Pagos Pendientes',
+        to: '/pagos/pendientes',
       },
     ],
   },
@@ -142,23 +147,18 @@ const _nav = [
     items: [
       {
         component: CNavItem,
-        name: 'Mnt. de Paquetes',
+        name: 'Paquetes y Frecuencia',
         to: '/mantenimiento-paquetes',
       },
       {
         component: CNavItem,
-        name: 'Mnt. de Variables del Sist.',
-        to: '/mantenimiento-paquetes',
+        name: 'Variables del Sistema',
+        to: '/mantenimiento/var/sistema',
       },
       {
         component: CNavItem,
-        name: 'Mnt. de Frecuencias Cli.',
-        to: '/mantenimiento-paquetes',
-      },
-      {
-        component: CNavItem,
-        name: 'Mnt. de Cargos',
-        to: '/mantenimiento-paquetes',
+        name: 'Cargos',
+        to: '/mantenimiento/cargos',
       },
     ],
   },

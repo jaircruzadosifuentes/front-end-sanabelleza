@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 export default function FooterButton({
   handleCancelRegister,
   handleSaveSesion,
-  handleChangeInformationAdi
+  handleChangeInformationAdi,
+  missingAsignedEmployeed = false
 }) {
   return (
     <Fragment>
@@ -17,6 +18,7 @@ export default function FooterButton({
                 title="Guardar sesión"
                 color='btn btn-success'
                 type={1}
+                disabled={missingAsignedEmployeed}
                 onClick={handleSaveSesion}
               />
             </div>&nbsp;
@@ -39,4 +41,5 @@ FooterButton.propTypes = {
   handleChangeInformationAdi: PropTypes.func,
   handleCancelRegister: PropTypes.func,
   handleSaveSesion: PropTypes.func,
+  missingAsignedEmployeed: PropTypes.bool
 };

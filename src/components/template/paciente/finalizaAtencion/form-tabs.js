@@ -64,7 +64,8 @@ export default function FormTabs({
   handleClickViewSchedulePay,
   handleHandlePaySave,
   handleDescriptionRefPayMethod,
-  handleChangeHourInitial
+  handleChangeHourInitial,
+  initialDate
 }) {
   const [value, setValue] = React.useState(2);
 
@@ -115,6 +116,7 @@ export default function FormTabs({
           handleHandlePaySave={handleHandlePaySave}
           handleDescriptionRefPayMethod={handleDescriptionRefPayMethod}
           handleChangeHourInitial={handleChangeHourInitial}
+          initialDate={initialDate}
         />
       </TabPanel>
     </Box>
@@ -144,4 +146,5 @@ FormTabs.propTypes = {
   idSelectPacket: PropTypes.number,
   numberDues: PropTypes.number,
   total: PropTypes.any,
+  initialDate: PropTypes.any,
 };

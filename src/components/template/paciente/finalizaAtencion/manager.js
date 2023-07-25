@@ -183,8 +183,11 @@ export default function Manager(props) {
             `La generación del cronograma ha sido realizada con éxito`,
             'success'
           );
-          let list = await ServiceGetPacientesConPrimeraAtencionClinica();
-          setListPatients(list)
+          let pacientesConPrimeraAtencion = [];
+          pacientesConPrimeraAtencion = await ServiceGetPacientesConPrimeraAtencionClinica();
+          setObjPatient(pacientesConPrimeraAtencion.filter(p => parseInt(p?.patientId) === patientId)[0])
+          console.log(pacientesConPrimeraAtencion.filter(p => parseInt(p?.patientId) === patientId));
+          setListPatients(pacientesConPrimeraAtencion)
           let listSchedules = await ServiceGetAllSchedulePatient(patientId);
           setListSchedulesPatient(listSchedules);
         } else {
@@ -324,6 +327,7 @@ export default function Manager(props) {
               handleDescriptionRefPayMethod={handleDescriptionRefPayMethod}
               handleHandlePaySave={handleHandlePaySave}
               handleChangeHourInitial={handleChangeHourInitial}
+              initialDate={initialDate}
             />
           </Modal>
         )
