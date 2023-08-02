@@ -1,7 +1,5 @@
 import * as React from 'react';
 import PropTypes from 'prop-types';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
 import IconButton from '@mui/material/IconButton';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -9,17 +7,10 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
-import { Label } from 'src/components/atoms';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
-import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { COLOR_BUTTON_MAB, COLOR_GREEN, COLOR_YELLOW } from 'src/config/config';
-import { Tooltip } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-
+import CheckBoxIcon from '@mui/icons-material/CheckBox';
+import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 function Row({
   row = {},
   handleClickAprobarSolicitud,
@@ -37,17 +28,12 @@ function Row({
             title='Detalle de la solicitud'
             onClick={() => setOpen(!open)}
           >
-            {open ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
+            {open ? <CheckBoxIcon /> : <CheckBoxOutlineBlankIcon />}
           </IconButton>
         </TableCell>
-        <TableCell component="th" scope="row">
-          {row.correlative}
-        </TableCell>
         <TableCell align="left">{row.person.surnames} {row.person.names}</TableCell>
-        <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
-        <TableCell align="left">{row.patientSolicitude.hourAttention}</TableCell>
-        <TableCell align="left">{row.reason}</TableCell>
-        <TableCell align="left">{row.state}</TableCell>
+        <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention) === '1/1/1999'? 'Día no seleccionado': convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
+        <TableCell align="left">{row.patientSolicitude.hourAttention === '00:00:00'? 'Hora no ingresada': ''}</TableCell>
         {/* <td>
           <WrappedMenuItems
             row={row}
@@ -56,7 +42,7 @@ function Row({
           />
         </td> */}
       </TableRow>
-      <TableRow >
+      {/* <TableRow >
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
           <Collapse in={open} timeout="auto" unmountOnExit >
             <Box sx={{ margin: 1 }}>
@@ -130,7 +116,7 @@ function Row({
             </Box>
           </Collapse>
         </TableCell>
-      </TableRow>
+      </TableRow> */}
     </React.Fragment>
   );
 }
@@ -156,7 +142,7 @@ Row.propTypes = {
   }).isRequired,
 };
 export default function List({
-  rows = [],
+  listaPacientesEnBorrador = [],
   handleClickAprobarSolicitud,
   handleCancelRequest,
   typeList = 0
@@ -170,11 +156,10 @@ export default function List({
             <TableCell align="left">Paciente</TableCell>
             <TableCell align="left">Dia atención</TableCell>
             <TableCell align="left">Hora reservada</TableCell>
-            <TableCell align="left"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.length > 0 ? rows.map((row) => (
+          {listaPacientesEnBorrador.length > 0 ? listaPacientesEnBorrador.map((row) => (
             <Row
               key={row.nro}
               row={row}
@@ -189,7 +174,7 @@ export default function List({
   );
 }
 List.propTypes = {
-  rows: PropTypes.array,
+  listaPacientesEnBorrador: PropTypes.array,
   handleClickAprobarSolicitud: PropTypes.func,
   handleCancelRequest: PropTypes.func,
   typeList: PropTypes.number,

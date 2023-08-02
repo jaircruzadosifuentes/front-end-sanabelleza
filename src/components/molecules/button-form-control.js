@@ -15,7 +15,7 @@ import DownloadIcon from '@mui/icons-material/Download';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Tooltip from '@mui/material/Tooltip';
-
+import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 function TypeButton(value) {
   switch (value) {
     case 1:
@@ -42,6 +42,8 @@ function TypeButton(value) {
       return (<WhatsAppIcon />)
     case 12:
       return (<AlternateEmailIcon />)
+    case 13:
+      return(<CleaningServicesIcon />)
     default:
       break;
   }

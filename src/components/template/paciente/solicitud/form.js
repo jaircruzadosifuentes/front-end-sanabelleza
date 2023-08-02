@@ -24,7 +24,10 @@ export default function Form({
   handleChangeEmail,
   selectedValue,
   handleChange,
-  handleVerEnBorrador
+  handleVerEnBorrador,
+  handleLimpiarControles,
+  listaPacientesEnBorrador = [],
+  handleChangeCancelar
 }) {
   return (
     <div className="form-group">
@@ -37,6 +40,7 @@ export default function Form({
           label="Apellidos"
           isLabel
           onChange={handleChangeSurNames}
+          id={'idApellidosSolicitud'}
         />
         <InputFormControl
           type="text"
@@ -44,6 +48,7 @@ export default function Form({
           isLabel
           label="Nombres"
           onChange={handleChangeNames}
+          id={'idNombresSolicitud'}
         />
         <InputFormControl
           type="date"
@@ -68,6 +73,7 @@ export default function Form({
           label="Nro Documento"
           maxLength={sizeDocument}
           onChange={handleChangeNroDocument}
+          id="idNroDocumentoSolicitud"
         />
         <div className="col-md-4 mt-4">
           <Box sx={{ display: 'flex', gap: 2, marginTop: '1em', marginBottom: '1em' }}>
@@ -139,13 +145,12 @@ export default function Form({
         <div className="btn-toolbar" style={{ float: 'right' }}>
           <div className="btn-group">
             <ButtonFormControl
-              title="Salir"
+              title="Cancelar"
               color='btn btn-danger'
               type={2}
+              onClick={handleChangeCancelar}
             />
           </div>&nbsp;
-        </div>
-        <div className="btn-toolbar">
           <div className="btn-group">
             <ButtonFormControl
               title="Guardar"
@@ -154,7 +159,18 @@ export default function Form({
               onClick={handleSave}
             />
           </div>&nbsp;
+        </div>
+        <div className="btn-toolbar">
           <div className="btn-group">
+            <ButtonFormControl
+              title="Limpiar controles"
+              color='btn btn-primary'
+              type={13}
+              onClick={handleLimpiarControles}
+            />
+          </div>
+
+          {/* <div className="btn-group">
             <ButtonFormControl
               title="Guardar en borrador"
               color='btn btn-warning'
@@ -164,12 +180,13 @@ export default function Form({
           </div>&nbsp;
           <div className="btn-group">
             <ButtonFormControl
-              title="Ver en borrador"
+              title={`Ver en borrador (${listaPacientesEnBorrador.length})`}
               color='btn btn-secondary'
               type={9}
               onClick={handleVerEnBorrador}
             />
-          </div>
+          </div>&nbsp; */}
+
         </div>
       </div>
     </div>
@@ -178,6 +195,8 @@ export default function Form({
 Form.propTypes = {
   selectedValue: PropTypes.string,
   handleChange: PropTypes.func,
+  handleLimpiarControles: PropTypes.func,
+  handleChangeCancelar: PropTypes.func,
   handleViewDisponibilty: PropTypes.func,
   handleVerEnBorrador: PropTypes.func,
   handleChangeSurNames: PropTypes.func,
@@ -190,6 +209,7 @@ Form.propTypes = {
   handleSaveTemporality: PropTypes.func,
   handleChangeTipoDocumento: PropTypes.func,
   documents: PropTypes.array,
+  listaPacientesEnBorrador: PropTypes.array,
   employeed: PropTypes.string,
   dateOfRegister: PropTypes.string,
   hourInitial: PropTypes.string,

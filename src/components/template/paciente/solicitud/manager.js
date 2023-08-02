@@ -9,7 +9,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { useGetAllDocuments, useGetAllEmployeed } from './hooks/index';
 import { ServiceGetDisponibiltyEmployeed } from "./services";
 import ListPatientDraft from './list-patient-draft';
-import { ServicePostRegistrSolicitudAttention } from "src/service/solicitudAttention/service.solicitudAttention";
+import { ServiceGetPatientsSolicitudeInDraft, ServicePostRegistrSolicitudAttention } from "src/service/solicitudAttention/service.solicitudAttention";
 import { useNavigate } from "react-router-dom";
 
 export default function Manager(props) {
@@ -38,6 +38,7 @@ export default function Manager(props) {
   const [documentTypeId, setDocumentTypeId] = useState(0);
   const [selectedValue, setSelectedValue] = React.useState('a');
   const [openModalVerEnBorrador, setOpenModalVerEnBorrador] = useState(false);
+  const [listaPacientesEnBorrador, setListaPacientesEnBorrador] = useState([]);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -192,23 +193,33 @@ export default function Manager(props) {
       return;
     }
     let data = {
-      names, 
-      surNames,
-      birthDate,
-      nroDocument,
-      document: {
-        value: parseInt(documentTypeId),
+      person: {
+        names, 
+        surNames,
+        birthDate: birthDate === '' ? '1999-01-01': birthDate,
+        personDocument: {
+          nroDocument,
+        },
+        personCellphone: {
+          cellPhoneNumber: cellPhone
+        },
+        document: {
+          value: parseInt(documentTypeId),
+        },
+        gender: selectedValue === 'a'? 'M': 'F',
+        personEmail: {
+          emailDescription: email
+        }
       },
-      employeed: {
-        employeedId: employeedId,
-      },
-      hourInitial,
-      hourFinished,
-      reservedDay: dateOfRegister,
+      saveInDraft: true,
       cellPhone,
-      email,
-      createdAt: new Date().toLocaleDateString(),
-      SaveInDraft: true
+      patientSolicitude: {
+        hourAttention: hourInitial,
+        dateAttention: dateOfRegister === ''? '1999-01-01': dateOfRegister,
+        employeed: {
+          employeedId: employeedId 
+        }
+      }
     };
     Swal.fire({
       title: '¿Desea guardar la solicitud en borrador?',
@@ -222,7 +233,6 @@ export default function Manager(props) {
     }).then(async(result) => {
       if (result.isConfirmed) {
         let insert = await ServicePostRegistrSolicitudAttention(data);
-        console.log(insert);
         if(insert.ok) {
           handleClearControls();
           Swal.fire(
@@ -242,6 +252,11 @@ export default function Manager(props) {
       }
     })
   }
+  const handleLimpiarControles = () => {
+    document.getElementById('idApellidosSolicitud').value = '';
+    document.getElementById('idNombresSolicitud').value = '';
+    document.getElementById('idNroDocumentoSolicitud').value = '';
+  }
   const handleClearControls = () => {
     setNames('');
     setSurNames('');
@@ -255,6 +270,9 @@ export default function Manager(props) {
     setHourInitial('');
     setHourFinished('');
     setDateOfRegister('');
+    document.getElementById('idApellidosSolicitud').value = '';
+    document.getElementById('idNombresSolicitud').value = '';
+    document.getElementById('idNroDocumentoSolicitud').value = '';
   }
   const handleAsignarSchedule = (data) => {
     Swal.fire({
@@ -315,11 +333,16 @@ export default function Manager(props) {
   const handleItemEditSchedule = (item) => {
     handleAsignarSchedule(item);
   }
-  const handleVerEnBorrador = (e) => {
+  const handleVerEnBorrador = async(e) => {
     setOpenModalVerEnBorrador(true);
+    let listaPacientes = await ServiceGetPatientsSolicitudeInDraft();
+    setListaPacientesEnBorrador(listaPacientes);
   }
   const handleCloseModalVerEnBorrador = (e) => {
     setOpenModalVerEnBorrador(false);
+  }
+  const handleChangeCancelar = (e) => {
+    navigate('/dashboard');
   }
   //#region Metodos
   return (
@@ -348,6 +371,9 @@ export default function Manager(props) {
         selectedValue={selectedValue}
         handleChange={handleChange}
         handleVerEnBorrador={handleVerEnBorrador}
+        handleLimpiarControles={handleLimpiarControles}
+        listaPacientesEnBorrador={listaPacientesEnBorrador}
+        handleChangeCancelar={handleChangeCancelar}
       />
 
       {/* Modales */}
@@ -390,7 +416,7 @@ export default function Manager(props) {
             onClose={handleCloseModalVerEnBorrador}
           >
            <ListPatientDraft
-
+              listaPacientesEnBorrador={listaPacientesEnBorrador}
            />
           </Modal>
         )
