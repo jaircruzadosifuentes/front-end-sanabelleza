@@ -94,41 +94,6 @@ function Row({
               </div>
             </Box>
             <hr />
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Sesiones programadas ({(row.patientProgresses.length)})
-              </Typography>
-              <Table size="small" aria-label="purchases">
-                <TableHead>
-                  <TableRow>
-                    <TableCell align="center">Fecha programada</TableCell>
-                    <TableCell align="center">Hora programada</TableCell>
-                    <TableCell align="center">Nro Sesión</TableCell>
-                    <TableCell align="center">Estado</TableCell>
-                    <TableCell align="center">Asistió?</TableCell>
-                    <TableCell align="center"></TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {row.patientProgresses.map((p, index) => (
-                    <TableRow key={index} style={{ backgroundColor: convertDateTimeToDate(p.dateOfAttention) === convertDateTimeToDate(row.dayReserved) ? COLOR_YELLOW : '' }}>
-                      <TableCell component="th" scope="row" align="center">
-                        {convertDateTimeToDate(p.dateOfAttention)}
-                      </TableCell>
-                      <TableCell align="center">{p.hourOffAttention}</TableCell>
-                      <TableCell align="center">{p.sessionNumber}</TableCell>
-                      <TableCell align="center">{p.typeAttention.description}</TableCell>
-                      <TableCell align="center">{p.isAttention ? 'SI' : 'NO'}</TableCell>
-                      <TableCell align="center">
-                        <Tooltip title={p.isAttention ? 'SI ASISTIÓ' : 'NO ASISTIÓ'} placement="top">
-                          {p.isAttention ? < CheckCircleIcon style={{ color: COLOR_GREEN, cursor: 'pointer' }} /> : <CancelIcon style={{ color: COLOR_BUTTON_MAB, cursor: 'pointer' }} />}
-                        </Tooltip>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </Box>
           </Collapse>
         </TableCell>
       </TableRow>

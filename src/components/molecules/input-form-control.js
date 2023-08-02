@@ -19,6 +19,7 @@ export default function InputFormControl(props) {
     maxLength = 9999,
     align = 'left',
     readOnly = false,
+    id = '',
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -51,7 +52,7 @@ export default function InputFormControl(props) {
       }
       <Input
         type={type}
-        id={matchName}
+        id={id}
         name={matchName}
         defaultValue={type === "number" ? parseFloat(defaultValue).toFixed(2) : defaultValue}
         onChange={onChange}
@@ -71,6 +72,7 @@ InputFormControl.propTypes = {
   readOnly: PropTypes.bool,
   align: PropTypes.string,
   className: PropTypes.string,
+  id: PropTypes.string,
   children: PropTypes.string,
   matchName: PropTypes.string,
   type: PropTypes.string,
