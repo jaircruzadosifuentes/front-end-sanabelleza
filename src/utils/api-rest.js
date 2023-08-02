@@ -1,4 +1,4 @@
-export async function EntityCreate (endpoint, entity) { 
+export async function  EntityCreate (endpoint, entity) { 
   try {
     return await fetch(endpoint, {
       method: 'POST',

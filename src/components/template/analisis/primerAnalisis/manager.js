@@ -4,10 +4,13 @@ import List from "./list";
 import { useGetAllPatientsNewAttentionByEmployeedId } from "./hooks";
 import Filter from "./filter";
 import { useNavigate } from "react-router-dom";
+import { fuDevolverDatosUsuario } from "src/utils/utils";
 
 export default function Manager() {
   let navigate = useNavigate();
-  const { listPatients } = useGetAllPatientsNewAttentionByEmployeedId(1);
+  let id = JSON.parse(fuDevolverDatosUsuario()).id;
+
+  const { listPatients } = useGetAllPatientsNewAttentionByEmployeedId(id);
   const [result, setResult] = useState([]);
 
   const handleSearchForSurNames = (e) => {

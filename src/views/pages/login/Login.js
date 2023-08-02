@@ -1,5 +1,5 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   CButton,
   CCard,
@@ -15,24 +15,80 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 import { cilLockLocked, cilUser } from '@coreui/icons'
+import { ServicePostAccessSystem } from 'src/service/employeed/service.employeed'
+import Swal from 'sweetalert2/dist/sweetalert2.js'
+import { fuGuardarDatosUsuario } from 'src/utils/utils'
 
 const Login = () => {
+  let navigate = useNavigate()
+
+  const [usuario, setUsuario] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleChangeUsuario = (e) => {
+    setUsuario(e.target.value);
+  }
+  const handleChangePassword = (e) => {
+    setPassword(e.target.value);
+  }
+  const handleKeyUpPassword = async(e) => {
+    if(e.keyCode === 13) {
+      await handleAccederAlSistema()
+    }
+  }
+  const handleAccederAlSistema = async(e) => {
+    let login = await ServicePostAccessSystem(usuario, password)
+    if(!usuario) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: 'Debe de ingresar el usuario',
+      });
+      return;
+    }
+    if(!password) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: 'Debe de ingresar el password',
+      });
+      return;
+    }
+    if(parseInt(login.employeedId) === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: 'Usuario no existe o las credenciales son incorrectas, de persistir el error, por favor comunicarte con el Administrador(a) del Sistema.',
+      });
+      return;
+    }
+    if(parseInt(login.employeedId) > 0) {
+      let objetoUsuario = {
+        id: login?.employeedId,
+        names: login?.person?.names,
+        surnames: login?.person?.surnames,
+        profileImage: login?.person?.profilePicture,
+      }
+      fuGuardarDatosUsuario(JSON.stringify(objetoUsuario));
+      navigate('/dashboard')
+    }
+  }
   return (
-    <div className="bg-light min-vh-100 d-flex flex-row align-items-center">
+    <div className="min-vh-100 d-flex flex-row align-items-center">
       <CContainer>
         <CRow className="justify-content-center">
-          <CCol md={8}>
+          <CCol md={12}>
             <CCardGroup>
-              <CCard className="p-4">
+              <CCard className="p-1">
                 <CCardBody>
                   <CForm>
-                    <h1>Login</h1>
-                    <p className="text-medium-emphasis">Sign In to your account</p>
+                    <h1>LOGIN - SANA BELLEZA</h1>
+                    <p className="text-medium-emphasis">Iniciar sesión en su cuenta</p>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Username" autoComplete="username" />
+                      <CFormInput placeholder="Usuario" autoFocus autoComplete="username" onChange={handleChangeUsuario} />
                     </CInputGroup>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
@@ -42,38 +98,44 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        onChange={handleChangePassword}
+                        onKeyUp={handleKeyUpPassword}
                       />
                     </CInputGroup>
                     <CRow>
                       <CCol xs={6}>
-                        <CButton color="primary" className="px-4">
-                          Login
+                        <CButton color="primary" className="px-4" onClick={handleAccederAlSistema}>
+                          Acceder
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                    </CRow>
+                    <CRow>
+                      <CCol xs={4} className="mt-1">
                         <CButton color="link" className="px-0">
-                          Forgot password?
+                          ¿Olvidó su password?
                         </CButton>
+                      </CCol>
+                    </CRow>
+                    <CRow>
+                      <CCol xs={12} className='mt-1'>
+                        <small className="text-medium-emphasis">
+                          Todos los derechos reservados. Copyright © Sana Belleza
+                        </small>
                       </CCol>
                     </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
-                <CCardBody className="text-center">
-                  <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
-                  </div>
-                </CCardBody>
+              <CCard className="text-white" style={{ width: '100%', height: '100%' }}>
+                <picture>
+                  <img
+                    src='/images/fisioterapia-y-rehabilitacion.png'
+                    width={'100%'}
+                    height={'100%'}
+                    className='img-fluid rounded-right'
+                    alt='login'
+                  />
+                </picture>
               </CCard>
             </CCardGroup>
           </CCol>

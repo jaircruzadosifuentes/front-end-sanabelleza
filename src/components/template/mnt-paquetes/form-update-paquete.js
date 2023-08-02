@@ -3,14 +3,15 @@ import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
 import PropTypes from "prop-types";
 
-export default function Form({
-  handleChangeCostCu,
-  handleClosePackets,
-  handleChangeSavePackets,
-  handleChangeDescriptionPacket,
-  handleChangeAbbreviation,
-  handleChangeNroSesion,
-  handleChangeMaxCuotas
+export default function FormUpdatePaquete({
+  objetoPaquete = {},
+  handleChangeMaxCuotasEditar,
+  handleClosePacketsEdit,
+  handleChangeDescriptionPacketEdit,
+  handleChangeAbbreviationEdit,
+  handleChangeNroSesionEdit,
+  handleChangeCostCuEdit,
+  handleChangeGuardaPacketsEdit
 }) {
   return (
     <div className="container form-group">
@@ -22,14 +23,16 @@ export default function Form({
           className="col-md-12"
           label="Descripción del Paquete"
           isLabel
-          onChange={handleChangeDescriptionPacket}
+          defaultValue={objetoPaquete.description}
+          onChange={handleChangeDescriptionPacketEdit}
         />
         <InputFormControl
           type="text"
           className="col-md-6"
           label="Abreviación"
           isLabel
-          onChange={handleChangeAbbreviation}
+          defaultValue={objetoPaquete.abbreviation}
+          onChange={handleChangeAbbreviationEdit}
         />
         <InputFormControl
           type="number"
@@ -37,7 +40,8 @@ export default function Form({
           isLabel
           label="Nro Sesiones"
           align="center"
-          onChange={handleChangeNroSesion}
+          defaultValue={objetoPaquete?.numberSessions}
+          onChange={handleChangeNroSesionEdit}
         />
         <InputFormControl
           type="number"
@@ -45,15 +49,17 @@ export default function Form({
           isLabel
           label="Costo C/U"
           align="center"
-          onChange={handleChangeCostCu}
-        />
+          defaultValue={parseFloat(objetoPaquete?.costPerUnit)}
+          onChange={handleChangeCostCuEdit}
+          />
         <InputFormControl
           type="number"
           className="col-md-2"
           isLabel
           label="Máx Cuotas"
           align="center"
-          onChange={handleChangeMaxCuotas}
+          defaultValue={parseInt(objetoPaquete?.maximumFeesToPay)}
+          onChange={handleChangeMaxCuotasEditar}
         />
       </div>
       <div className="row mt-3">
@@ -64,7 +70,7 @@ export default function Form({
                 title="Salir"
                 color='btn btn-danger'
                 type={2}
-                onClick={handleClosePackets}
+                onClick={handleClosePacketsEdit}
               />
             </div>&nbsp;
             <div className="btn-group">
@@ -72,7 +78,7 @@ export default function Form({
                 title="Guardar"
                 color='btn btn-success'
                 type={1}
-                onClick={handleChangeSavePackets}
+                onClick={handleChangeGuardaPacketsEdit}
               />
             </div>&nbsp;
           </div>
@@ -81,12 +87,13 @@ export default function Form({
     </div>
   )
 }
-Form.propTypes = {
-  handleChangeCostCu: PropTypes.func,
-  handleClosePackets: PropTypes.func,
-  handleChangeSavePackets: PropTypes.func,
-  handleChangeMaxCuotas: PropTypes.func,
-  handleChangeNroSesion: PropTypes.func,
-  handleChangeAbbreviation: PropTypes.func,
-  handleChangeDescriptionPacket: PropTypes.func,
+FormUpdatePaquete.propTypes = {
+  objetoPaquete: PropTypes.object,
+  handleChangeMaxCuotasEditar: PropTypes.func,
+  handleClosePacketsEdit: PropTypes.func,
+  handleChangeGuardaPacketsEdit: PropTypes.func,
+  handleChangeCostCuEdit: PropTypes.func,
+  handleChangeNroSesionEdit: PropTypes.func,
+  handleChangeAbbreviationEdit: PropTypes.func,
+  handleChangeDescriptionPacketEdit: PropTypes.func,
 };

@@ -7,7 +7,6 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { formatDecimales } from 'src/utils/utils';
 import ItemList from './item-list';
 
 function Row({
@@ -24,11 +23,9 @@ function Row({
         <TableCell component="th" scope="row">
           {nro}
         </TableCell>
-        <TableCell align="left">{row.description}</TableCell>
-        <TableCell align="center">{row.numberSessions}</TableCell>
-        <TableCell align="center">S/.{formatDecimales(row.costPerUnit)}</TableCell>
-        <TableCell align="left">{row.abbreviation}</TableCell>
-        <TableCell align="center">{row.maximumFeesToPay}</TableCell>
+        <TableCell align="left">{row.frecuencyDescription}</TableCell>
+        <TableCell align="center">{row.abbreviation}</TableCell>
+        <TableCell align="center">{(row.value)}</TableCell>
         <TableCell align="left">{row.state}</TableCell>
         <td>
           <ItemList
@@ -77,10 +74,8 @@ export default function List({
           <TableRow>
             <TableCell>Nro</TableCell>
             <TableCell align="left">Descripción</TableCell>
-            <TableCell align="center">Nro de Sesiones</TableCell>
-            <TableCell align="center">Costo por Unidad</TableCell>
-            <TableCell align="left">Abreviación</TableCell>
-            <TableCell align="center">Máximo de cuotas</TableCell>
+            <TableCell align="center">abreviatura</TableCell>
+            <TableCell align="center">Valor de Frecuencia</TableCell>
             <TableCell align="left">Estado</TableCell>
           </TableRow>
         </TableHead>
@@ -103,6 +98,6 @@ export default function List({
 List.propTypes = {
   rows: PropTypes.array,
   handleChangeCaptureIdPatientAprrove: PropTypes.func,
-  selectedValue: PropTypes.string,
   handleEditar: PropTypes.func,
+  selectedValue: PropTypes.string,
 };

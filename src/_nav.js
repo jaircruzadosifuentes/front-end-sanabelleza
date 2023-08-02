@@ -148,7 +148,7 @@ const _nav = [
       {
         component: CNavItem,
         name: 'Paquetes y Frecuencia',
-        to: '/mantenimiento-paquetes',
+        to: '/mantenimiento/paquetes-frecuencias',
       },
       {
         component: CNavItem,

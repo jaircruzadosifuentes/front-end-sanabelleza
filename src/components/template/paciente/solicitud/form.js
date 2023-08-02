@@ -23,7 +23,8 @@ export default function Form({
   handleChangeCellPhone,
   handleChangeEmail,
   selectedValue,
-  handleChange
+  handleChange,
+  handleVerEnBorrador
 }) {
   return (
     <div className="form-group">
@@ -155,10 +156,18 @@ export default function Form({
           </div>&nbsp;
           <div className="btn-group">
             <ButtonFormControl
-              title="En borrador"
+              title="Guardar en borrador"
               color='btn btn-warning'
               type={3}
               onClick={handleSaveTemporality}
+            />
+          </div>&nbsp;
+          <div className="btn-group">
+            <ButtonFormControl
+              title="Ver en borrador"
+              color='btn btn-secondary'
+              type={9}
+              onClick={handleVerEnBorrador}
             />
           </div>
         </div>
@@ -170,6 +179,7 @@ Form.propTypes = {
   selectedValue: PropTypes.string,
   handleChange: PropTypes.func,
   handleViewDisponibilty: PropTypes.func,
+  handleVerEnBorrador: PropTypes.func,
   handleChangeSurNames: PropTypes.func,
   handleChangeNames: PropTypes.func,
   handleChangeBirthDate: PropTypes.func,

@@ -112,7 +112,7 @@ export default function SubItemList({
           </StyledMenuItem>
           <StyledMenuItem onClick={(e) => handleEditSesion(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <RateReviewIcon />&nbsp;
-            Editar Sesión
+            Editar Hora Programada
           </StyledMenuItem>
           <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
             <PageviewIcon />&nbsp;

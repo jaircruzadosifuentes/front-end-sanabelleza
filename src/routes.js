@@ -119,7 +119,7 @@ const routes = [
   // { path: '/rechazo-solicitud', name: 'Rechazo de la solicitud de atención', element: RechazoSolicitudPaciente },
   { path: '/ventanilla-horarios', name: 'Horarios en tiempo real', element: VentanillaHorarios },
   // PAQUETES
-  { path: '/mantenimiento-paquetes', name: 'Mantenimiento de paquetes', element: MntPaquetes },
+  { path: '/mantenimiento/paquetes-frecuencias', name: 'Mantenimiento de paquetes y frecuencias', element: MntPaquetes },
   // FINALIZA ATENCIÓN
   { path: '/finaliza-atencion-solicitud', name: 'Finaliza Atención de solicitud', element: FinalizaAtencionSolicitud },
   //PENDIENTES DE ANALISIS

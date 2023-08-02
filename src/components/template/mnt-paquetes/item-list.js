@@ -25,8 +25,8 @@ MenuSection.propTypes = {
 
 export default function WrappedMenuItems({
   row = {},
-  handleViewShedulePay,
-  handleViewAdvanceClinic
+  selectedValue = '',
+  handleEditar
 }) {
   const [buttonElement, setButtonElement] = React.useState(null);
 
@@ -95,8 +95,8 @@ export default function WrappedMenuItems({
         slotProps={{ listbox: { id: 'simple-menu' } }}
       >
         <MenuSection label="Operaciones">
-          <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
-            <PaymentIcon />  Ver Cronograma de Pagos
+          <StyledMenuItem onClick={(e) =>handleEditar(e, row)} style={{cursor: 'pointer'}}>
+            <PaymentIcon />  {`${selectedValue === 'a'? 'Editar paquete': 'Editar frecuencia'}`}
           </StyledMenuItem>
         </MenuSection>
       </Menu>
@@ -106,8 +106,8 @@ export default function WrappedMenuItems({
 
 WrappedMenuItems.propTypes = {
   row: PropTypes.object,
-  handleViewShedulePay: PropTypes.func,
-  handleViewAdvanceClinic: PropTypes.func,
+  selectedValue: PropTypes.string,
+  handleEditar: PropTypes.func,
 };
 
 const blue = {

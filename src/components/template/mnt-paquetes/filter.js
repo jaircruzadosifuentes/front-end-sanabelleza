@@ -5,10 +5,11 @@ import PropTypes from 'prop-types';
 export default function Filter({
   handleSearch,
   handleClickNewPackets,
-  handleExportarExcel
+  handleExportarExcel,
+  selectedValue
 }) {
   return (
-    <Fragment>
+    <div className="row">
       <InputFormControl
         type="text"
         className="col-md-4"
@@ -22,7 +23,7 @@ export default function Filter({
       <div className="col-md-3 btn-toolbar mt-3">
         <div className="btn-group">
           <ButtonFormControl
-            title="Nuevo paquete"
+            title={`${selectedValue === 'a'? 'Nuevo paquete': 'Nueva frecuencia'}`}
             color='btn btn-success'
             onClick={handleClickNewPackets}
             type={7}
@@ -32,16 +33,18 @@ export default function Filter({
           <ButtonFormControl
             title="Exportar excel"
             color='btn btn-primary'
-            type={8}
+            type={10}
+            disabled
             onClick={handleExportarExcel}
           />
         </div>
       </div>
-    </Fragment>
+    </div>
   )
 }
 Filter.propTypes = {
   handleSearch: PropTypes.func,
   handleClickNewPackets: PropTypes.func,
+  selectedValue: PropTypes.string,
   handleExportarExcel: PropTypes.func,
 };
