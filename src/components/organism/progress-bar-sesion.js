@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { convertDateTimeToDate } from 'src/utils/utils'
-import { CProgress, CRow, CTableDataCell, CTableRow } from '@coreui/react'
+import { CProgress } from '@coreui/react'
 import { useGetAllPatientsInPercentajeTreatment } from 'src/views/dashboard/Hooks'
 import PropTypes from 'prop-types';
 

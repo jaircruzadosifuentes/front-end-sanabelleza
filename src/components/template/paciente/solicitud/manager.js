@@ -8,7 +8,7 @@ import FormDisponibilty from "./form-disponibility";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { useGetAllDocuments, useGetAllEmployeed } from './hooks/index';
 import { ServiceGetDisponibiltyEmployeed } from "./services";
-import { ServiceGetAllPatientsWithSchedule } from "src/service/patient/service.patient";
+import ListPatientDraft from './list-patient-draft';
 import { ServicePostRegistrSolicitudAttention } from "src/service/solicitudAttention/service.solicitudAttention";
 import { useNavigate } from "react-router-dom";
 
@@ -37,6 +37,7 @@ export default function Manager(props) {
   const [email, setEmail] = useState('');
   const [documentTypeId, setDocumentTypeId] = useState(0);
   const [selectedValue, setSelectedValue] = React.useState('a');
+  const [openModalVerEnBorrador, setOpenModalVerEnBorrador] = useState(false);
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -182,6 +183,14 @@ export default function Manager(props) {
     })
   }
   const handleSaveTemporality = (e) => {
+    if(!names || !surNames) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `Debe de ingresar almenos el nombre y apellido del paciente.`,
+      })
+      return;
+    }
     let data = {
       names, 
       surNames,
@@ -203,7 +212,7 @@ export default function Manager(props) {
     };
     Swal.fire({
       title: '¿Desea guardar la solicitud en borrador?',
-      text: "Usted está guardando la solicitud en borrador para el paciente JAIR CRUZADO SIFUENTES.",
+      text: `Usted está guardando la solicitud en borrador para el paciente.`,
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -306,6 +315,12 @@ export default function Manager(props) {
   const handleItemEditSchedule = (item) => {
     handleAsignarSchedule(item);
   }
+  const handleVerEnBorrador = (e) => {
+    setOpenModalVerEnBorrador(true);
+  }
+  const handleCloseModalVerEnBorrador = (e) => {
+    setOpenModalVerEnBorrador(false);
+  }
   //#region Metodos
   return (
     <div className="container-fluid mt-1 mb-1">
@@ -332,6 +347,7 @@ export default function Manager(props) {
         handleChangeEmail={handleChangeEmail}
         selectedValue={selectedValue}
         handleChange={handleChange}
+        handleVerEnBorrador={handleVerEnBorrador}
       />
 
       {/* Modales */}
@@ -361,6 +377,21 @@ export default function Manager(props) {
               handleCloseModalEmployeedDisponibility={handleCloseModalViewDisponibility}
               handleItemEditSchedule={handleItemEditSchedule}
             />
+          </Modal>
+        )
+      }
+      {
+        openModalVerEnBorrador && (
+          <Modal
+            title={`LISTADO DE PACIENTES EN BORRADOR`}
+            size={"modal-lg"}
+            close
+            openModal={openModalVerEnBorrador}
+            onClose={handleCloseModalVerEnBorrador}
+          >
+           <ListPatientDraft
+
+           />
           </Modal>
         )
       }

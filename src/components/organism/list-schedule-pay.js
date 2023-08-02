@@ -14,7 +14,6 @@ import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate, formatDecimales } from 'src/utils/utils';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { Badge } from 'src/components/atoms';
 
 function Row({
   row = {},
@@ -44,7 +43,7 @@ function Row({
         <TableCell align="center">S/.{formatDecimales(row.mountDue)} </TableCell>
         <TableCell align="center">S/.{formatDecimales(row.mountDue)} </TableCell>
         <TableCell align="center">{convertDateTimeToDate(row.paymentDay)} </TableCell>
-        <TableCell align="center">{row.state} </TableCell> 
+        <TableCell align="center">{row.state} </TableCell>
         {/* <td>
           <SchedulePayItem
             row={row}
@@ -72,6 +71,9 @@ function Row({
                   </TableRow>
                 </TableHead>
                 <TableBody>
+                  <TableRow key={index}>
+                    <span>No existen datos para mostrar.</span>
+                  </TableRow>
                   {/* {row.patientProgresses.map((p, index) => (
                     <>
                       <TableRow key={index}>

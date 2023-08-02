@@ -37,3 +37,15 @@ export function formatDecimales(value = 0) {
 export const formatoNumero = (valor) => {
   return valor < 10 ? '0' + valor : valor;
 };
+export const fuGuardarDatosUsuario = (data) => {
+  localStorage.setItem('_user_', data)
+}
+export const fuDevolverDatosUsuario = () => {
+  return localStorage.getItem('_user_');
+}
+export const fuLimpiarSesiones = () => {
+  localStorage.clear();
+} 
+export const fuDevolverIdEmpleado = () => {
+  return parseInt(JSON.parse(fuDevolverDatosUsuario().id));
+}

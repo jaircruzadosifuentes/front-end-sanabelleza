@@ -1,10 +1,11 @@
 import React from 'react';
+import { fuDevolverDatosUsuario } from 'src/utils/utils';
 
 const Greeting = () => {
   let date = new Date();
   let greeting, color;
   let hours = date.getHours();
-  let usuario = 'Ederd Jair Cruzado Sifuentes'
+  let usuario = `${JSON.parse(fuDevolverDatosUsuario()).names} / ${JSON.parse(fuDevolverDatosUsuario()).surnames}`
   if(hours < 12) {
     greeting = `Buenos días ${usuario}, cada mañana es otra nueva oportunidad de vivir algo increíble. Te deseo que tu día esté lleno de momentos únicos.`;
     color = `#FFAC35`;

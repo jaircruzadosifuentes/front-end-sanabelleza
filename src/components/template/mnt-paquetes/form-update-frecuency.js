@@ -3,14 +3,13 @@ import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
 import PropTypes from "prop-types";
 
-export default function Form({
-  handleChangeCostCu,
-  handleClosePackets,
-  handleChangeSavePackets,
-  handleChangeDescriptionPacket,
-  handleChangeAbbreviation,
-  handleChangeNroSesion,
-  handleChangeMaxCuotas
+export default function FormUpdateFrecuency({
+  handleChangeGuardaEditarFrecuencia,
+  handleChangeDescriptionFrecuencyEdit,
+  handleChangeAbbreviationFrecuencyEdit,
+  handleChangeValorEdit,
+  objetoFrecuencia = {},
+  handleCloseFrecuenciaEdit
 }) {
   return (
     <div className="container form-group">
@@ -22,38 +21,25 @@ export default function Form({
           className="col-md-12"
           label="Descripción del Paquete"
           isLabel
-          onChange={handleChangeDescriptionPacket}
+          onChange={handleChangeDescriptionFrecuencyEdit}
+          defaultValue={objetoFrecuencia.frecuencyDescription}
         />
         <InputFormControl
           type="text"
           className="col-md-6"
           label="Abreviación"
           isLabel
-          onChange={handleChangeAbbreviation}
+          onChange={handleChangeAbbreviationFrecuencyEdit}
+          defaultValue={objetoFrecuencia.abbreviation}
         />
         <InputFormControl
           type="number"
-          className="col-md-2"
+          className="col-md-4"
           isLabel
-          label="Nro Sesiones"
+          label="Valor (Diario: 1, Cada 2 días: 2)..."
           align="center"
-          onChange={handleChangeNroSesion}
-        />
-        <InputFormControl
-          type="number"
-          className="col-md-2"
-          isLabel
-          label="Costo C/U"
-          align="center"
-          onChange={handleChangeCostCu}
-        />
-        <InputFormControl
-          type="number"
-          className="col-md-2"
-          isLabel
-          label="Máx Cuotas"
-          align="center"
-          onChange={handleChangeMaxCuotas}
+          onChange={handleChangeValorEdit}
+          defaultValue={objetoFrecuencia.value}
         />
       </div>
       <div className="row mt-3">
@@ -64,7 +50,7 @@ export default function Form({
                 title="Salir"
                 color='btn btn-danger'
                 type={2}
-                onClick={handleClosePackets}
+                onClick={handleCloseFrecuenciaEdit}
               />
             </div>&nbsp;
             <div className="btn-group">
@@ -72,7 +58,7 @@ export default function Form({
                 title="Guardar"
                 color='btn btn-success'
                 type={1}
-                onClick={handleChangeSavePackets}
+                onClick={handleChangeGuardaEditarFrecuencia}
               />
             </div>&nbsp;
           </div>
@@ -81,12 +67,11 @@ export default function Form({
     </div>
   )
 }
-Form.propTypes = {
-  handleChangeCostCu: PropTypes.func,
-  handleClosePackets: PropTypes.func,
-  handleChangeSavePackets: PropTypes.func,
-  handleChangeMaxCuotas: PropTypes.func,
-  handleChangeNroSesion: PropTypes.func,
-  handleChangeAbbreviation: PropTypes.func,
-  handleChangeDescriptionPacket: PropTypes.func,
+FormUpdateFrecuency.propTypes = {
+  objetoFrecuencia: PropTypes.object,
+  handleCloseFrecuenciaEdit: PropTypes.func,
+  handleChangeGuardaEditarFrecuencia: PropTypes.func,
+  handleChangeDescriptionFrecuencyEdit: PropTypes.func,
+  handleChangeAbbreviationFrecuencyEdit: PropTypes.func,
+  handleChangeValorEdit: PropTypes.func,
 };

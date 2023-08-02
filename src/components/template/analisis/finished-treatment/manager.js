@@ -32,9 +32,10 @@ export default function Manager(props) {
   const handleViewShedulePay = async(e, row) => {
     let { patientId } = row;
     let lstPays = await ServiceGetPayDueDetailForPatientId(patientId);
+    console.log(lstPays);
+    console.log(patientId);
     setLstPayDeDetail(lstPays);
     setOpenModalPayItem(true);
-    console.log(setResult);
   }
   const handleCloseViewSchedulePay = () => {
     setOpenModalPayItem(false);

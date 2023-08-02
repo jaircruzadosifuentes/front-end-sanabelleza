@@ -8,7 +8,6 @@ import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PaymentIcon from '@mui/icons-material/Payment';
-import AutoGraphIcon from '@mui/icons-material/AutoGraph';
 function MenuSection({ children, label }) {
   return (
     <MenuSectionRoot>
@@ -99,9 +98,9 @@ export default function WrappedMenuItems({
           <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
             <PaymentIcon />  Ver Cronograma de Pagos
           </StyledMenuItem>
-          <StyledMenuItem onClick={(e) =>handleViewAdvanceClinic(e, row)} style={{cursor: 'pointer'}}>
+          {/* <StyledMenuItem onClick={(e) =>handleViewAdvanceClinic(e, row)} style={{cursor: 'pointer'}}>
             <AutoGraphIcon />  Ver Avance Clínico
-          </StyledMenuItem>
+          </StyledMenuItem> */}
         </MenuSection>
       </Menu>
     </div>

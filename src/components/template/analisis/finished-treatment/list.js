@@ -91,13 +91,13 @@ function Row({
             </div>
           </div>
         </TableCell>
-        <TableCell align="center">
+        {/* <TableCell align="center">
           <Tooltip title="Descargar hoja de consentimiento de pago y cumplimiento de asistencia de citas programadas.">
             <a href="../../images/myw3schoolsimage.jpg" download>
               <img src="../../images/pdf.png" width={'50px'} style={{ cursor: 'pointer' }} alt={row.person.names} ></img>
             </a>
           </Tooltip>
-        </TableCell>
+        </TableCell> */}
         <TableCell align="center">
           <span>
             {row.person.gender}
@@ -239,7 +239,7 @@ export default function List({
             <TableCell />
             <TableCell>Nro</TableCell>
             <TableCell align="left">Paciente</TableCell>
-            <TableCell align="center">Hoja Consentimiento</TableCell>
+            {/* <TableCell align="center">Hoja Consentimiento</TableCell> */}
             <TableCell align="center">Género</TableCell>
             <TableCell align="center">Estado</TableCell>
             <TableCell align="left"></TableCell>

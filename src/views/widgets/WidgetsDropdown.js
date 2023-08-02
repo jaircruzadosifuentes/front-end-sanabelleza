@@ -38,8 +38,8 @@ const WidgetsDropdown = ({
                       <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
                     </CDropdownToggle>
                     <CDropdownMenu>
-                      <CDropdownItem>Ver Detalle</CDropdownItem>
-                      <CDropdownItem>Imprimir Sección</CDropdownItem>
+                      <CDropdownItem href={r.url}>Ver Detalle</CDropdownItem>
+                      <CDropdownItem disabled>Imprimir Sección (Trabajando...)</CDropdownItem>
                     </CDropdownMenu>
                   </CDropdown>
                 }

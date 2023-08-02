@@ -17,16 +17,22 @@ import {
   cilUser,
 } from '@coreui/icons'
 import CIcon from '@coreui/icons-react'
-
+import { useNavigate } from 'react-router-dom'
+import { fuDevolverDatosUsuario, fuLimpiarSesiones } from 'src/utils/utils'
 
 const AppHeaderDropdown = () => {
+  let navigate = useNavigate();
+  const handleCerrarSesion = (e) => {
+    fuLimpiarSesiones();
+    navigate('/');
+  }
   return (
     <CDropdown variant="nav-item">
       <CDropdownToggle placement="bottom-end" className="py-0" caret={false}>
-        <CAvatar src={'images/avatars/jair.jpg'} size="md" />
+        <CAvatar src={`images/avatars/${JSON.parse(fuDevolverDatosUsuario()).profileImage}`} size="md" />
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">
-        <CDropdownHeader className="bg-light fw-semibold py-2">Cuenta</CDropdownHeader>
+        <CDropdownHeader className="bg-light fw-semibold py-2">{`${JSON.parse(fuDevolverDatosUsuario()).names} / ${JSON.parse(fuDevolverDatosUsuario()).surnames}`}</CDropdownHeader>
         <CDropdownItem href="#">
           <CIcon icon={cilBell} className="me-2" />
           Notificaciones
@@ -51,7 +57,7 @@ const AppHeaderDropdown = () => {
           Configuraciones
         </CDropdownItem>
         <CDropdownDivider />
-        <CDropdownItem href="#">
+        <CDropdownItem onClick={handleCerrarSesion} style={{cursor: 'pointer'}}>
           <CIcon icon={cilLockLocked} className="me-2" />
           Cerrar sesión
         </CDropdownItem>
