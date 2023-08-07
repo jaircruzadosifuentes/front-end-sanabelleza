@@ -136,6 +136,17 @@ export default function Manager(props) {
       setEmployeedId(getValueInBrackets(values.label));
     }
   }
+  const handleSearchForSurNames = (e) => {
+    let searchVal = '';
+    searchVal = e.target.value;
+    const filterBySearch = listPatInTreatment.filter((item) => {
+      if (item?.person?.surnames.toLowerCase().includes(searchVal.toLowerCase())) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
@@ -143,6 +154,7 @@ export default function Manager(props) {
         value={'PACIENTES EN TRATAMIENTO'}
       />
       <Filter
+        handleSearchForSurNames={handleSearchForSurNames}
       />
       <List
         rows={result.length > 0 ? result : listPatInTreatment}

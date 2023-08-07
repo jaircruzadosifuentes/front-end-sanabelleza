@@ -8,6 +8,8 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import ItemList from './item-list';
+import { Fragment } from 'react';
+import { TablePagination } from '@mui/material';
 
 function Row({
   row = {},
@@ -67,32 +69,58 @@ export default function List({
   selectedValue,
   handleEditar
 }) {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table" size='medium'>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nro</TableCell>
-            <TableCell align="left">Descripción</TableCell>
-            <TableCell align="center">abreviatura</TableCell>
-            <TableCell align="center">Valor de Frecuencia</TableCell>
-            <TableCell align="left">Estado</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <Row 
-              key={row.nro} 
-              row={row} 
-              nro={index + 1}
-              handleChangeCaptureIdPatientAprrove={handleChangeCaptureIdPatientAprrove}
-              selectedValue={selectedValue}
-              handleEditar={handleEditar}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Fragment>
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table" size='medium'>
+          <TableHead>
+            <TableRow>
+              <TableCell>Nro</TableCell>
+              <TableCell align="left">Descripción</TableCell>
+              <TableCell align="center">abreviatura</TableCell>
+              <TableCell align="center">Valor de Frecuencia</TableCell>
+              <TableCell align="left">Estado</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage,
+              ).map((row, index) => (
+              <Row 
+                key={row.nro} 
+                row={row} 
+                nro={index + 1}
+                handleChangeCaptureIdPatientAprrove={handleChangeCaptureIdPatientAprrove}
+                selectedValue={selectedValue}
+                handleEditar={handleEditar}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage='Filas por página'
+      />
+    </Fragment>
   );
 }
 List.propTypes = {

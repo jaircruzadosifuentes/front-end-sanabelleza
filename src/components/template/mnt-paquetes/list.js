@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { formatDecimales } from 'src/utils/utils';
 import ItemList from './item-list';
+import { Fragment } from 'react';
+import { TablePagination } from '@mui/material';
 
 function Row({
   row = {},
@@ -21,9 +23,6 @@ function Row({
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
-        <TableCell component="th" scope="row">
-          {nro}
-        </TableCell>
         <TableCell align="left">{row.description}</TableCell>
         <TableCell align="center">{row.numberSessions}</TableCell>
         <TableCell align="center">S/.{formatDecimales(row.costPerUnit)}</TableCell>
@@ -54,7 +53,7 @@ Row.propTypes = {
     reason: PropTypes.string.isRequired,
     timeDemoration: PropTypes.number.isRequired,
     nro: PropTypes.string.isRequired,
-   
+
     employeed: PropTypes.arrayOf(
       PropTypes.shape({
         surnames: PropTypes.string.isRequired,
@@ -70,34 +69,59 @@ export default function List({
   selectedValue,
   handleEditar
 }) {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table" size='medium'>
-        <TableHead>
-          <TableRow>
-            <TableCell>Nro</TableCell>
-            <TableCell align="left">Descripción</TableCell>
-            <TableCell align="center">Nro de Sesiones</TableCell>
-            <TableCell align="center">Costo por Unidad</TableCell>
-            <TableCell align="left">Abreviación</TableCell>
-            <TableCell align="center">Máximo de cuotas</TableCell>
-            <TableCell align="left">Estado</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row, index) => (
-            <Row 
-              key={row.nro} 
-              row={row} 
-              nro={index + 1}
-              handleChangeCaptureIdPatientAprrove={handleChangeCaptureIdPatientAprrove}
-              selectedValue={selectedValue}
-              handleEditar={handleEditar}
-            />
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <Fragment>
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table" size='medium'>
+          <TableHead>
+            <TableRow>
+              <TableCell align="left">Descripción</TableCell>
+              <TableCell align="center">Nro de Sesiones</TableCell>
+              <TableCell align="center">Costo por Unidad</TableCell>
+              <TableCell align="left">Abreviación</TableCell>
+              <TableCell align="center">Máximo de cuotas</TableCell>
+              <TableCell align="left">Estado</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.slice(
+                page * rowsPerPage,
+                page * rowsPerPage + rowsPerPage,
+              ).map((row, index) => (
+              <Row
+                key={row.nro}
+                row={row}
+                nro={index + 1}
+                handleChangeCaptureIdPatientAprrove={handleChangeCaptureIdPatientAprrove}
+                selectedValue={selectedValue}
+                handleEditar={handleEditar}
+              />
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage='Filas por página'
+      />
+    </Fragment>
   );
 }
 List.propTypes = {

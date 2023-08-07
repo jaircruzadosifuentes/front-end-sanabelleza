@@ -67,6 +67,8 @@ const RegistroAnalisis = React.lazy(() => import('./views/analisis/registroAnali
 const PatientsWithAnalytics = React.lazy(() => import('./views/analisis/patienteWithAnalytics/patientWithAnalytics'));
 const ClinicalTreatment = React.lazy(() => import('./views/analisis/clinical-treatment/clinical-treatment-layout'));
 const FinishedTreatment = React.lazy(() => import('./views/analisis/finished-treatment/finished-treatment-layout'));
+//Pagos
+const PagosLayout = React.lazy(() => import('./views/pagos/pagos-layout'));
 
 const routes = [
   { path: '/', exact: true, name: 'Inicio' },
@@ -128,6 +130,7 @@ const routes = [
   { path: '/pacientes-con-analisis-clinico', name: 'Pacientes con Análisis clínico', element: PatientsWithAnalytics },
   { path: '/tratamiento-clinico', name: 'Tratamiento Clínico', element: ClinicalTreatment },
   { path: '/pacientes/tratamiento/finalizado', name: 'Tratamientos finalizados', element: FinishedTreatment },
+  { path: '/pagos/pendientes', name: 'Módulo de pagos', element: PagosLayout },
 
 ]
 

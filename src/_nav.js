@@ -124,7 +124,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Pagos',
+    name: 'Pagos Clínicos',
     to: '/buttons',
     icon: <CIcon icon={cilWindowRestore} customClassName="nav-icon" />,
     items: [
@@ -133,6 +133,7 @@ const _nav = [
         name: 'Pagos Pendientes',
         to: '/pagos/pendientes',
       },
+      
     ],
   },
   {

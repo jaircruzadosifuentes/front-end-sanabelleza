@@ -16,11 +16,7 @@ import { Label } from 'src/components/atoms';
 import WrappedMenuItems from './wrappedMenuItems';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
-import { COLOR_BUTTON_MAB, COLOR_GREEN, COLOR_YELLOW } from 'src/config/config';
-import { Tooltip } from '@mui/material';
-import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import CancelIcon from '@mui/icons-material/Cancel';
-
+ 
 function Row({
   row = {},
   handleClickAprobarSolicitud,
