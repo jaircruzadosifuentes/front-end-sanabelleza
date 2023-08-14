@@ -19,9 +19,9 @@ const Page404 = () => {
           <CCol md={6}>
             <div className="clearfix">
               <h1 className="float-start display-3 me-4">404</h1>
-              <h4 className="pt-3">Oops! You{"'"}re lost.</h4>
+              <h4 className="pt-3">Ups! Estás perdido.</h4>
               <p className="text-medium-emphasis float-start">
-                The page you are looking for was not found.
+                No se encontró la página que está buscando.
               </p>
             </div>
             <CInputGroup className="input-prepend">
@@ -29,7 +29,7 @@ const Page404 = () => {
                 <CIcon icon={cilMagnifyingGlass} />
               </CInputGroupText>
               <CFormInput type="text" placeholder="What are you looking for?" />
-              <CButton color="info">Search</CButton>
+              <CButton color="info">Volver</CButton>
             </CInputGroup>
           </CCol>
         </CRow>

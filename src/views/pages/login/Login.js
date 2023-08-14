@@ -31,14 +31,14 @@ const Login = () => {
   const handleChangePassword = (e) => {
     setPassword(e.target.value);
   }
-  const handleKeyUpPassword = async(e) => {
-    if(e.keyCode === 13) {
+  const handleKeyUpPassword = async (e) => {
+    if (e.keyCode === 13) {
       await handleAccederAlSistema()
     }
   }
-  const handleAccederAlSistema = async(e) => {
+  const handleAccederAlSistema = async (e) => {
     let login = await ServicePostAccessSystem(usuario, password)
-    if(!usuario) {
+    if (!usuario) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -46,7 +46,7 @@ const Login = () => {
       });
       return;
     }
-    if(!password) {
+    if (!password) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -54,7 +54,7 @@ const Login = () => {
       });
       return;
     }
-    if(parseInt(login.employeedId) === 0) {
+    if (parseInt(login.employeedId) === 0) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -62,12 +62,13 @@ const Login = () => {
       });
       return;
     }
-    if(parseInt(login.employeedId) > 0) {
+    if (parseInt(login.employeedId) > 0) {
       let objetoUsuario = {
         id: login?.employeedId,
         names: login?.person?.names,
         surnames: login?.person?.surnames,
         profileImage: login?.person?.profilePicture,
+        userName: login?.userName
       }
       fuGuardarDatosUsuario(JSON.stringify(objetoUsuario));
       navigate('/dashboard')
@@ -84,19 +85,21 @@ const Login = () => {
                   <CForm>
                     <h1>LOGIN - SANA BELLEZA</h1>
                     <p className="text-medium-emphasis">Iniciar sesión en su cuenta</p>
+                    <span>Usuario:</span>
                     <CInputGroup className="mb-3">
                       <CInputGroupText>
                         <CIcon icon={cilUser} />
                       </CInputGroupText>
-                      <CFormInput placeholder="Usuario" autoFocus autoComplete="username" onChange={handleChangeUsuario} />
+                      <CFormInput placeholder="" autoFocus autoComplete="username" onChange={handleChangeUsuario} style={{ textTransform: 'uppercase' }} />
                     </CInputGroup>
+                    <span>Password:</span>
                     <CInputGroup className="mb-4">
                       <CInputGroupText>
                         <CIcon icon={cilLockLocked} />
                       </CInputGroupText>
                       <CFormInput
                         type="password"
-                        placeholder="Password"
+                        placeholder=""
                         autoComplete="current-password"
                         onChange={handleChangePassword}
                         onKeyUp={handleKeyUpPassword}

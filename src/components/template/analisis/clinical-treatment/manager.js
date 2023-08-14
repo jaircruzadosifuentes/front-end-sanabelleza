@@ -1,46 +1,84 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import { Label, Title } from "src/components/atoms";
 import { useNavigate } from "react-router-dom";
-import SidebarClinicalTreatmentTreeView from "./sidebar-clinical-treatment";
 import FormClinicalTreatment from "./form-clinical-treatment";
 import FooterButton from "./footer-button";
 import { COLOR_BLUE_MAB, COLOR_BUTTON_MAB, COLOR_GRIS } from "src/config/config";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { ServicePostRegistrProgressSesion } from "src/service/patient/service.patient";
 import { formatoNumero } from "src/utils/utils";
 import PropTypes from 'prop-types';
 import Alert from '@mui/material/Alert';
+import Tabs from '@mui/material/Tabs';
+import Tab from '@mui/material/Tab';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+import NameUser from "src/components/organism/name-user";
+import SpanFormControl from "src/components/atoms/SpanFormControl";
 
-const showComponentSelectTreeView = (nodeId) => {
-  switch (parseInt(nodeId)) {
-    case 1:
-      return (
-        <><RadioButtonCheckedIcon style={{ color: COLOR_BUTTON_MAB }} />&nbsp;
-          <Label title={'GRABACIÓN DE SESIÓN'} isBold />
-          <div className="row">
-            <div className="col-md-12">
-              <iframe width="100%" height="492" src="https://www.youtube.com/embed/0XG_0L9Rrc0" title="Ejercicios de Fisioterapia para hacer en casa. La automovilización" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            </div>
-          </div>
-        </>
-      )
-    case 2:
-      return (
-        <>
-          <Label title={'DOCUMENTOS ADJUNTOS'} isBold isColor />
-        </>
-      )
-    case 6:
-      return (
-        <>
-          <Label title={'DATOS DEL PACIENTE'} isBold isColor />
-        </>
-      )
-    default:
-      break;
-  }
+function CustomTabPanel(props) {
+  const { children, value, index, ...other } = props;
+
+  return (
+    <div
+      role="tabpanel"
+      hidden={value !== index}
+      id={`simple-tabpanel-${index}`}
+      aria-labelledby={`simple-tab-${index}`}
+      {...other}
+    >
+      {value === index && (
+        <Box sx={{ p: 3 }}>
+          <Typography>{children}</Typography>
+        </Box>
+      )}
+    </div>
+  );
 }
+
+CustomTabPanel.propTypes = {
+  children: PropTypes.node,
+  index: PropTypes.number.isRequired,
+  value: PropTypes.number.isRequired,
+};
+
+function a11yProps(index) {
+  return {
+    id: `simple-tab-${index}`,
+    'aria-controls': `simple-tabpanel-${index}`,
+  };
+}
+
+// const showComponentSelectTreeView = (nodeId) => {
+//   switch (parseInt(nodeId)) {
+//     case 1:
+//       return (
+//         <><RadioButtonCheckedIcon style={{ color: COLOR_BUTTON_MAB }} />&nbsp;
+//           <Label title={'GRABACIÓN DE SESIÓN'} isBold />
+//           <div className="row">
+//             <div className="col-md-12">
+//               <iframe width="100%" height="492" src="https://www.youtube.com/embed/0XG_0L9Rrc0" title="Ejercicios de Fisioterapia para hacer en casa. La automovilización" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>            </div>
+//           </div>
+//         </>
+//       )
+//     case 2:
+//       return (
+//         <>
+//           <Label title={'DOCUMENTOS ADJUNTOS'} isBold isColor />
+//         </>
+//       )
+//     case 6:
+//       return (
+//         <>
+//           <Label title={'DATOS DEL PACIENTE'} isBold isColor />
+//         </>
+//       )
+//     default:
+//       break;
+//   }
+// }
 
 export default function Manager() {
   let navigate = useNavigate();
@@ -48,15 +86,15 @@ export default function Manager() {
   const [objPatient, setObjPatient] = useState({});
   const [colorUmbral, setColorUmbral] = useState('');
   const [numeroUmbralDolor, setNumeroUmbralDolor] = useState(0);
-  const [nodeId, setNodeId] = useState(1);
-
-  const [listDocs, setListDocs] = useState([]);
+  // const [nodeId, setNodeId] = useState(1);
+  // const [listDocs, setListDocs] = useState([]);
   const [observaciones, setObservaciones] = useState('');
   const [recomendacion, setRecomendacion] = useState('');
-  const [file, setFile] = useState(null);
+  // const [file, setFile] = useState(null);
   const [timer, setTimer] = useState(0);
   const [timeDemoration, setTimeDemoration] = useState('');
   const [missingAsignedEmployeed, setMissingAsignedEmployeed] = useState(false);
+  const [value, setValue] = React.useState(0);
 
   useEffect(() => {
     setObjPatient(location.state.objPatientDetail);
@@ -77,10 +115,13 @@ export default function Manager() {
     )
   }, [timer])
 
-  const handleChange = (file) => {
-    setFile(file);
-    setListDocs(listDocs.concat(file));
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
   };
+  // const handleChange = (file) => {
+  //   setFile(file);
+  //   setListDocs(listDocs.concat(file));
+  // };
   const handleBack = () => {
     navigate("/pacientes-con-analisis-clinico");
   }
@@ -177,46 +218,54 @@ export default function Manager() {
         break;
     }
   }
-  const handleChangeTreViewSelect = (e, nodeId) => {
-    setNodeId(nodeId);
-  }
+
   return (
     <div className="container-fluid">
       <Title value={`TRATAMIENTO DEL PACIENTE SESIÓN Nro ${objPatient.sessionNumber}`} type={'h1'} handleBack={handleBack} arrowBack />
       <div className="row">
         {
           missingAsignedEmployeed ?
-          <Alert severity="warning">Falta asignar la persona que se encargará de esta sesión fisioterapeutica.</Alert>
-          : ''
+            <Alert severity="warning">Falta asignar la persona que se encargará de esta sesión fisioterapeutica.</Alert>
+            : ''
         }
         <div className="col-md-12">
-          <DetailEmployeed 
-            employeed={objPatient.employeed} 
-            missingAsignedEmployeed={missingAsignedEmployeed} 
+          <DetailEmployeed
+            employeed={objPatient.employeed}
+            missingAsignedEmployeed={missingAsignedEmployeed}
           />
         </div>
         <div className="col-md-12">
           <DetailPatient patient={objPatient.patient} />
         </div>
         <div className="col-md-12">
-          <Label title={`Tiempo transcurrido de atención: ${timeDemoration}`} />
+          <Label title={`TIEMPO TRANSCURRIDO DE ATENCIÓN: ${timeDemoration}`} isColor />
         </div>
         <hr />
-        <div className="col-md-12">
-          <FormClinicalTreatment
-            handleChangeDiagnostico={handleChangeDiagnostico}
-            handleChangeRangoUmbral={handleChangeRangoUmbral}
-            handleChangeRecomendacion={handleChangeRecomendacion}
-            colorUmbral={colorUmbral}
-          />
-        </div>
-        {/* <div className="col-md-12">
-          <LoadDocs 
-            handleChange={handleChange}
-            file={file}
-            listDocs={listDocs}
-          />
-        </div> */}
+        <Box sx={{ width: '100%' }}>
+          <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+            <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+              <Tab label="Evaluación" {...a11yProps(0)} icon={<MedicationLiquidIcon />} iconPosition="start" />
+              {/* <Tab label="Item Two" {...a11yProps(1)} />
+              <Tab label="Item Three" {...a11yProps(2)} /> */}
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0}>
+            <div className="col-md-12">
+              <FormClinicalTreatment
+                handleChangeDiagnostico={handleChangeDiagnostico}
+                handleChangeRangoUmbral={handleChangeRangoUmbral}
+                handleChangeRecomendacion={handleChangeRecomendacion}
+                colorUmbral={colorUmbral}
+              />
+            </div>
+          </CustomTabPanel>
+          {/* <CustomTabPanel value={value} index={1}>
+            Item Two
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={2}>
+            Item Three
+          </CustomTabPanel> */}
+        </Box>
         <div className="col-md-12">
           <FooterButton
             handleCancelRegister={handleCancelRegister}
@@ -238,12 +287,17 @@ export const DetailEmployeed = ({
     <Fragment>
       {
         !missingAsignedEmployeed ?
-        <>
-          Bienvenido(a): {role}. {employeed?.person?.surnames} / {employeed?.person?.names}
-        </>:
-        <strong>
-          Por favor, comuniquese con la persona que está a cargo de turno, para la configuración pertinente.
-        </strong>
+          <div className="row">
+            <div className="col-md-2">
+              BIENVENIDO(A):
+            </div>
+            <div className="col-md-10">
+              <NameUser profile={employeed} employeed />
+            </div>
+          </div> :
+          <strong>
+            Por favor, comuniquese con la persona que está a cargo de turno, para la configuración pertinente.
+          </strong>
       }
     </Fragment>
   )
@@ -257,7 +311,14 @@ export const DetailPatient = ({
 }) => {
   return (
     <>
-      Paciente: {patient?.person?.surnames} / {patient?.person?.names}
+      <div className="row">
+        <div className="col-md-2">
+          PACIENTE:
+        </div>
+        <div className="col-md-10">
+          <NameUser patient profile={patient} />
+        </div>
+      </div>
     </>
   )
 }

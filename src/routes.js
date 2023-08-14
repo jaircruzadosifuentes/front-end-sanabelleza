@@ -69,6 +69,11 @@ const ClinicalTreatment = React.lazy(() => import('./views/analisis/clinical-tre
 const FinishedTreatment = React.lazy(() => import('./views/analisis/finished-treatment/finished-treatment-layout'));
 //Pagos
 const PagosLayout = React.lazy(() => import('./views/pagos/pagos-layout'));
+//Empleados
+const EmpleadosLayout = React.lazy(() => import('./views/employeed/employeed-layout'));
+const EmployeedSolicitudeLayout = React.lazy(() => import('./views/employeed/employeed-solicitude-layout'));
+const EmployeedAprobacionLayout = React.lazy(() => import('./views/employeed/employeed-aproval-layout'));
+const EmployeedProfileLayout = React.lazy(() => import('./views/employeed/employeed-profile-layout'));
 
 const routes = [
   { path: '/', exact: true, name: 'Inicio' },
@@ -119,7 +124,7 @@ const routes = [
   { path: '/registro-solicitud', name: 'Solicitud de atención', element: SolicitudRegistroPaciente },
   { path: '/aprobacion-rechazo-solicitud', name: 'Aprobación y/o Rechazo de la solicitud de atención', element: AprobacionSolicitudPaciente },
   // { path: '/rechazo-solicitud', name: 'Rechazo de la solicitud de atención', element: RechazoSolicitudPaciente },
-  { path: '/ventanilla-horarios', name: 'Horarios en tiempo real', element: VentanillaHorarios },
+  { path: '/ventanilla-horarios', name: 'Pacientes en cola', element: VentanillaHorarios },
   // PAQUETES
   { path: '/mantenimiento/paquetes-frecuencias', name: 'Mantenimiento de paquetes y frecuencias', element: MntPaquetes },
   // FINALIZA ATENCIÓN
@@ -131,6 +136,10 @@ const routes = [
   { path: '/tratamiento-clinico', name: 'Tratamiento Clínico', element: ClinicalTreatment },
   { path: '/pacientes/tratamiento/finalizado', name: 'Tratamientos finalizados', element: FinishedTreatment },
   { path: '/pagos/pendientes', name: 'Módulo de pagos', element: PagosLayout },
+  { path: '/contrato/empleados/contratados', name: 'Módulo de Empleados', element: EmpleadosLayout },
+  { path: '/contrato/solicitud', name: 'Registro de un nuevo empleado', element: EmployeedSolicitudeLayout },
+  { path: '/contrato/aprobacion', name: 'Listado de Contratos de Empleados para aprobar (Jefatura)', element: EmployeedAprobacionLayout },
+  { path: '/u/:username', name: 'Perfil del Empleado', element: EmployeedProfileLayout },
 
 ]
 

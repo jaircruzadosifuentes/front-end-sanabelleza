@@ -8,10 +8,7 @@ import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
-import EventBusyIcon from '@mui/icons-material/EventBusy';
-import HighlightOffIcon from '@mui/icons-material/HighlightOff';
-import RestorePageIcon from '@mui/icons-material/RestorePage';
-
+import RateReviewIcon from '@mui/icons-material/RateReview';
 function MenuSection({ children, label }) {
   return (
     <MenuSectionRoot>
@@ -27,11 +24,11 @@ MenuSection.propTypes = {
   label: PropTypes.string.isRequired,
 };
 
-export default function WrappedMenuItems({
+export default function ItemList({
   row = {},
-  handleApproveRequest,
-  handleCancelRequest,
-  typeList = 1
+  handleApproveContract,
+  pendingApproval = false,
+  handleEditEmployeed
 }) {
   const [buttonElement, setButtonElement] = React.useState(null);
 
@@ -100,21 +97,15 @@ export default function WrappedMenuItems({
         slotProps={{ listbox: { id: 'simple-menu' } }}
       >
         {
-          typeList === 1?
-          <MenuSection label="Aprobación y/o Rechazo">
-            <StyledMenuItem onClick={(e) =>handleApproveRequest(e, row, 1)} style={{cursor: 'pointer'}}>
-              <CheckCircleIcon /> Aprobar solicitud
-            </StyledMenuItem>
-            <StyledMenuItem onClick={(e) =>handleCancelRequest(e, row, 1)} style={{cursor: 'pointer'}}>
-              <EventBusyIcon /> Rechazar solicitud
+          pendingApproval ?
+          <MenuSection label="Operaciones">
+            <StyledMenuItem onClick={(e) =>handleApproveContract(e, row)} style={{cursor: 'pointer'}}>
+              <CheckCircleIcon />  Aprobar contrato
             </StyledMenuItem>
           </MenuSection>:
-          <MenuSection label="Configuración de citas">
-            <StyledMenuItem onClick={(e) =>handleApproveRequest(e, row)} style={{cursor: 'pointer'}}>
-              <HighlightOffIcon /> Anular Cita Programada
-            </StyledMenuItem>
-            <StyledMenuItem onClick={(e) =>handleApproveRequest(e, row)} style={{cursor: 'pointer'}}>
-              <RestorePageIcon /> Regenerar Calendario
+          <MenuSection label="Operaciones">
+            <StyledMenuItem onClick={(e) =>handleEditEmployeed(e, row)} style={{cursor: 'pointer'}}>
+              <RateReviewIcon />  Editar Empleado
             </StyledMenuItem>
           </MenuSection>
         }
@@ -123,11 +114,12 @@ export default function WrappedMenuItems({
   );
 }
 
-WrappedMenuItems.propTypes = {
-  typeList: PropTypes.number,
+ItemList.propTypes = {
   row: PropTypes.object,
-  handleApproveRequest: PropTypes.func,
-  handleCancelRequest: PropTypes.func,
+  selectedValue: PropTypes.string,
+  handleApproveContract: PropTypes.func,
+  handleEditEmployeed: PropTypes.func,
+  pendingApproval: PropTypes.bool,
 };
 
 const blue = {

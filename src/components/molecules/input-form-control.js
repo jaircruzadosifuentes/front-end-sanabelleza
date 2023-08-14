@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Input, Label } from "../atoms";
 import PropTypes from 'prop-types';
+import FilterListIcon from '@mui/icons-material/FilterList';
 
 export default function InputFormControl(props) {
   const {
@@ -20,6 +21,8 @@ export default function InputFormControl(props) {
     align = 'left',
     readOnly = false,
     id = '',
+    isFilter = false,
+    isBold = false,
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -47,8 +50,12 @@ export default function InputFormControl(props) {
   return (
     <div className={className}>
       {
+        isFilter?
+        <FilterListIcon style={{cursor: 'pointer'}} />: ''
+      }&nbsp;
+      {
         isLabel ?
-        <Label title={label + ':'} htmlFor={matchName} />: ''
+        <Label title={label + ':'} htmlFor={matchName} isBold={isBold} />: ''
       }
       <Input
         type={type}
@@ -69,7 +76,9 @@ export default function InputFormControl(props) {
   );
 }
 InputFormControl.propTypes = {
+  isFilter: PropTypes.bool,
   readOnly: PropTypes.bool,
+  isBold: PropTypes.bool,
   align: PropTypes.string,
   className: PropTypes.string,
   id: PropTypes.string,

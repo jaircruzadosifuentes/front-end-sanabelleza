@@ -36,7 +36,6 @@ SelectedFormControl.propTypes = {
   defaultValue: PropTypes.string,
   error: PropTypes.bool,
   options: PropTypes.array,
-  onChange: PropTypes.func,
   classNameDiv: PropTypes.string,
   handleChange: PropTypes.func,
   placeHolder: PropTypes.string

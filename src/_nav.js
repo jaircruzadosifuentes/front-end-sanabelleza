@@ -97,7 +97,7 @@ const _nav = [
   },
   {
     component: CNavGroup,
-    name: 'Contrato de Empleado',
+    name: 'Registro de Empleados',
     to: '/buttons',
     icon: <CIcon icon={cilWindowRestore} customClassName="nav-icon" />,
     items: [

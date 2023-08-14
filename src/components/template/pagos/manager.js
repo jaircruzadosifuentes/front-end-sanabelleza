@@ -7,7 +7,7 @@ import { ServiceGetPayments, ServicePutUpdateDebtPayment } from 'src/service/pay
 import { Modal } from "src/components/molecules";
 import FormPay from './form-pay';
 import { useGetAllPayMethods } from '../paciente/finalizaAtencion/hooks';
-import Filter from './filter';
+import Filter from '../../organism/filter';
 
 export default function Manager(props) {
   const { payments, setPayments } = useGetAllPayments(props);
@@ -106,9 +106,13 @@ export default function Manager(props) {
         type={'h1'}
         value={`MÓDULO DE PAGOS PENDIENTES`}
       />
-      <Filter 
-        handleSearchForSurNames={handleSearchForSurNames}
-      />
+      <div className='row'>
+        <div className='col-md-4'>
+          <Filter 
+            handleSearchForSurNames={handleSearchForSurNames}
+          />
+        </div>
+      </div>
       <List
         rows={result.length > 0? result: payments}
         handleRealizarPago={handleRealizarPago}
