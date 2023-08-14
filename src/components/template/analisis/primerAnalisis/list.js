@@ -9,6 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
 import WrappedMenuItems from './wrappedMenuItems';
+import NameUser from 'src/components/organism/name-user';
 function Row({
   row = {},
   index = 0,
@@ -21,7 +22,9 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.person.surnames} / ${row.person.names}`}</TableCell>
+        <TableCell align="left">
+          <NameUser patient profile={row} />
+        </TableCell>
         <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
         <TableCell align="left">{row.patientSolicitude.hourAttention}</TableCell>
         <TableCell align="left">{row.reason}</TableCell>

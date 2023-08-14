@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from 'prop-types';
-
+import FlagOutlinedIcon from '@mui/icons-material/FlagOutlined';
 export default function Badge(props) {
-  const { value, text } = props
+  const { value, text, isStaff } = props
   let className;
   switch (value) {
     case 1:
@@ -23,9 +23,10 @@ export default function Badge(props) {
     default:
       break;
   }
-  return <span className={`badge ${className}`}>{text}</span>;
+  return <span className={`badge ${className}`}>{isStaff? <FlagOutlinedIcon />: ''}{text}</span>;
 }
 Badge.propTypes = {
   value: PropTypes.number,
   text: PropTypes.string,
+  isStaff: PropTypes.bool
 };

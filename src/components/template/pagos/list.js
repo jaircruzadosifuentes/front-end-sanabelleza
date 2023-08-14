@@ -15,6 +15,7 @@ import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import IconButton from '@mui/material/IconButton';
 import SubItemList from './sub-item-list';
+import NameUser from 'src/components/organism/name-user';
 
 function Row({
   row = {},
@@ -35,7 +36,10 @@ function Row({
             {open ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
           </IconButton>
         </TableCell>
-        <TableCell align="left">{row?.patient?.person?.surnames}, {row?.patient?.person?.names}</TableCell>
+        {/* <TableCell align="left">{row?.patient?.person?.surnames}, {row?.patient?.person?.names}</TableCell> */}
+        <TableCell align="center">
+          <NameUser patient profile={row?.patient} />
+        </TableCell>
         <TableCell align="center">{row?.patient?.clinicalHistory?.packetsOrUnitSessions?.description}</TableCell>
         <TableCell align="right">S/.{formatDecimales(row.total)}</TableCell>
         <TableCell align="right">S/.{formatDecimales(row.igv)}</TableCell>

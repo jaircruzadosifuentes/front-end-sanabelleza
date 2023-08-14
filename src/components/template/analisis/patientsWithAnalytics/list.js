@@ -23,6 +23,8 @@ import Tooltip from '@mui/material/Tooltip';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
 import SubItemList from './sub-item-list';
 import ProgressBarSesion from '../../../organism/progress-bar-sesion';
+import ImgProfile from 'src/components/organism/img-profile';
+import NameUser from 'src/components/organism/name-user';
 
 function Row({
   row = {},
@@ -56,21 +58,12 @@ function Row({
         <TableCell align="left">
           <div className='row'>
             <div className='col-md-2'>
-              <img
-                alt={row.person.names}
-                src={`images/avatars/${row?.person.profilePicture}`}
-                className="rounded float-righ"
-                title={`${row.person.surnames}/${row.person.names}`}
-                height={'115px'}
-                width={'100px'}
-              />
+              <ImgProfile profile={row.person}/>
             </div>
             <div className='col-md-10 mt-1'>
               <div className='row'>
                 <div className='col-md-12'>
-                  <span>
-                    Paciente: {`${row.person.surnames}/${row.person.names}`}
-                  </span>
+                  <NameUser patient profile={row} />
                 </div>
                 <div className='col-md-12'>
                   <span>

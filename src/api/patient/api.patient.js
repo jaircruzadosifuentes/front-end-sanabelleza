@@ -13,6 +13,8 @@ export const Uri_GetAdvanceCliniciForPatientId = (patientId) => `${URI_DEV}/api/
 export const Uri_GetByIdPatientProgress = (patientId) => `${URI_DEV}/api/patient/GetByIdPatientProgress/${patientId}`;
 export const Uri_PostRegistrProgressSesion = `${URI_DEV}/api/patient/PostRegistrProgressSesion`;
 export const Uri_PutUpdateHourSesion = `${URI_DEV}/api/patient/PutUpdateHourSesion`;
+export const Uri_GetAllPatientsInWaiting = `${URI_DEV}/api/patient/GetAllPatientsInWaiting`;
+export const Uri_GetAllPatientsInAttention = `${URI_DEV}/api/patient/GetAllPatientsInAttention`;
 
 
  

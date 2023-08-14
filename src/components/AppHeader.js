@@ -41,7 +41,7 @@ const AppHeader = () => {
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/ventanilla-horarios"  component={NavLink}>Ventanilla</CNavLink>
+            <CNavLink to="/ventanilla-horarios"  component={NavLink}>Pacientes en cola</CNavLink>
           </CNavItem>
           {/* <CNavItem>
             <CNavLink href="#">Configuraciones</CNavLink>
@@ -51,11 +51,6 @@ const AppHeader = () => {
           <CNavItem>
             <CNavLink href="#">
               <CIcon icon={cilBell} size="lg" />
-            </CNavLink>
-          </CNavItem>
-          <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilList} size="lg" />
             </CNavLink>
           </CNavItem>
           <CNavItem>
