@@ -28,7 +28,6 @@ export const useGetByUserNameEmployeed = (userName) => {
   const [employeedDetail, setEmployeedDetail] = useState({});
   useEffect(() =>{
     async function getByUserNameEmployeed () {
-      console.log(userName);
       let employeedDetail = await ServiceGetByUserNameEmployeed(userName);
       setEmployeedDetail(employeedDetail)
     }

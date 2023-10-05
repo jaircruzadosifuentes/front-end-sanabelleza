@@ -3,7 +3,7 @@ import PatientsWithAnalyticsTemplate from '../../../components/template/analisis
 import { getTitle } from "src/utils/utils";
 
 export default function PatientsWithAnalyticsLayout() {
-  getTitle('Pacientes con Análisis Clínico');
+  getTitle('Pacientes en tratamiento clínico');
   return (
     <PatientsWithAnalyticsTemplate />
   )

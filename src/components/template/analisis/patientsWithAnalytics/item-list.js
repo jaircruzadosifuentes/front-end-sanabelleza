@@ -8,6 +8,8 @@ import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PaymentIcon from '@mui/icons-material/Payment';
+import AttachEmailIcon from '@mui/icons-material/AttachEmail';
+
 function MenuSection({ children, label }) {
   return (
     <MenuSectionRoot>
@@ -96,7 +98,10 @@ export default function WrappedMenuItems({
       >
         <MenuSection label="Operaciones">
           <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
-            <PaymentIcon />  Ver Cronograma de Pagos
+            <PaymentIcon /> Ver Cronograma de Pagos
+          </StyledMenuItem>
+          <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
+            <AttachEmailIcon /> Enviar credenciales
           </StyledMenuItem>
         </MenuSection>
       </Menu>

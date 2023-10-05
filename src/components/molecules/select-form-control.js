@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { Label } from '../atoms';
 
 export default function SelectedFormControl({
-  options,
+  options = [],
   className,
   handleChange,
   defaultValue = '',

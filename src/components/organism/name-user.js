@@ -1,17 +1,22 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
-import { Tooltip } from "@mui/material";
+import { Link } from "@mui/joy";
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import { COLOR_BLUE_MAB } from "src/config/config";
+import ImgProfile from "./img-profile";
+import SpanFormControl from "../atoms/SpanFormControl";
+import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function NameUser({
   profile = {},
   employeed = false,
-  patient = false
+  patient = false,
+  isPopover = false
 }) {
   let navigate = useNavigate('');
   const handleRedirect = (e) => {
-    console.log(employeed);
-    console.log(patient);
     if (employeed && profile?.userName !== null) {
       navigate(`/u/${profile?.userName}`)
     }
@@ -19,31 +24,90 @@ export default function NameUser({
       navigate(`/u/${profile?.userNamePatient}`)
     }
   }
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handlePopoverOpen = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handlePopoverClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   return (
-    <div style={{ textAlign: 'left' }}>
+    <div style={{ textAlign: 'left' }} >
       {
         employeed ?
-          <a
-            className="link-opacity-100"
-            style={{ textDecoration: 'none', cursor: 'pointer' }}
+          <span
+            aria-haspopup="true"
             onClick={handleRedirect}
+            style={{ color: COLOR_BLUE_MAB, cursor: 'pointer' }}
+            onMouseEnter={handlePopoverOpen}
+            onMouseLeave={handlePopoverClose}
           >
             {profile.person?.surnames} {profile?.person?.names}
-          </a> :
+          </span> :
           patient ?
-            <a
-              className="link-opacity-100"
-              style={{ textDecoration: 'none', cursor: 'pointer' }}
+            <span
+              aria-haspopup="true"
               onClick={handleRedirect}
+              style={{ color: COLOR_BLUE_MAB, cursor: 'pointer' }}
+              onMouseEnter={handlePopoverOpen}
+              onMouseLeave={handlePopoverClose}
             >
               {profile.person?.surnames} {profile?.person?.names}
-            </a> : ''
+            </span> : ''
       }
+      {
+        isPopover?
+        <Popover
+          id="mouse-over-popover"
+          sx={{
+            pointerEvents: 'none',
+          }}
+          open={open}
+          anchorEl={anchorEl}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          transformOrigin={{
+            vertical: 'top',
+            horizontal: 'left',
+          }}
+          onClose={handlePopoverClose}
+        >
+          <Typography sx={{ p: 1, width: '425px' }}>
+            <div className="row">
+              <div className="col-md-3">
+                <ImgProfile profile={profile?.person} />
+              </div>
+              <div className="col-md-9">
+                <div className="row">
+                  <div className="col-md-12">
+                    <SpanFormControl title={`${profile.person?.surnames} ${profile?.person?.names}`} />
+                  </div>
+                  <div className="col-md-12">
+                    <SpanFormControl title={`${employeed? profile.person?.personCellphone?.cellPhoneNumber: profile?.patientSolicitude?.employeed?.person?.personCellphone?.cellPhoneNumber}`} />
+                  </div>
+                  <div className="col-md-12">
+                    @<SpanFormControl title={`${employeed? profile.userName: profile.userNamePatient}`} />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </Typography>
+        </Popover>: ''
+      }
+
     </div>
   )
 }
 NameUser.propTypes = {
   profile: PropTypes.object,
   employeed: PropTypes.bool,
-  patient: PropTypes.bool
+  patient: PropTypes.bool,
+  isPopover: PropTypes.bool
 };

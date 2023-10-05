@@ -5,19 +5,23 @@ import { Title } from "src/components/atoms";
 import { useGetAllPatientsPatientWithAppoiment, useGetAllPatientsPendApro } from "./hooks";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import Filter from "./filter";
-import { ServiceGetAllPatientsPatientWithAppoiment, ServiceGetAllPatientsPendApro, ServicePutApprovePatient, ServicePutApprovePatientNew } from "src/service/patient/service.patient";
+import { ServiceGetAllPatientsPatientWithAppoiment, ServiceGetAllPatientsPendApro, ServiceGetByIdPatientProgress, ServicePutApprovePatient, ServicePutUpdateHourSesion } from "src/service/patient/service.patient";
 import PropTypes from 'prop-types';
 import CardCountSolicitudes from "./card-count-solicitudes";
-import { convertDateTimeToDate, getDateNow } from "src/utils/utils";
+import { convertDateTimeToDate, getDateNow, getValueInBrackets } from "src/utils/utils";
 import Box from '@mui/joy/Box';
 import Radio from '@mui/joy/Radio';
 import { Modal } from "src/components/molecules";
 import FormSendWssp from "./form-send-wssp";
+import FormModalReschedule from "./form-modal-reschedule";
+import { useGetAllEmployeed } from "../solicitud/hooks";
+import { ServiceGetDisponibiltyEmployeed } from "../solicitud/services";
 
 export default function Manager(props) {
   //Variables
   //const [patient, setPatient] = useState({});
   const { listPatientsPendPro, setListPatientsPendPro } = useGetAllPatientsPendApro(props);
+  const { employeeds } = useGetAllEmployeed(props);
   const { listPatientsWithAppoiment, setListPatientWithAppoiment } = useGetAllPatientsPatientWithAppoiment(props);
   const [result, setResult] = useState([]);
   const [resultWithAppoiment, setResultWithAppoiment] = useState([]);
@@ -28,6 +32,15 @@ export default function Manager(props) {
   //const [openModalEmail, setOpenModalEmail] = useState(false);
   const [cellphone, setCellPhone] = useState('');
   const [messageWssp, setMessageWssp] = useState('');
+  //Reprogramar cita
+  const [openModalRescheduleApp, setOpenModalResCheApp] = useState(false);
+  const [objRescheAppo, setRescheAppo] = useState({});
+  const [employeedsDisponibiltyResult, setEmployeedDisponibilityResult] = useState([]);
+  const [employeedId, setEmployeedId] = useState(0);
+  const [dateDisponibiltySearch, setDateDisponibilitySearch] = useState('');
+  const [horario, setHorario] = useState('');
+  const [horaInicio, setHoraInicio] = useState('');
+  const [horaFin, setHoraFin] = useState('');
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -63,7 +76,7 @@ export default function Manager(props) {
   const handleCancelRequest = async (e, row) => {
     let patient = row;
     let patientId = parseInt(patient.patientId);
-    let namePatient = `${patient.person.surnames}/${patient.person.names}` ;
+    let namePatient = `${patient.person.surnames}/${patient.person.names}`;
     if (isNaN(patientId)) {
       Swal.fire({
         icon: 'warning',
@@ -108,7 +121,7 @@ export default function Manager(props) {
     if (type === 1) {
       let patient = row;
       let patientId = parseInt(patient.patientId);
-      let namePatient = `${patient.person.surnames}/${patient.person.names}` ;
+      let namePatient = `${patient.person.surnames}/${patient.person.names}`;
       if (isNaN(patientId)) {
         Swal.fire({
           icon: 'warning',
@@ -125,14 +138,14 @@ export default function Manager(props) {
         });
         return;
       }
-      if (convertDateTimeToDate(patient.patientSolicitude.dateAttention) !== convertDateTimeToDate(getDateNow())) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Advertencia',
-          text: `No puede aprobar la sesión, si la fecha de atención es menor a la actual.`,
-        });
-        return;
-      }
+      // if (convertDateTimeToDate(patient.patientSolicitude.dateAttention) !== convertDateTimeToDate(getDateNow())) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Advertencia',
+      //     text: `No puede aprobar la sesión, si la fecha de atención es menor a la actual.`,
+      //   });
+      //   return;
+      // }
       Swal.fire({
         title: '¿Desea aprobar la solicitud?',
         text: `Usted está aprobando la solicitud del paciente ${namePatient}`,
@@ -178,7 +191,7 @@ export default function Manager(props) {
         return;
       }
 
-      if (patientProgress.hourOffAttention === '-') {
+      if (patientProgress.hourOffAttention === '') {
         Swal.fire({
           icon: 'warning',
           title: 'Advertencia',
@@ -186,14 +199,14 @@ export default function Manager(props) {
         });
         return;
       }
-      if (new Date(getDateNow()) > new Date((patientProgress.dateOfAttention))) {
-        Swal.fire({
-          icon: 'warning',
-          title: 'Advertencia',
-          text: `No puede aprobar la sesión, si la fecha de la sesión es menor a la fecha actual.`,
-        });
-        return;
-      }
+      // if (new Date(getDateNow()) > new Date((patientProgress.dateOfAttention))) {
+      //   Swal.fire({
+      //     icon: 'warning',
+      //     title: 'Advertencia',
+      //     text: `No puede aprobar la sesión, si la fecha de la sesión es menor a la fecha actual.`,
+      //   });
+      //   return;
+      // }
       Swal.fire({
         title: '¿Desea aprobar la solicitud?',
         text: `Usted está aprobando la sesión`,
@@ -270,7 +283,7 @@ export default function Manager(props) {
     setOpenModalWssp(false);
   }
   const handleSendMessWssp = (e) => {
-    if(!cellphone) {
+    if (!cellphone) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -278,7 +291,7 @@ export default function Manager(props) {
       })
       return;
     }
-    if(!messageWssp) {
+    if (!messageWssp) {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -307,7 +320,7 @@ export default function Manager(props) {
     let dateNow = new Date(getDateNow());
     let isValidateDate = dateOfAttentionValidate < dateNow;
 
-    if(hourOffAttention === '-') {
+    if (hourOffAttention === '-') {
       Swal.fire({
         icon: 'warning',
         title: 'Advertencia',
@@ -316,12 +329,12 @@ export default function Manager(props) {
       return;
     }
 
-    if(isValidateDate) {
+    if (isValidateDate) {
       mssg = `Estimada Lozada Durand, Madelyne, para hacerle recordar que no asistió a su cita programada para el 
         día ${convertDateTimeToDate(dateOfAttention)} a las ${hourOffAttention} ${systemHour}. Para reprogramar, por favor de 
         llamar a reprogramar su cita. En caso contrario, perderá la sesión programada.`
     }
-    else if(!isAttention && !isValidateDate) {
+    else if (!isAttention && !isValidateDate) {
       mssg = `Estimado Lozada Durand, Madelyne, para hacerle recordar que tiene una cita programada para el día ${convertDateTimeToDate(dateOfAttention)} a las ${hourOffAttention}. 
         Por favor de confirmar por este medio.`
     }
@@ -329,8 +342,95 @@ export default function Manager(props) {
     let url = `https://wa.me/51${cellPhoneSend}?text=${mssg}`
     window.open(url);
   }
+  const handleRescheduleAppointment = async (e, row) => {
+    const { patientProgressId } = row;
+    //Traemos el detalle de la cita programada para reprogramar
+    let detail = await ServiceGetByIdPatientProgress(patientProgressId);
+    setRescheAppo(detail[0]);
+    setOpenModalResCheApp(true);
+    setEmployeedId(detail[0]?.employeed?.employeedId)
+  }
+  const handleCloseModalRescheduleApp = (e) => {
+    setOpenModalResCheApp(false);
+  }
+  const handleViewDisponibilty = async (e) => {
+    if(!dateDisponibiltySearch) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `Debe de ingresar una fecha nueva a buscar.`,
+      })
+      return;
+    }
+    if (employeedsDisponibiltyResult.length > 0) {
+      setEmployeedDisponibilityResult([]);
+    }
+    let result = await ServiceGetDisponibiltyEmployeed(dateDisponibiltySearch, employeedId);
+    setEmployeedDisponibilityResult(result);
+  }
+  const handleChangeNewDate = (e) => {
+    setDateDisponibilitySearch(e.target.value);
+  }
+  const handleChangeEmployeed = (e, values) => {
+    if (values === null) {
+      return;
+    }
+    if (isNaN(values.label)) {
+      setEmployeedId(getValueInBrackets(values.label));
+    }
+  }
+  const handleChangeItemHorario = (e, item) => {
+    setHoraInicio(item.hourInitial);
+    setHoraFin(item.hourFinished);
+    setHorario(`${item.hourInitial} - ${item.hourFinished}`)
+  }
+  const handleSaveReschedule = (e) => {
+    const { patientProgressId } = objRescheAppo;
+
+    let data = {
+      hourOffAttention: horaInicio,
+      patientProgressId: parseInt(patientProgressId),
+      employeed: {
+        employeedId: parseInt(employeedId)
+      },
+      dateOfAttention: dateDisponibiltySearch
+    }
+    Swal.fire({
+      title: '¿Desea reprogramar la cita?',
+      text: `Usted está reprogramando la cita del paciente ${objRescheAppo.patient?.person?.names} ${objRescheAppo.patient?.person?.surnames} para el horario de ${horaInicio} - ${horaFin}`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, reprogramar',
+      cancelButtonText: 'Cancelar'
+    }).then(async (result) => {
+      if (result.isConfirmed) {
+        let insert = await ServicePutUpdateHourSesion(data);
+        if (insert.ok) {
+          Swal.fire(
+            'Reprogramación exitosa',
+            'La reprogramación ha sido realizada con éxito.',
+            'success'
+          )
+          await handleLoadData(2);
+          setOpenModalResCheApp(false);
+          setHorario('');
+        }
+        else {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia',
+            text: `Error: ${insert.title}. Comuniquese con Sistemas.`,
+          })
+          return;
+        }
+      }
+    })
+  }
+  
   return (
-    <div className="container-fluid">
+    <div className="container-fluid mb-4">
       <div className="row">
         <div className="col-md-12">
           <Title value={'MÓDULO DE APROBACIÓN Y/O RECHAZO DE SOLICITUDES'} type={'h1'} />
@@ -378,6 +478,7 @@ export default function Manager(props) {
                 typeList={2}
                 handleSendWhatsapp={handleSendWhatsapp}
                 handleChangeSendMsgWssp={handleChangeSendMsgWssp}
+                handleRescheduleAppointment={handleRescheduleAppointment}
               />
           }
         </div>
@@ -397,6 +498,30 @@ export default function Manager(props) {
               handleChangeCellPhone={handleChangeCellPhone}
               cellphone={cellphone}
               handleCloseModalWssp={handleCloseModalWssp}
+            />
+          </Modal>
+        )
+      }
+      {
+        openModalRescheduleApp && (
+          <Modal
+            title={`REPROGRAMACIÓN DE CITA DEL PACIENTE: ${objRescheAppo.patient?.person?.names} ${objRescheAppo.patient?.person?.surnames}`}
+            size={"modal-lg"}
+            close
+            openModal={openModalRescheduleApp}
+            onClose={handleCloseModalRescheduleApp}
+          >
+            <FormModalReschedule
+              objRescheAppo={objRescheAppo}
+              employeeds={employeeds}
+              handleViewDisponibilty={handleViewDisponibilty}
+              handleChangeNewDate={handleChangeNewDate}
+              handleChangeEmployeed={handleChangeEmployeed}
+              employeedsDisponibiltyResult={employeedsDisponibiltyResult}
+              handleChangeItemHorario={handleChangeItemHorario}
+              horario={horario}
+              handleSaveReschedule={handleSaveReschedule}
+              handleCloseModalRescheduleApp={handleCloseModalRescheduleApp}
             />
           </Modal>
         )

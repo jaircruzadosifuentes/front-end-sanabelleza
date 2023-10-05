@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGetAllPatientsInTreatment } from "./hooks";
 import List from "./list";
 import { Title } from "src/components/atoms";
-import Filter from "./filter";
+import Filter from "../../../organism/filter";
 import { Modal } from "src/components/molecules";
 import ListSchedulePay from '../../../organism/list-schedule-pay';
 import { ServiceGetPayDueDetailForPatientId } from "src/service/pay/service.pay";
@@ -147,22 +147,32 @@ export default function Manager(props) {
     })
     setResult(filterBySearch);
   }
+   
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
         type={'h1'}
         value={'PACIENTES EN TRATAMIENTO'}
       />
-      <Filter
-        handleSearchForSurNames={handleSearchForSurNames}
-      />
-      <List
-        rows={result.length > 0 ? result : listPatInTreatment}
-        handleViewShedulePay={handleViewShedulePay}
-        handleViewAdvanceClinic={handleViewAdvanceClinic}
-        handleStarEvaluation={handleStarEvaluation}
-        handleEditSesion={handleEditSesion}
-      />
+      <div className="row">
+        <div className="col-md-4">
+          <Filter
+            handleSearchForSurNames={handleSearchForSurNames}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <List
+            rows={result.length > 0 ? result : listPatInTreatment}
+            handleViewShedulePay={handleViewShedulePay}
+            handleViewAdvanceClinic={handleViewAdvanceClinic}
+            handleStarEvaluation={handleStarEvaluation}
+            handleEditSesion={handleEditSesion}
+            // handleGenerateSessions={handleGenerateSessions}
+          />
+        </div>
+      </div>
       {
         openModalPayItem && (
           <Modal

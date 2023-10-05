@@ -57,6 +57,9 @@ function Row({
           </span>
         </TableCell>
         <TableCell align="center">
+          <span>
+            {row.role?.area?.areaDescription}
+          </span>
         </TableCell>
         <TableCell align="center">
           <span>
@@ -74,9 +77,7 @@ function Row({
           </span>
         </TableCell>
         <TableCell align="center">
-          <span>
-            {row.state}
-          </span>
+          <Badge text={row.state} value={1} />
         </TableCell>
         <TableCell align="center">
           {
@@ -125,7 +126,7 @@ export default function List({
             <TableRow>
               <TableCell align="center">Empleado(a) - Datos Generales</TableCell>
               <TableCell align="center">Cargo</TableCell>
-              <TableCell align="center">Contrato(PDF)</TableCell>
+              <TableCell align="center">Area</TableCell>
               <TableCell align="center">Nro días Vacaciones</TableCell>
               <TableCell align="center">Sueldo (S/.)</TableCell>
               <TableCell align="center">Fecha de Ingreso</TableCell>

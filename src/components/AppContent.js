@@ -1,11 +1,11 @@
 import React, { Suspense } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { CContainer, CSpinner } from '@coreui/react'
+import PropTypes from 'prop-types';
 
-// routes config
-import routes from '../routes'
-
-const AppContent = () => {
+const AppContent = ({
+  routes = []
+}) => {
   return (
     <CContainer fluid> 
       <Suspense fallback={<CSpinner color="primary" />}>
@@ -29,5 +29,7 @@ const AppContent = () => {
     </CContainer>
   )
 }
-
+AppContent.propTypes = {
+  routes: PropTypes.array,
+};
 export default React.memo(AppContent)

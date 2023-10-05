@@ -24,6 +24,7 @@ import Tooltip from '@mui/material/Tooltip';
 import { Label } from 'src/components/atoms';
 import { ButtonFormControl } from 'src/components/molecules';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
+
 function Row({
   row = {},
   handleClickAprobarSolicitud,
@@ -31,7 +32,8 @@ function Row({
   index = 0,
   typeList = 0,
   handleSendWhatsapp,
-  handleChangeSendMsgWssp
+  handleChangeSendMsgWssp,
+  handleRescheduleAppointment
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -51,7 +53,7 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="left">{`${row.person.surnames}/${row.person.names}`}</TableCell>
+        <TableCell align="left">{`${row.person.surnames} ${row.person.names}`}</TableCell>
         <TableCell align="center">{row.person.age} años</TableCell>
         {/* <TableCell align="center">{row.patientCode}</TableCell> */}
         <TableCell align="center">{row.patientState.description}</TableCell>
@@ -158,6 +160,7 @@ function Row({
                             handleChangeSendMsgWssp={handleChangeSendMsgWssp}
                             disabled={p.isFlag}
                             disabledAttention={p.isAttention}
+                            handleRescheduleAppointment={handleRescheduleAppointment}
                           />
                         </td>
                       </TableRow>
@@ -178,6 +181,7 @@ Row.propTypes = {
   handleChangeSendMsgWssp: PropTypes.func,
   handleSendWhatsapp: PropTypes.func,
   handleClickAprobarSolicitud: PropTypes.func,
+  handleRescheduleAppointment: PropTypes.func,
   typeList: PropTypes.number,
   index: PropTypes.number,
   handleCancelRequest: PropTypes.func,
@@ -204,7 +208,8 @@ export default function List({
   handleCancelRequest,
   typeList = 0,
   handleSendWhatsapp,
-  handleChangeSendMsgWssp
+  handleChangeSendMsgWssp,
+  handleRescheduleAppointment
 }) {
   return (
     <TableContainer component={Paper}>
@@ -231,6 +236,7 @@ export default function List({
               typeList={typeList}
               handleSendWhatsapp={handleSendWhatsapp}
               handleChangeSendMsgWssp={handleChangeSendMsgWssp}
+              handleRescheduleAppointment={handleRescheduleAppointment}
             />
           )) : <span>No existen datos para mostrar</span>
           }
@@ -246,4 +252,5 @@ List.propTypes = {
   handleChangeSendMsgWssp: PropTypes.func,
   handleCancelRequest: PropTypes.func,
   handleSendWhatsapp: PropTypes.func,
+  handleRescheduleAppointment: PropTypes.func,
 };

@@ -11,6 +11,7 @@ import { formatDecimales } from 'src/utils/utils';
 import ItemList from './item-list';
 import { Fragment } from 'react';
 import { TablePagination } from '@mui/material';
+import { Badge } from 'src/components/atoms';
 
 function Row({
   row = {},
@@ -28,7 +29,9 @@ function Row({
         <TableCell align="center">S/.{formatDecimales(row.costPerUnit)}</TableCell>
         <TableCell align="left">{row.abbreviation}</TableCell>
         <TableCell align="center">{row.maximumFeesToPay}</TableCell>
-        <TableCell align="left">{row.state}</TableCell>
+        <TableCell align="left">
+          <Badge text={row.state} value={row.stateValue? 1: 3} />
+        </TableCell>
         <td>
           <ItemList
             row={row}

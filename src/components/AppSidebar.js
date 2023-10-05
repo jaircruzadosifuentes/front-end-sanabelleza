@@ -4,17 +4,18 @@ import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler } from '@coreui/r
 import { AppSidebarNav } from './AppSidebarNav'
 import SimpleBar from 'simplebar-react'
 import 'simplebar/dist/simplebar.min.css'
+import PropTypes from 'prop-types';
 
-// sidebar nav config
-import navigation from '../_nav'
-
-const AppSidebar = () => {
+const AppSidebar = ({
+  options = []
+}) => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  
 
   return (
-    <CSidebar 
+    <CSidebar
       position="fixed"
       unfoldable={unfoldable}
       visible={sidebarShow}
@@ -22,14 +23,17 @@ const AppSidebar = () => {
         dispatch({ type: 'set', sidebarShow: visible })
       }}
     >
-      <CSidebarBrand className="d-none d-md-flex" to="/" style={{overflowX: 'none'}}>
-        {/* <CIcon className="sidebar-brand-full" icon={logoNegative} height={35} /> */}
-        {/* <CIcon className="sidebar-brand-narrow" icon={sygnet} height={35} /> */}
-        <h2>SANA BELLEZA</h2>
+      <CSidebarBrand className="d-none d-md-flex" to="/" style={{ overflowX: 'none' }}>
+        <div className='row'>
+          <div className='col-md-12'>
+            <small>SISB ADMINISTRACIÓN</small>
+            <h1>SANA BELLEZA</h1>
+          </div>
+        </div>
       </CSidebarBrand>
       <CSidebarNav>
         <SimpleBar>
-          <AppSidebarNav items={navigation} />
+          <AppSidebarNav items={options} />
         </SimpleBar>
       </CSidebarNav>
       <CSidebarToggler
@@ -39,5 +43,7 @@ const AppSidebar = () => {
     </CSidebar>
   )
 }
-
+AppSidebar.propTypes = {
+  options: PropTypes.array,
+};
 export default React.memo(AppSidebar)

@@ -12,11 +12,16 @@ import { CChartLine } from '@coreui/react-chartjs'
 import CIcon from '@coreui/icons-react'
 import { cilOptions } from '@coreui/icons'
 import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom'
 
 const WidgetsDropdown = ({
   rows = [],
   index
 }) => {
+  let navigate = useNavigate();
+  const handleRedirect = (e, url) => {
+    navigate(url);
+  }
   return (
     <CRow>
       {
@@ -24,7 +29,7 @@ const WidgetsDropdown = ({
           return (
             <CCol sm={6} lg={3} key={index}>
               <CWidgetStatsA
-                className="mb-4"
+                className="mb-2"
                 color={r.type}
                 value={
                   <h1>
@@ -38,7 +43,7 @@ const WidgetsDropdown = ({
                       <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
                     </CDropdownToggle>
                     <CDropdownMenu>
-                      <CDropdownItem href={r.url}>Ver Detalle</CDropdownItem>
+                      <CDropdownItem onClick={(e) => handleRedirect(e, r.url)}>Ver Detalle</CDropdownItem>
                       <CDropdownItem disabled>Imprimir Sección (Trabajando...)</CDropdownItem>
                     </CDropdownMenu>
                   </CDropdown>

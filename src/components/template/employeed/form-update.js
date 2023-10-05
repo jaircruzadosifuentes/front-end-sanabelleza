@@ -1,5 +1,4 @@
 import React from "react";
-import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
 import PropTypes from 'prop-types';
 import { convertDateTimeToDate } from "src/utils/utils";

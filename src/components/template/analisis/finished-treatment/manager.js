@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useGetAllPatientsInTreatment } from "./hooks";
 import List from "./list";
 import { Title } from "src/components/atoms";
-import Filter from "./filter";
+import Filter from "../../../organism/filter";
 import { Modal } from "src/components/molecules";
 import ListSchedulePay from '../../../organism/list-schedule-pay';
 import { ServiceGetPayDueDetailForPatientId } from "src/service/pay/service.pay";
@@ -32,8 +32,6 @@ export default function Manager(props) {
   const handleViewShedulePay = async(e, row) => {
     let { patientId } = row;
     let lstPays = await ServiceGetPayDueDetailForPatientId(patientId);
-    console.log(lstPays);
-    console.log(patientId);
     setLstPayDeDetail(lstPays);
     setOpenModalPayItem(true);
   }
@@ -67,7 +65,6 @@ export default function Manager(props) {
   }
   const handleEditSesion = (e, row) => {
     setOpenEditSesion(true);
-    console.log(row);
     setObjSesion(row);
   } 
   const handleCloseEditSesion = (e) => {
@@ -154,16 +151,24 @@ export default function Manager(props) {
         type={'h1'}
         value={'PACIENTES CON TRATAMIENTO FINALIZADO'}
       />
-      <Filter
-        handleSearchForSurNames={handleSearchForSurNames}
-      />
-      <List
-        rows={result.length > 0 ? result : listPatInTreatment}
-        handleViewShedulePay={handleViewShedulePay}
-        handleViewAdvanceClinic={handleViewAdvanceClinic}
-        handleStarEvaluation={handleStarEvaluation}
-        handleEditSesion={handleEditSesion}
-      />
+      <div className="row">
+        <div className="col-md-4">
+          <Filter
+            handleSearchForSurNames={handleSearchForSurNames}
+          />
+        </div>
+      </div>
+      <div className="row">
+        <div className="col-md-12">
+          <List
+            rows={result.length > 0 ? result : listPatInTreatment}
+            handleViewShedulePay={handleViewShedulePay}
+            handleViewAdvanceClinic={handleViewAdvanceClinic}
+            handleStarEvaluation={handleStarEvaluation}
+            handleEditSesion={handleEditSesion}
+          />
+        </div>
+      </div>
       {
         openModalPayItem && (
           <Modal

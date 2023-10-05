@@ -8,13 +8,11 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
-import ImgProfile from 'src/components/organism/img-profile';
 import NameUser from 'src/components/organism/name-user';
 
 function Row({
   row = {},
 }) {
-  console.log(row);
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -33,11 +31,12 @@ function Row({
         </TableCell>
         <TableCell align="center">
           <div className='row'>
-            <div className='col-md-3'>
-              <ImgProfile profile={row.patientSolicitude?.employeed?.person} />
-            </div>
-            <div className='col-md-9 mt-3'>
-              <NameUser profile={row.patientSolicitude?.employeed} employeed />
+            <div className='col-md-12'>
+              <NameUser 
+                profile={row.patientSolicitude?.employeed} 
+                employeed 
+                isPopover
+              />
             </div>
           </div>
         </TableCell>
