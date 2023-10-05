@@ -16,7 +16,8 @@ import { Label } from 'src/components/atoms';
 import WrappedMenuItems from './wrappedMenuItems';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
- 
+import NameUser from 'src/components/organism/name-user';
+
 function Row({
   row = {},
   handleClickAprobarSolicitud,
@@ -40,7 +41,7 @@ function Row({
         <TableCell component="th" scope="row">
           {row.correlative}
         </TableCell>
-        <TableCell align="left">{row.person.surnames} {row.person.names}</TableCell>
+        <TableCell align="left"><NameUser profile={row} patient /></TableCell>
         <TableCell align="left">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
         <TableCell align="left">{row.patientSolicitude.hourAttention}</TableCell>
         <TableCell align="left">{row.reason}</TableCell>
@@ -62,7 +63,7 @@ function Row({
               </Typography>
               <div className='row'>
                 <div className='col-md-6'>
-                  <Label title={'Nombres y apellidos'} />: <span>{row.person.surnames} {row.person.names}</span>
+                  <Label title={'Nombres y apellidos'} />: <NameUser profile={row} patient />
                 </div>
                 <div className='col-md-2'>
                   <Label title={'Dia de atención'} />: <span>{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</span>
@@ -81,11 +82,11 @@ function Row({
                 Persona a cargo de la atención
               </Typography>
               <div className='row'>
-                <div className='col-md-2'>
+                <div className='col-md-6'>
                   <Label title={'Cargo'} />: <span>{row.patientSolicitude.employeed.role.name}</span>
                 </div>
-                <div className='col-md-4'>
-                  <Label title={'Nombres y apellidos'} />: <span>{row.patientSolicitude.employeed.person.surnames}/{row.patientSolicitude.employeed.person.names}</span>
+                <div className='col-md-6'>
+                  <Label title={'Nombres y apellidos'} />: <NameUser profile={row.patientSolicitude.employeed} employeed />
                 </div>
               </div>
             </Box>

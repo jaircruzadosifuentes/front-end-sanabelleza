@@ -17,7 +17,8 @@ import AlternateEmailIcon from '@mui/icons-material/AlternateEmail';
 import Tooltip from '@mui/material/Tooltip';
 import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import PaymentIcon from '@mui/icons-material/Payment';
-
+import ModeIcon from '@mui/icons-material/Mode';
+import ChatIcon from '@mui/icons-material/Chat';
 function TypeButton(value) {
   switch (value) {
     case 1:
@@ -48,6 +49,10 @@ function TypeButton(value) {
       return(<CleaningServicesIcon />)
     case 14:
       return(<PaymentIcon />)
+    case 15:
+      return(<ModeIcon />)
+    case 16:
+      return(<ChatIcon />)
     default:
       break;
   }

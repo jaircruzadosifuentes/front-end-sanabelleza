@@ -14,6 +14,7 @@ import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate, formatDecimales } from 'src/utils/utils';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
+import { COLOR_BLUE_MAB } from 'src/config/config';
 
 function Row({
   row = {},
@@ -23,11 +24,11 @@ function Row({
 
   return (
     <React.Fragment>
-      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
+      <TableRow sx={{ '& > *': { borderBottom: 'unset' } }} >
         <TableCell>
           <IconButton
             aria-label="expand row"
-            size="small"
+            size=""
             title='Detalle de la solicitud'
             onClick={() => setOpen(!open)}
           >
@@ -57,9 +58,9 @@ function Row({
         <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
           <Collapse in={open} timeout="auto" unmountOnExit >
             <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Histórico de Pagos
-              </Typography>
+              <span style={{fontWeight: 'bold'}}>
+                HISTÓRICO DE PAGOS
+              </span>
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -67,57 +68,40 @@ function Row({
                     <TableCell align="center">Nro Cuota Pago</TableCell>
                     <TableCell align="center">Monto Pago</TableCell>
                     <TableCell align="center">Usuario Registro</TableCell>
-                    <TableCell align="center">Acción</TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  <TableRow key={index}>
-                    <span>No existen datos para mostrar.</span>
-                  </TableRow>
-                  {/* {row.patientProgresses.map((p, index) => (
-                    <>
+                  {
+                    row.payDuesDetailHistories.length > 0 ? row.payDuesDetailHistories.map((m, index) => {
+                      return (
+                        <TableRow key={index}>
+                          <TableCell component="th" scope="row" align="center">
+                            {new Date(m.datePaymentCanceled).toLocaleString()}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="center">
+                            {m.debtNumber}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="center">
+                            {m.amount}
+                          </TableCell>
+                          <TableCell component="th" scope="row" align="center">
+                            {m.userPayment}
+                          </TableCell>
+                        </TableRow>
+                      )
+                    }) :
                       <TableRow key={index}>
                         <TableCell component="th" scope="row" align="center">
-                          {convertDateTimeToDate(p.dateOfAttention)}
+                          No hay datos para mostrar.
                         </TableCell>
-                        <TableCell align="center">{p.hourOffAttention} {p.systemHour}</TableCell>
-                        <TableCell align="center">{p.sessionNumber}</TableCell>
-                        <TableCell align="center">
-                          {p.typeAttention.description}  &nbsp;
-                          {
-                            p.isFlag ?
-                              <Tooltip title={"Histórico de notificaciones emitidas a usuario, para reprogramación."} placement="top">
-                                <RuleFolderIcon style={{ color: COLOR_BLUE_MAB, cursor: 'pointer' }} />
-                              </Tooltip>
-                              : ''
-                          }
+                        <TableCell component="th" scope="row" align="center">
                         </TableCell>
-                        <TableCell align="center">
-                          <span>{p.isQueueRemoval ? 'SI' : 'NO'}</span>&nbsp;&nbsp;&nbsp;
-                          <Tooltip title={p.isQueueRemoval ? 'SI ASISTIÓ' : 'NO ASISTIÓ'} placement="top">
-                            {p.isQueueRemoval ? < CheckCircleIcon style={{ color: COLOR_GREEN, cursor: 'pointer' }} /> : <CancelIcon style={{ color: COLOR_BUTTON_MAB, cursor: 'pointer' }} />}
-                          </Tooltip>
+                        <TableCell component="th" scope="row" align="center">
                         </TableCell>
-                        <TableCell align="center">
-                          <span>{p.isAttention ? 'SI' : 'NO'}</span>&nbsp;&nbsp;&nbsp;
-                          <Tooltip title={p.isAttention ? 'SI ASISTIÓ' : 'NO ASISTIÓ'} placement="top">
-                            {p.isAttention ? < CheckCircleIcon style={{ color: COLOR_GREEN, cursor: 'pointer' }} /> : <CancelIcon style={{ color: COLOR_BUTTON_MAB, cursor: 'pointer' }} />}
-                          </Tooltip>
-                        </TableCell> 
-                        <td align="center">
-                          <SubItemMenuPay
-                            row={p}
-                            dataHead={row}
-                            handleApproveRequest={handleClickAprobarSolicitud}
-                            handleCancelRequest={handleCancelRequest}
-                            handleChangeSendMsgWssp={handleChangeSendMsgWssp}
-                            disabled={p.isFlag}
-                          />
-                        </td>
+                        <TableCell component="th" scope="row" align="center">
+                        </TableCell>
                       </TableRow>
-
-                    </>
-                  ))} */}
+                  }
                 </TableBody>
               </Table>
             </Box>

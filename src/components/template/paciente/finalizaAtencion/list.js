@@ -22,7 +22,7 @@ function Row({
         <TableCell component="th" scope="row">
           {index + 1}
         </TableCell>
-        <TableCell align="center">{`${row.person.surnames}/${row.person.names}`}</TableCell>
+        <TableCell align="center">{`${row.person.surnames} ${row.person.names}`}</TableCell>
         <TableCell align="center">{convertDateTimeToDate(row.patientSolicitude.dateAttention)}</TableCell>
         <TableCell align="center">{row.patientSolicitude.hourAttention}</TableCell>
         <TableCell align="left">{row.person.age} años.</TableCell>

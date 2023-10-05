@@ -32,7 +32,7 @@ export function convertDateTimeToDate(fullDate) {
   return new Date(fullDate).toLocaleDateString()
 }
 export function formatDecimales(value = 0) {
-  return value.toFixed(2);
+  return parseFloat(value.toFixed(2));
 }
 export const formatoNumero = (valor) => {
   return valor < 10 ? '0' + valor : valor;

@@ -19,7 +19,7 @@ export default function Manager(props) {
   const { employeeds } = useGetAllEmployeed(props);
   //Variables
   const [openModalViewDisponibilty, setOpenModalViewDisponibility] = useState(false);
-  const [dateDisponibiltySearch, setDateDisponibilitySearch] = useState(getDateNow());
+  const [dateDisponibiltySearch, setDateDisponibilitySearch] = useState('');
   const [employeedId, setEmployeedId] = useState(0);
   const [employeed, setEmployeed] = useState('');
   const [employeedsDisponibiltyResult, setEmployeedDisponibilityResult] = useState([]);
@@ -51,6 +51,15 @@ export default function Manager(props) {
     setOpenModalViewDisponibility(false);
   }
   const handleViewDisponibiltyForIdEmployeed = async (e) => {
+    console.log(dateDisponibiltySearch);
+    if(!dateDisponibiltySearch) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `Debe de ingresar la fecha a buscar`,
+      })
+      return;
+    }
     if (employeedsDisponibiltyResult.length > 0) {
       setEmployeedDisponibilityResult([]);
     }

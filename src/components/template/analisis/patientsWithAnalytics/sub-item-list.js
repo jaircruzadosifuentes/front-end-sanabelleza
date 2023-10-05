@@ -7,10 +7,8 @@ import Popper from '@mui/base/Popper';
 import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import StartIcon from '@mui/icons-material/Start';
-import PageviewIcon from '@mui/icons-material/Pageview';
 
 function MenuSection({ children, label }) {
   return (
@@ -106,18 +104,18 @@ export default function SubItemList({
             <StartIcon />&nbsp;
             Empezar Evaluación
           </StyledMenuItem>
-          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
+          {/* <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <PublishedWithChangesIcon />&nbsp;
             Reprogramar Sesión
-          </StyledMenuItem>
+          </StyledMenuItem> */}
           <StyledMenuItem onClick={(e) => handleEditSesion(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <RateReviewIcon />&nbsp;
             Editar Hora Programada
           </StyledMenuItem>
-          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
+          {/* <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
             <PageviewIcon />&nbsp;
             Ver Sesión
-          </StyledMenuItem>
+          </StyledMenuItem> */}
         </MenuSection>
       </Menu>
     </div>

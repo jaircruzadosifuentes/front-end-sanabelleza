@@ -5,15 +5,15 @@ const Greeting = () => {
   let date = new Date();
   let greeting, color;
   let hours = date.getHours();
-  let usuario = `${JSON.parse(fuDevolverDatosUsuario()).names} / ${JSON.parse(fuDevolverDatosUsuario()).surnames}`
+  let usuario = `${JSON.parse(fuDevolverDatosUsuario()).names} ${JSON.parse(fuDevolverDatosUsuario()).surnames}`
   if(hours < 12) {
-    greeting = `Buenos días ${usuario}, cada mañana es otra nueva oportunidad de vivir algo increíble. Te deseo que tu día esté lleno de momentos únicos.`;
+    greeting = `Buenos días ${usuario.toUpperCase()}, cada mañana es otra nueva oportunidad de vivir algo increíble. Te deseo que tu día esté lleno de momentos únicos.`;
     color = `#FFAC35`;
   } else if(hours >= 12 && hours <= 18) {
-    greeting = `Buenas tardes ${usuario}, las tardes son la forma en que la vida te dice que estás más cerca de tus sueños.`;
+    greeting = `Buenas tardes ${usuario.toUpperCase()}, las tardes son la forma en que la vida te dice que estás más cerca de tus sueños.`;
     color = `#2EC0FF`;
   } else if(hours >= 18 && hours <= 24) {
-    greeting = `Buenas noches ${usuario}, el amor no tiene cura, pero es la cura para todos los males.`;
+    greeting = `Buenas noches ${usuario.toUpperCase()}, el amor no tiene cura, pero es la cura para todos los males.`;
     color = `#0F242D`;
   }
   

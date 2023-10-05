@@ -9,7 +9,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
 import ItemList from './item-list';
@@ -23,8 +22,9 @@ import Tooltip from '@mui/material/Tooltip';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
 import SubItemList from './sub-item-list';
 import ProgressBarSesion from '../../../organism/progress-bar-sesion';
-import ImgProfile from 'src/components/organism/img-profile';
 import NameUser from 'src/components/organism/name-user';
+import { TablePagination, Typography } from '@mui/material';
+import { ButtonFormControl } from 'src/components/molecules';
 
 function Row({
   row = {},
@@ -35,10 +35,10 @@ function Row({
   handleChangeSendMsgWssp,
   handleViewAdvanceClinic,
   handleStarEvaluation,
-  handleEditSesion
+  handleEditSesion,
+  handleGenerateSessions
 }) {
   const [open, setOpen] = React.useState(false);
-  console.log(row);
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -57,10 +57,7 @@ function Row({
         </TableCell>
         <TableCell align="left">
           <div className='row'>
-            <div className='col-md-2'>
-              <ImgProfile profile={row.person}/>
-            </div>
-            <div className='col-md-10 mt-1'>
+            <div className='col-md-12 mt-1'>
               <div className='row'>
                 <div className='col-md-12'>
                   <NameUser patient profile={row} />
@@ -75,22 +72,15 @@ function Row({
                     Paquete y Frecuencia: {row.clinicalHistory.packetsOrUnitSessions.abbreviation} - {row.clinicalHistory.frecuency.frecuencyDescription}
                   </span>
                 </div>
-                <div className='col-md-12'>
-                  <ProgressBarSesion 
-                    patientId={row.patientId}
-                  />
-                </div>
               </div>
             </div>
           </div>
         </TableCell>
-        {/* <TableCell align="center">
-          <Tooltip title="Descargar hoja de consentimiento de pago y cumplimiento de asistencia de citas programadas.">
-            <a href="/images/myw3schoolsimage.jpg" download>
-              <img src="images/pdf.png" width={'50px'} style={{ cursor: 'pointer' }} alt={row.person.names} ></img>
-            </a>
-          </Tooltip>
-        </TableCell> */}
+        <TableCell align="center">
+          <ProgressBarSesion
+            patientId={row.patientId}
+          />
+        </TableCell>
         <TableCell align="center">
           <span>
             {row.person.gender}
@@ -193,6 +183,7 @@ Row.propTypes = {
   handleViewAdvanceClinic: PropTypes.func,
   handleViewShedulePay: PropTypes.func,
   handleChangeSendMsgWssp: PropTypes.func,
+  handleGenerateSessions: PropTypes.func,
   handleSendWhatsapp: PropTypes.func,
   handleClickAprobarSolicitud: PropTypes.func,
   typeList: PropTypes.number,
@@ -224,38 +215,63 @@ export default function List({
   handleStarEvaluation,
   handleEditSesion
 }) {
+  const [page, setPage] = React.useState(0);
+  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+
+  const handleChangePage = (event, newPage) => {
+    setPage(newPage);
+  };
+
+  const handleChangeRowsPerPage = (event) => {
+    setRowsPerPage(parseInt(event.target.value, 10));
+    setPage(0);
+  };
   return (
-    <TableContainer component={Paper}>
-      <Table aria-label="collapsible table" size='large'>
-        <TableHead>
-          <TableRow>
-            <TableCell />
-            <TableCell>Nro</TableCell>
-            <TableCell align="left">Paciente</TableCell>
-            {/* <TableCell align="center">Hoja Consentimiento</TableCell> */}
-            <TableCell align="center">Género</TableCell>
-            <TableCell align="center">Estado</TableCell>
-            <TableCell align="left"></TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.length > 0 ? rows.map((row, index) => (
-            <Row
-              key={row.nro}
-              row={row}
-              handleClickAprobarSolicitud={handleClickAprobarSolicitud}
-              handleCancelRequest={handleCancelRequest}
-              index={index}
-              handleViewShedulePay={handleViewShedulePay}
-              handleViewAdvanceClinic={handleViewAdvanceClinic}
-              handleStarEvaluation={handleStarEvaluation}
-              handleEditSesion={handleEditSesion}
-            />
-          )) : <span>No existen datos para mostrar</span>
-          }
-        </TableBody>
-      </Table>
-    </TableContainer>
+    <React.Fragment>
+
+      <TableContainer component={Paper}>
+        <Table aria-label="collapsible table" size='large'>
+          <TableHead>
+            <TableRow>
+              <TableCell />
+              <TableCell>Nro</TableCell>
+              <TableCell align="left">Paciente</TableCell>
+              {/* <TableCell align="center">Hoja Consentimiento</TableCell> */}
+              <TableCell align="center">Progreso Clínico</TableCell>
+              <TableCell align="center">Género</TableCell>
+              <TableCell align="center">Estado</TableCell>
+              <TableCell align="left"></TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {rows.length > 0 ? rows.map((row, index) => (
+              <Row
+                key={row.nro}
+                row={row}
+                handleClickAprobarSolicitud={handleClickAprobarSolicitud}
+                handleCancelRequest={handleCancelRequest}
+                index={index}
+                handleViewShedulePay={handleViewShedulePay}
+                handleViewAdvanceClinic={handleViewAdvanceClinic}
+                handleStarEvaluation={handleStarEvaluation}
+                handleEditSesion={handleEditSesion}
+              />
+            )) : <span>No existen datos para mostrar</span>
+            }
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        rowsPerPageOptions={[5, 10, 25]}
+        component="div"
+        count={rows.length}
+        rowsPerPage={rowsPerPage}
+        page={page}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+        labelRowsPerPage='Filas por página'
+      />
+    </React.Fragment>
   );
 }
 List.propTypes = {

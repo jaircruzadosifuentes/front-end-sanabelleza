@@ -9,7 +9,6 @@ import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import BookmarkAddedIcon from '@mui/icons-material/BookmarkAdded';
 import PublishedWithChangesIcon from '@mui/icons-material/PublishedWithChanges';
-import RateReviewIcon from '@mui/icons-material/RateReview';
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
 function MenuSection({ children, label }) {
@@ -30,11 +29,11 @@ MenuSection.propTypes = {
 export default function WrappedMenuItems({
   row = {},
   handleApproveRequest,
-  handleCancelRequest,
   handleChangeSendMsgWssp,
   dataHead = {},
   disabled = false,
-  disabledAttention = false
+  disabledAttention = false,
+  handleRescheduleAppointment
 }) {
   const [buttonElement, setButtonElement] = React.useState(null);
 
@@ -107,13 +106,9 @@ export default function WrappedMenuItems({
             <BookmarkAddedIcon />&nbsp;
             Aprobar Cita
           </StyledMenuItem>
-          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
+          <StyledMenuItem onClick={(e) => handleRescheduleAppointment(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <PublishedWithChangesIcon />&nbsp;
             Reprogramar Cita
-          </StyledMenuItem>
-          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
-            <RateReviewIcon />&nbsp;
-            Editar Cita
           </StyledMenuItem>
           <StyledMenuItem onClick={(e) => handleChangeSendMsgWssp(e, row, dataHead)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <WhatsAppIcon />&nbsp;
@@ -131,6 +126,7 @@ WrappedMenuItems.propTypes = {
   handleChangeSendMsgWssp: PropTypes.func,
   handleApproveRequest: PropTypes.func,
   handleCancelRequest: PropTypes.func,
+  handleRescheduleAppointment: PropTypes.func,
   disabled: PropTypes.bool,
   disabledAttention: PropTypes.bool,
 };

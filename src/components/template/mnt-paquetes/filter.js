@@ -1,4 +1,4 @@
-import React, { Fragment } from "react";
+import React from "react";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
 import PropTypes from 'prop-types';
 
@@ -18,9 +18,7 @@ export default function Filter({
         autoFocus
         onChange={handleSearch}
       />
-      <div className="col-md-5">
-      </div>
-      <div className="col-md-3 btn-toolbar mt-3">
+      <div className="col-md-2 btn-toolbar mt-3" style={{float: 'right'}}>
         <div className="btn-group">
           <ButtonFormControl
             title={`${selectedValue === 'a'? 'Nuevo paquete': 'Nueva frecuencia'}`}
@@ -29,15 +27,6 @@ export default function Filter({
             type={7}
           />
         </div>&nbsp;
-        <div className="btn-group">
-          <ButtonFormControl
-            title="Exportar excel"
-            color='btn btn-primary'
-            type={10}
-            disabled
-            onClick={handleExportarExcel}
-          />
-        </div>
       </div>
     </div>
   )

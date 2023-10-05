@@ -1,5 +1,5 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useState } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -12,15 +12,58 @@ import {
   CNavItem,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
-
+import { cilMenu } from '@coreui/icons'
+import ChatIcon from '@mui/icons-material/Chat';
 import { AppBreadcrumb } from './index'
 import { AppHeaderDropdown } from './header/index'
+import NotificationsIcon from '@mui/icons-material/Notifications';
+import Popover from '@mui/material/Popover';
+import Typography from '@mui/material/Typography';
+import Badge from '@mui/material/Badge';
+import { fuDevolverDatosUsuario } from 'src/utils/utils'
+import { useGetAllMsgForId } from 'src/api/hooks/message/message-hooks'
+import SidebarLeft from './template/messages/sidebar-left'
 
 const AppHeader = () => {
+  const navigate = useNavigate();
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const handleClickMsg = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+  const fromIdParams = parseInt(`${JSON.parse(fuDevolverDatosUsuario()).id}`)
+  const typeUser = `${JSON.parse(fuDevolverDatosUsuario()).typeUser}`
+  const fromTypeUser = (`${JSON.parse(fuDevolverDatosUsuario()).typeUser}`)
+  const [result, setResult] = useState([]);
 
+  const { messagesForIdUser } = useGetAllMsgForId(fromIdParams, fromTypeUser);
+  const [messageId, setMessageId] = useState(0);
+  const open = Boolean(anchorEl);
+  const id = open ? 'simple-popover' : undefined;
+
+  const handleClickItemMessage = (e, row) => {
+    const { messageId, toId } = row;
+    setMessageId(messageId);
+    navigate(`message/e/${toId}`, {
+      state: {
+        messageId
+      }
+    });
+  }
+  const handleChangeSearchMsg = (e) => {
+    let searchVal = e.target.value;
+    const filterBySearch = messagesForIdUser.filter((item) => {
+      if (item.person?.surnames.toLowerCase().includes(searchVal.toLowerCase())) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
@@ -31,17 +74,21 @@ const AppHeader = () => {
           <CIcon icon={cilMenu} size="lg" />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
-          {/* <CIcon icon={logo} height={48} alt="Logo" /> */}
-          <h2>SANA BELLEZA</h2>
+          <div className='row'>
+            <div className='col-md-12'>
+              <small>SISB ADMINISTRACIÓN</small>
+              <h2>SANA BELLEZA</h2>
+            </div>
+          </div>
         </CHeaderBrand>
         <CHeaderNav className="d-none d-md-flex me-auto">
           <CNavItem>
-            <CNavLink to="/dashboard" component={NavLink}>
+            <CNavLink to={`${typeUser === 'P' ? '/dashboard-paciente' : '/dashboard'}`} component={NavLink}>
               Dashboard
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink to="/ventanilla-horarios"  component={NavLink}>Pacientes en cola</CNavLink>
+            <CNavLink to="/paciente/en-espera" component={NavLink}>Pacientes en Espera</CNavLink>
           </CNavItem>
           {/* <CNavItem>
             <CNavLink href="#">Configuraciones</CNavLink>
@@ -50,12 +97,16 @@ const AppHeader = () => {
         <CHeaderNav>
           <CNavItem>
             <CNavLink href="#">
-              <CIcon icon={cilBell} size="lg" />
+              {/* <CIcon icon={cilBell} size="lg" /> */}
+              <NotificationsIcon />
             </CNavLink>
           </CNavItem>
           <CNavItem>
-            <CNavLink href="#">
-              <CIcon icon={cilEnvelopeOpen} size="lg" />
+            <CNavLink aria-describedby={id} href="#" onClick={handleClickMsg}>
+              {/* <CIcon icon={cilEnvelopeOpen} size="lg" /> */}
+              <Badge color="primary">
+                <ChatIcon />
+              </Badge>
             </CNavLink>
           </CNavItem>
         </CHeaderNav>
@@ -67,6 +118,28 @@ const AppHeader = () => {
       <CContainer fluid>
         <AppBreadcrumb />
       </CContainer>
+
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: 'bottom',
+          horizontal: 'left',
+        }}
+
+      >
+        <Typography sx={{ p: 2 }} width={'350px'} style={{ overflow: 'scroll' }}>
+          <SidebarLeft
+            users={result.length > 0 ? result : messagesForIdUser}
+            handleClickItemMessage={handleClickItemMessage}
+            messageId={messageId}
+            isHeader
+            handleChangeSearchMsg={handleChangeSearchMsg}
+          />
+        </Typography>
+      </Popover>
     </CHeader>
   )
 }

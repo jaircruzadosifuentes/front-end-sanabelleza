@@ -16,6 +16,7 @@ import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import IconButton from '@mui/material/IconButton';
 import SubItemList from './sub-item-list';
 import NameUser from 'src/components/organism/name-user';
+import { Badge } from 'src/components/atoms';
 
 function Row({
   row = {},
@@ -36,7 +37,6 @@ function Row({
             {open ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
           </IconButton>
         </TableCell>
-        {/* <TableCell align="left">{row?.patient?.person?.surnames}, {row?.patient?.person?.names}</TableCell> */}
         <TableCell align="center">
           <NameUser patient profile={row?.patient} />
         </TableCell>
@@ -46,7 +46,9 @@ function Row({
         <TableCell align="right">S/.{formatDecimales(row.subTotal)}</TableCell>
         <TableCell align="right">S/.{formatDecimales(row.totalCancelled)}</TableCell>
         <TableCell align="right">S/.{formatDecimales(row.totalDebt)}</TableCell>
-        <TableCell align="center">{row?.state}</TableCell>
+        <TableCell align="center">
+          <Badge value={row?.state === 'PENDIENTE DE PAGO' ? 2: 1} text={row?.state} />
+        </TableCell>
         {/* <td>
           <ItemList
             row={row}
@@ -127,7 +129,7 @@ export default function List({
   handleRealizarPago,
 }) {
   const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(5);
+  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

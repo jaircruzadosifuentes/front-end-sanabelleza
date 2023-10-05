@@ -1,19 +1,24 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { CFooter } from '@coreui/react'
+import { COLOR_GREEN } from 'src/config/config'
 
 const AppFooter = () => {
+  const [environment, setEnviroment] = useState('DESARROLLO')
   return (
     <CFooter>
       <div>
-        <a href="https://sanabelleza.com" target="_blank" rel="noopener noreferrer">
+      Copyright
+        <span className="ms-1">&copy; {new Date().getFullYear()} <a href="https://sanabelleza.com" target="_blank" rel="noopener noreferrer">
           SanaBelleza
-        </a>
-        <span className="ms-1">&copy; {new Date().getFullYear()} Sana Belleza.</span>
+        </a>. </span>
       </div>
-      <div className="ms-auto">
+      <div className="ms-center">
+        <span className="me-1">Conectado a <span style={{ fontWeight: 'bold', color: COLOR_GREEN }}>***{`${environment}`}****</span></span>
+      </div>
+      <div className="ms-right">
         <span className="me-1">Desarrollado por</span>
         <a href="https://sanabelleza.com" target="_blank" rel="noopener noreferrer">
-          Jair Cruzado Sifuentes
+          Ederd. J Cruzado Sifuentes
         </a>
       </div>
     </CFooter>

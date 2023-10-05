@@ -93,7 +93,6 @@ export default function Form({
             />
           </Box>
         </div>
-        {/* <RadioPositionEnd /> */}
         <div className="col-md-4 mt-4">
           <div className="btn-group ">
             <ButtonFormControl
@@ -130,6 +129,7 @@ export default function Form({
           label="Celular"
           isLabel
           onChange={handleChangeCellPhone}
+          maxLength={9}
         />
         <InputFormControl
           type="text"
@@ -169,24 +169,6 @@ export default function Form({
               onClick={handleLimpiarControles}
             />
           </div>
-
-          {/* <div className="btn-group">
-            <ButtonFormControl
-              title="Guardar en borrador"
-              color='btn btn-warning'
-              type={3}
-              onClick={handleSaveTemporality}
-            />
-          </div>&nbsp;
-          <div className="btn-group">
-            <ButtonFormControl
-              title={`Ver en borrador (${listaPacientesEnBorrador.length})`}
-              color='btn btn-secondary'
-              type={9}
-              onClick={handleVerEnBorrador}
-            />
-          </div>&nbsp; */}
-
         </div>
       </div>
     </div>

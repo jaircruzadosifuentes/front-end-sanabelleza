@@ -68,10 +68,16 @@ const Login = () => {
         names: login?.person?.names,
         surnames: login?.person?.surnames,
         profileImage: login?.person?.profilePicture,
-        userName: login?.userName
+        userName: login?.userName,
+        typeUser: login?.typeUser
       }
       fuGuardarDatosUsuario(JSON.stringify(objetoUsuario));
-      navigate('/dashboard')
+      if(login?.typeUser === 'P') {
+        navigate('/dashboard-paciente')
+      }
+      else {
+        navigate('/dashboard')
+      }
     }
   }
   return (

@@ -16,7 +16,6 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
 import NameUser from "src/components/organism/name-user";
-import SpanFormControl from "src/components/atoms/SpanFormControl";
 
 function CustomTabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -123,10 +122,10 @@ export default function Manager() {
   //   setListDocs(listDocs.concat(file));
   // };
   const handleBack = () => {
-    navigate("/pacientes-con-analisis-clinico");
+    navigate("/pacientes/tratamiento/proceso");
   }
   const handleCancelRegister = () => {
-    navigate("/pacientes-con-analisis-clinico");
+    navigate("/pacientes/tratamiento/proceso");
   }
   const handleChangeRecomendacion = (e) => {
     setRecomendacion(e.target.value)
@@ -186,7 +185,7 @@ export default function Manager() {
             'success'
           );
           setTimeout(() => {
-            navigate("/pacientes-con-analisis-clinico");
+            navigate("/pacientes/tratamiento/proceso");
           }, 1000);
         } else {
           Swal.fire({
@@ -238,7 +237,7 @@ export default function Manager() {
           <DetailPatient patient={objPatient.patient} />
         </div>
         <div className="col-md-12">
-          <Label title={`TIEMPO TRANSCURRIDO DE ATENCIÓN: ${timeDemoration}`} isColor />
+          <Label isBold title={`TIEMPO TRANSCURRIDO DE ATENCIÓN: ${timeDemoration}`} isWarning />
         </div>
         <hr />
         <Box sx={{ width: '100%' }}>
@@ -282,7 +281,6 @@ export const DetailEmployeed = ({
   employeed = {},
   missingAsignedEmployeed = false
 }) => {
-  let role = employeed?.role?.name
   return (
     <Fragment>
       {

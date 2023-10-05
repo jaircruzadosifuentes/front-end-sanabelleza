@@ -1,7 +1,5 @@
 import React from 'react'
-
 import { convertDateTimeToDate } from 'src/utils/utils'
-import { CProgress } from '@coreui/react'
 import { useGetAllPatientsInPercentajeTreatment } from 'src/views/dashboard/Hooks'
 import PropTypes from 'prop-types';
 
@@ -10,18 +8,24 @@ const ProgressBarSesion = ({
 }) => {
   const { patientsTreatMent } = useGetAllPatientsInPercentajeTreatment(patientId);
   return (
-    <div className='row mt-2'>
+    <div className='row'>
       {patientsTreatMent.map((item, index) => (
         <div className='col-md-12' key={index}>
           <div className="clearfix">
-            <div className="float-start">
-              <strong>{item.percentaje}%</strong>&nbsp;&nbsp;&nbsp;
-            </div>
             <div className="float-end">
-              <span className="text-medium-emphasis">Fecha Inicio:{convertDateTimeToDate(item.dateInitial)} - Fecha Fin:{convertDateTimeToDate(item.dateFinished)}</span>
+              <div className='row'>
+                <div className='col-md-6'>
+                  <span>Inicio:{convertDateTimeToDate(item.dateInitial)}</span>
+                </div>
+                <div className='col-md-6'>
+                  <span>Fin:{convertDateTimeToDate(item.dateFinished)}</span>
+                </div>
+              </div>
             </div>
           </div>
-          <CProgress thin color={`${item.percentaje === 100 ? 'success': 'warning'}`} value={item.percentaje} />
+          <div className="progress mt-2">
+            <div className={`progress-bar ${item.percentaje === 100 ? 'bg-success': 'bg-warning'}`} role="progressbar" style={{width: `${item.percentaje}%`}} aria-valuenow={item.percentaje} aria-valuemin="0" aria-valuemax="100">{item.percentaje}%</div>
+          </div>
         </div>
       ))}
 
