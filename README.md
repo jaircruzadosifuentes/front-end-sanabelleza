@@ -44,7 +44,7 @@ $ yarn build
 
 ## What's included
 
-Within the download you'll find the following directories and files, logically grouping common assets and providing both compiled and minified variations. You'll see something like this:
+Arquitectura Atomic Design
 
 ```
 coreui-free-react-admin-template
@@ -52,30 +52,27 @@ coreui-free-react-admin-template
 │   └── index.html   # html template
 │
 ├── src/             # project root
+│   ├── api/     
 │   ├── assets/      # images, icons, etc.
 │   ├── components/  # common components - header, footer, sidebar, etc.
+│       └── atoms
+│       └── headers
+│       └── molecules
+│       └── organism
+│       └── template
 │   ├── layouts/     # layout containers
+│       └── routes.js    # routes config
+│       └── _nav.js    # routes config
+│   ├── service/     
+│   ├── hooks/ 
+│   ├── config/
+│   ├── context/
 │   ├── scss/        # scss styles
 │   ├── views/       # application views
-│   ├── _nav.js      # sidebar navigation config
 │   ├── App.js
-│   ├── ...
 │   ├── index.js
-│   ├── routes.js    # routes config
 │   └── store.js     # template state example 
 │
 └── package.json
 ```
-<<<<<<< HEAD
  
-## Copyright and License
-
-copyright 2023 Jair Cruzado Sifuentes  
-=======
-
-## Copyright and License
-
-copyright 2023 Jair Cruzado Sifuentes
->>>>>>> c6396b8ee4a0b9e7ddac73536a2b1a154851a37a
-
-# Sanabelleza
