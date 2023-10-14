@@ -258,12 +258,6 @@ export default function Manager() {
               />
             </div>
           </CustomTabPanel>
-          {/* <CustomTabPanel value={value} index={1}>
-            Item Two
-          </CustomTabPanel>
-          <CustomTabPanel value={value} index={2}>
-            Item Three
-          </CustomTabPanel> */}
         </Box>
         <div className="col-md-12">
           <FooterButton

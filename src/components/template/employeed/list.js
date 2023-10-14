@@ -63,14 +63,19 @@ function Row({
         </TableCell>
         <TableCell align="center">
           <span>
-            {formatDecimales(row?.vacationDays)} días acumulados.
+            {row.campus?.name}
           </span>
         </TableCell>
-        <TableCell align="center">
+        {/* <TableCell align="center">
+          <span>
+            {formatDecimales(row?.vacationDays)} días acumulados.
+          </span>
+        </TableCell> */}
+        {/* <TableCell align="center">
           <span>
             S/.{formatDecimales(row?.salary?.mountSalary)}
           </span>
-        </TableCell>
+        </TableCell> */}
         <TableCell align="center">
           <span>
             {convertDateTimeToDate(row.admisionDate)}
@@ -127,8 +132,9 @@ export default function List({
               <TableCell align="center">Empleado(a) - Datos Generales</TableCell>
               <TableCell align="center">Cargo</TableCell>
               <TableCell align="center">Area</TableCell>
-              <TableCell align="center">Nro días Vacaciones</TableCell>
-              <TableCell align="center">Sueldo (S/.)</TableCell>
+              <TableCell align="center">Sede</TableCell>
+              {/* <TableCell align="center">Nro días Vacaciones</TableCell> */}
+              {/* <TableCell align="center">Sueldo (S/.)</TableCell> */}
               <TableCell align="center">Fecha de Ingreso</TableCell>
               <TableCell align="center">Estado</TableCell>
             </TableRow>

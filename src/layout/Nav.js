@@ -7,6 +7,8 @@ import Inventory2Icon from '@mui/icons-material/Inventory2';
 import PaymentsIcon from '@mui/icons-material/Payments';
 import SettingsSuggestIcon from '@mui/icons-material/SettingsSuggest';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import AssignmentIcon from '@mui/icons-material/Assignment';
 
 export const GetTypeComponent = (name) => {
   const TYPE_COMPONENT = {
@@ -19,12 +21,14 @@ export const GetTypeComponent = (name) => {
 
 export const GetIconBasedOnComponent = (name) => {
   const ICON_COMPONENTS =  {
-    'AppRegistrationIcon': <Fragment><AppRegistrationIcon />&nbsp;</Fragment>,
+    'AppRegistrationIcon': <AppRegistrationIcon />,
     'GroupIcon': <Fragment><GroupIcon />&nbsp;</Fragment>,
     'Inventory2Icon': <Fragment><Inventory2Icon />&nbsp;</Fragment>,
     'PaymentsIcon': <Fragment><PaymentsIcon />&nbsp;</Fragment>,
     'PointOfSaleIcon': <Fragment><PointOfSaleIcon />&nbsp;</Fragment>,
     'SettingsSuggestIcon': <Fragment><SettingsSuggestIcon />&nbsp;</Fragment>,
+    'AccountBalanceIcon': <Fragment><AccountBalanceIcon />&nbsp;</Fragment>,
+    'AssignmentIcon': <Fragment><AssignmentIcon />&nbsp;</Fragment>,
   }
   const ICON_DEFAULT_COMPONENT = <Fragment><AppRegistrationIcon />&nbsp;</Fragment>
   return ICON_COMPONENTS[name] || ICON_DEFAULT_COMPONENT;

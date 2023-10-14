@@ -18,9 +18,11 @@ import { cilLockLocked, cilUser } from '@coreui/icons'
 import { ServicePostAccessSystem } from 'src/service/employeed/service.employeed'
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { fuGuardarDatosUsuario } from 'src/utils/utils'
+import { useGetAllConfigs } from 'src/hooks/common/common-hook'
 
 const Login = () => {
   let navigate = useNavigate()
+  const { configs } = useGetAllConfigs();
 
   const [usuario, setUsuario] = useState('');
   const [password, setPassword] = useState('');
@@ -69,7 +71,8 @@ const Login = () => {
         surnames: login?.person?.surnames,
         profileImage: login?.person?.profilePicture,
         userName: login?.userName,
-        typeUser: login?.typeUser
+        typeUser: login?.typeUser,
+        role: login?.role?.name
       }
       fuGuardarDatosUsuario(JSON.stringify(objetoUsuario));
       if(login?.typeUser === 'P') {
@@ -89,7 +92,7 @@ const Login = () => {
               <CCard className="p-1">
                 <CCardBody>
                   <CForm>
-                    <h1>LOGIN - SANA BELLEZA</h1>
+                    <h1>LOGIN - {configs.title}</h1>
                     <p className="text-medium-emphasis">Iniciar sesión en su cuenta</p>
                     <span>Usuario:</span>
                     <CInputGroup className="mb-3">
@@ -128,7 +131,11 @@ const Login = () => {
                     <CRow>
                       <CCol xs={12} className='mt-1'>
                         <small className="text-medium-emphasis">
-                          Todos los derechos reservados. Copyright © Sana Belleza
+                          Todos los derechos reservados. Copyright © {new Date().getFullYear()} {configs.title}
+                        </small>
+                        <br />
+                        <small className="text-medium-emphasis">
+                          Versión {configs.version}
                         </small>
                       </CCol>
                     </CRow>

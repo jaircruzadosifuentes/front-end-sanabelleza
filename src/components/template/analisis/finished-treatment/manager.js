@@ -151,7 +151,7 @@ export default function Manager(props) {
         type={'h1'}
         value={'PACIENTES CON TRATAMIENTO FINALIZADO'}
       />
-      <div className="row">
+      <div className="row mb-3">
         <div className="col-md-4">
           <Filter
             handleSearchForSurNames={handleSearchForSurNames}

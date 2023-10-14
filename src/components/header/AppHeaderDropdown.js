@@ -51,18 +51,8 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 const AppHeaderDropdown = () => {
   let navigate = useNavigate();
 
-    // Function to clear complete cache data
-  const clearCacheData = () => {
-    caches.keys().then((names) => {
-      names.forEach((name) => {
-        caches.delete(name);
-      });
-    });
-  };
-
   const handleCerrarSesion = (e) => {
     fuLimpiarSesiones();
-    clearCacheData();
     navigate('/');
   }
   const handleRedirectPerfil = (e) => {

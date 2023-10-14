@@ -23,6 +23,8 @@ export default function InputFormControl(props) {
     id = '',
     isFilter = false,
     isBold = false,
+    upperCase = false,
+    onKeyUp,
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -67,9 +69,11 @@ export default function InputFormControl(props) {
         max={max}
         autoFocus={autoFocus}
         disabled={isDisabled}
+        onKeyUp={onKeyUp}
         maxLength={maxLength}
         align={align}
         readOnly={readOnly}
+        upperCase={upperCase}
       />
       <div className="invalid-feedback">{message}</div>
     </div>
@@ -95,4 +99,6 @@ InputFormControl.propTypes = {
   isLabel: PropTypes.bool,
   autoFocus: PropTypes.bool,
   maxLength: PropTypes.number,
+  onKeyUp: PropTypes.func,
+  upperCase: PropTypes.bool,
 };

@@ -11,6 +11,10 @@ import { ServiceGetDisponibiltyEmployeed } from "./services";
 import ListPatientDraft from './list-patient-draft';
 import { ServiceGetPatientsSolicitudeInDraft, ServicePostRegistrSolicitudAttention } from "src/service/solicitudAttention/service.solicitudAttention";
 import { useNavigate } from "react-router-dom";
+import { EntityGetByDni } from "src/utils/api-rest";
+import Switch from '@mui/material/Switch';
+import { COLOR_BUTTON_MAB, COLOR_GREEN } from "src/config/config";
+import { ServiceVerifyPatientByFullName } from "src/service/common/service.common";
 
 export default function Manager(props) {
   let navigate = useNavigate();
@@ -39,6 +43,11 @@ export default function Manager(props) {
   const [selectedValue, setSelectedValue] = React.useState('a');
   const [openModalVerEnBorrador, setOpenModalVerEnBorrador] = useState(false);
   const [listaPacientesEnBorrador, setListaPacientesEnBorrador] = useState([]);
+  const [consultReniec, setConsultReniec] = useState(true);
+  const [apellidoPaternoReniec, setApellidoPaternoReniec] = useState('');
+  const [apellidoMaternoReniec, setApellidoMaternoReniec] = useState('');
+  const [nombresReniec, setNombresReniec] = useState('');
+  const [nombresCompletos, setNombresCompletos] = useState('');
 
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
@@ -128,6 +137,21 @@ export default function Manager(props) {
       })
       return;
     }
+
+    if(!consultReniec) {
+      let listVerify = [];
+      listVerify = await ServiceVerifyPatientByFullName(surNames, names);
+      let isExists = isExistsPatient(listVerify);
+      if(isExists) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Advertencia',
+          text: `El paciente ${getNameIsExistsPatient(listVerify)}, ya se encuentra en tratamiento actualmente. Por favor, debe de esperar que su tratamiento finalice.`,
+        });
+        return;
+      }
+    } 
+
     let data = {
       person: {
         names, 
@@ -279,6 +303,10 @@ export default function Manager(props) {
     setHourInitial('');
     setHourFinished('');
     setDateOfRegister('');
+    setNombresReniec('');
+    setApellidoMaternoReniec('');
+    setApellidoPaternoReniec('');
+
     document.getElementById('idApellidosSolicitud').value = '';
     document.getElementById('idNombresSolicitud').value = '';
     document.getElementById('idNroDocumentoSolicitud').value = '';
@@ -353,6 +381,44 @@ export default function Manager(props) {
   const handleChangeCancelar = (e) => {
     navigate('/dashboard');
   }
+  const handleKeyUpNroDocument = async(e) => {
+    let listVerify = []
+    if(e.keyCode === 13) {
+      if(consultReniec) {
+        let objectPerson = await EntityGetByDni(nroDocument);
+        setApellidoPaternoReniec(objectPerson?.data?.apellido_paterno);
+        setApellidoMaternoReniec(objectPerson?.data?.apellido_materno);
+        setNombresCompletos(objectPerson?.data?.nombre_completo.split(',')[0]);
+        setSurNames(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno);
+        setNames(objectPerson?.data?.nombres);
+        setNombresReniec(objectPerson?.data?.nombres);
+        console.log(objectPerson?.data?.nombre_completo.split(',')[0]);
+        console.log(objectPerson?.data?.nombres);
+        listVerify = await ServiceVerifyPatientByFullName(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno, objectPerson?.data?.nombres);
+        let isExists = isExistsPatient(listVerify);
+        console.log(isExists);
+        if(isExists) {
+          Swal.fire({
+            icon: 'warning',
+            title: 'Advertencia',
+            text: `El(la) paciente ${getNameIsExistsPatient(listVerify)}, ya se encuentra en tratamiento actualmente. Por favor, debe de esperar que su tratamiento finalice.`,
+          });
+          handleClearControls();
+          return;
+        }
+      } 
+    }
+  }
+  const isExistsPatient = (listVerify = []) => {
+    console.log(listVerify);
+    return listVerify[0].isExitsPerson;
+  }
+  const getNameIsExistsPatient = (listVerify = []) => {
+    return listVerify[0].namesFull;
+  }
+  const handleChangeConsultaReniec = (e) => {
+    setConsultReniec(e.target.checked);
+  }
   //#region Metodos
   return (
     <div className="container-fluid mt-1 mb-1">
@@ -360,7 +426,19 @@ export default function Manager(props) {
         type={'h1'}
         value={'SOLICITUD - REGISTRO DEL PACIENTE'}
       />
+      <div className="row">
+        <div className="col-md-10"></div>
+        <div className="col-md-2">
+          <span style={{color: consultReniec ? COLOR_GREEN: COLOR_BUTTON_MAB}}>Consultar con RENIEC</span> <Switch {...label} defaultChecked onChange={handleChangeConsultaReniec} />
+        </div>
+      </div>
       <Form
+        objPersonConRenic={{
+          apellido_paterno: apellidoPaternoReniec,
+          apellido_materno: apellidoMaternoReniec,
+          nombres: nombresReniec,
+          nombresCompletos: nombresCompletos
+        }}
         handleViewDisponibilty={handleViewDisponibilty}
         handleSave={handleSave}
         handleSaveTemporality={handleSaveTemporality}
@@ -383,6 +461,7 @@ export default function Manager(props) {
         handleLimpiarControles={handleLimpiarControles}
         listaPacientesEnBorrador={listaPacientesEnBorrador}
         handleChangeCancelar={handleChangeCancelar}
+        handleKeyUpNroDocument={handleKeyUpNroDocument}
       />
 
       {/* Modales */}
@@ -433,7 +512,7 @@ export default function Manager(props) {
     </div>
   )
 }
-
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
 Manager.propTypes = {
   handleViewDisponibilty: PropTypes.func,
   handleAsignarSchedule: PropTypes.func,

@@ -36,7 +36,7 @@ export default function Manager(props) {
       <div className="row">
         <Title type={'h1'} value={'MÓDULO DE EMPLEADOS'} />
       </div>
-      <div className="row">
+      <div className="row mb-3">
         <div className="col-md-4 col-xs-4 col-lg-4">
           <Filter handleSearchForSurNames={handleSearchForSurNames} />
         </div>

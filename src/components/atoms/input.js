@@ -14,6 +14,8 @@ export default function Input({
   autoFocus = false,
   isDisabled = false,
   readOnly = false,
+  onKeyUp,
+  upperCase = false,
   align = 'left',
   ...props
 }) {
@@ -28,9 +30,10 @@ export default function Input({
       min={min}
       onChange={onChange}
       maxLength={maxLength}
+      onKeyUp={onKeyUp}
       autoFocus={autoFocus}
       readOnly={readOnly}
-      style={{background: isDisabled ? 'white': '', textAlign: align}}
+      style={{background: isDisabled ? 'white': '', textAlign: align, textTransform: upperCase? 'uppercase': ''}}
       {...props}
     />
   );
@@ -49,5 +52,7 @@ Input.propTypes = {
   maxLength: PropTypes.number,
   onChange: PropTypes.func,
   autoFocus: PropTypes.bool,
-  isDisabled: PropTypes.bool
+  isDisabled: PropTypes.bool, 
+  upperCase: PropTypes.bool, 
+  onKeyUp: PropTypes.func
 };

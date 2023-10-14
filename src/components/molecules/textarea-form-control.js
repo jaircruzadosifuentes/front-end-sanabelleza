@@ -18,6 +18,7 @@ export default function TextAreaFormControl(props) {
     maxLength = 9999,
     readOnly = false,
     rows = 3,
+    isLabel = false,
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -44,9 +45,10 @@ export default function TextAreaFormControl(props) {
 
   return (
     <div className={className}>
-      {/* {label && <Label children={children} htmlFor={matchName} />} */}
-      <Label title={label + ':'} htmlFor={matchName} />
-
+      {
+        isLabel?
+        <Label title={label + ':'} htmlFor={matchName} />: ''
+      }
       <textarea
         type={type}
         id={matchName}
@@ -81,6 +83,7 @@ TextAreaFormControl.propTypes = {
   disabled: PropTypes.bool,
   autoFocus: PropTypes.bool,
   readOnly: PropTypes.bool,
+  isLabel: PropTypes.bool,
   maxLength: PropTypes.number,
   rows: PropTypes.number,
 };

@@ -3,6 +3,10 @@ import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl, SelectedFormControl } from "src/components/molecules";
 import PropTypes from "prop-types";
 import { convertDateTimeToDate, formatDecimales } from "src/utils/utils";
+import Chip from '@mui/material/Chip';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/joy/Box';
+import Radio from '@mui/joy/Radio';
 
 export default function FormPay({
   objetoPago,
@@ -11,10 +15,26 @@ export default function FormPay({
   handleChangePayMethod,
   haveConcept = false,
   handlePagarCuota,
-  handleChangeConceptoPago
+  handleChangeConceptoPago,
+  handleChangeMontoEfectivo,
+  vuelto = 0.00,
+  payMethodId = 0,
+  debtNumberFlagMax = false,
+  vouchers = [],
+  handleChangeTipoDocumento,
+  selectedValue = '',
+  handleChangeRadioButton
 }) {
   return (
-    <div className="container form-group">
+    <div className="container-fluid">
+      {
+        debtNumberFlagMax ?
+          <div className="row mt-3 mb-3">
+            <Alert variant="filled" severity="warning">
+              Ésta es su última cuota a pagar, se le preguntará si desea boleta o factura. Se emitirá lo indicado, del total de la deuda ya pagada.
+            </Alert>
+          </div> : ''
+      }
       <Label title={'DETALLE DEL PAGO'} isBold />
       <div className="row">
         <div className="col-md-4" style={{ textAlign: 'left' }}>
@@ -40,9 +60,11 @@ export default function FormPay({
           <span>{convertDateTimeToDate(objetoPago?.paymentDate)}</span>
         </div>
       </div>
+      <br />
       <Label title={'FORMA DE PAGO'} isBold />
+
       <div className="row">
-        <div className="col-md-4 mt-4" style={{ textAlign: 'left' }}>
+        <div className="col-md-4 mt-4 mb-4" style={{ textAlign: 'left' }}>
           <span>Método de pago: </span>
         </div>
         <SelectedFormControl
@@ -55,17 +77,71 @@ export default function FormPay({
       {
         haveConcept ?
           <div className="row">
-            <div className="col-md-4 mt-4" style={{ textAlign: 'left' }}>
-            </div>
-            <InputFormControl
-              type="text"
-              className="col-md-4"
-              isLabel
-              label="Ingrese concepto"
-              onChange={handleChangeConceptoPago}
-            />
+            {
+              payMethodId !== 3 ?
+                <>
+                  <div className="col-md-4" style={{ textAlign: 'left' }}></div>
+                  <InputFormControl
+                    type="text"
+                    className="col-md-4"
+                    isLabel
+                    label="Ingrese concepto"
+                    onChange={handleChangeConceptoPago}
+                  />
+                </> :
+                <>
+                  <div className="col-md-4 mt-2" style={{ textAlign: 'left' }}></div>
+                  <InputFormControl
+                    type="number"
+                    className="col-md-4"
+                    isLabel
+                    align="right"
+                    label={`Monto en efectivo`}
+                    onChange={handleChangeMontoEfectivo}
+                    id="txtMontoEfectivo"
+                    autoFocus
+                  />
+                  <div className="col-md-3 mt-3">
+                    Vuelto en efectivo:
+                    <Chip label={`S/. ${formatDecimales(vuelto)}`} color="success" />
+                  </div>
+                </>
+            }
           </div> : ''
       }
+
+      <div className="row mb-4">
+        <div className="col-md-4 mt-4" style={{ textAlign: 'left' }}>
+          <span>Tipo de documento: </span>
+        </div>
+        <SelectedFormControl
+          className="col-md-4"
+          placeHolder="Seleccione..."
+          options={vouchers}
+          handleChange={handleChangeTipoDocumento}
+        />
+      </div>
+      <div className="row mt-4">
+        <div className="col-md-4"></div>
+        <div className="col-md-8">
+          <Box sx={{ display: 'flex', gap: 2, marginTop: '1em', marginBottom: '1em' }}>
+            <Radio
+              checked={selectedValue === 'p'}
+              onChange={handleChangeRadioButton}
+              value="p"
+              name="radio-buttons"
+              label="¿Documento emitido a nombre de Paciente?"
+            />
+            <Radio
+              checked={selectedValue === 'n'}
+              onChange={handleChangeRadioButton}
+              value="n"
+              name="radio-buttons"
+              label="¿Documento emitido aún cliente nuevo?"
+            />
+          </Box>
+        </div>
+      </div>
       <div className="row mt-3">
         <div className="col-md-12">
           <div className="btn-toolbar" style={{ float: 'right' }}>
@@ -97,6 +173,14 @@ FormPay.propTypes = {
   handleChangeConceptoPago: PropTypes.func,
   handleChangePayMethod: PropTypes.func,
   handlePagarCuota: PropTypes.func,
+  handleChangeMontoEfectivo: PropTypes.func,
+  handleChangeTipoDocumento: PropTypes.func,
+  handleChangeRadioButton: PropTypes.func,
   payMethods: PropTypes.array,
+  vouchers: PropTypes.array,
   haveConcept: PropTypes.bool,
+  vuelto: PropTypes.number,
+  payMethodId: PropTypes.number,
+  debtNumberFlagMax: PropTypes.bool,
+  selectedValue: PropTypes.string,
 };

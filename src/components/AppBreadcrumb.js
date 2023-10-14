@@ -1,11 +1,14 @@
 import React from 'react'
 import { useLocation } from 'react-router-dom'
+import PropTypes from 'prop-types';
 
-import routes from '../routes'
+// import routes from '../routes'
 
 import { CBreadcrumb, CBreadcrumbItem } from '@coreui/react'
 
-const AppBreadcrumb = () => {
+const AppBreadcrumb = ({
+  routes = []
+}) => {
   const currentLocation = useLocation().pathname
 
   const getRouteName = (pathname, routes) => {
@@ -47,5 +50,7 @@ const AppBreadcrumb = () => {
     </CBreadcrumb>
   )
 }
-
+AppBreadcrumb.propTypes = {
+  routes: PropTypes.array,
+};
 export default React.memo(AppBreadcrumb)

@@ -1,3 +1,5 @@
+import { TOKEN_CONSULTA_DNI } from "src/config/config"
+
 export async function  EntityCreate (endpoint, entity) { 
   try {
     return await fetch(endpoint, {
@@ -57,5 +59,21 @@ export async function EntityDelete (endpoint, id) {
     return await res.json()
   } catch (error) {
     throw error  
+  }
+}
+export async function EntityGetByDni (dni) {
+  try {
+    let endpoint = `https://apiperu.dev/api/dni/${dni}`
+    const res = await fetch(endpoint, {
+      method: 'GET',
+      contentType: 'application/json',
+      headers: {
+        'Accept': 'application/json',
+        'Authorization': `Bearer ${TOKEN_CONSULTA_DNI}`
+      }
+    })
+    return await res.json()
+  } catch (error) {
+    throw error     
   }
 }

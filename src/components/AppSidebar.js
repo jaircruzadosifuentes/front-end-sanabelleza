@@ -7,7 +7,8 @@ import 'simplebar/dist/simplebar.min.css'
 import PropTypes from 'prop-types';
 
 const AppSidebar = ({
-  options = []
+  options = [],
+  configs = {}
 }) => {
   const dispatch = useDispatch()
   const unfoldable = useSelector((state) => state.sidebarUnfoldable)
@@ -26,8 +27,8 @@ const AppSidebar = ({
       <CSidebarBrand className="d-none d-md-flex" to="/" style={{ overflowX: 'none' }}>
         <div className='row'>
           <div className='col-md-12'>
-            <small>SISB ADMINISTRACIÓN</small>
-            <h1>SANA BELLEZA</h1>
+            <small>SISB ADMINISTRACIÓN - Versión {configs.version}</small>
+            <h1>{configs.title}</h1>
           </div>
         </div>
       </CSidebarBrand>
@@ -45,5 +46,6 @@ const AppSidebar = ({
 }
 AppSidebar.propTypes = {
   options: PropTypes.array,
+  configs: PropTypes.object,
 };
 export default React.memo(AppSidebar)
