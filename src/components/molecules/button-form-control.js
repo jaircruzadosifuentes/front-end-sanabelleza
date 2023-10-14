@@ -19,6 +19,8 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import PaymentIcon from '@mui/icons-material/Payment';
 import ModeIcon from '@mui/icons-material/Mode';
 import ChatIcon from '@mui/icons-material/Chat';
+import DoDisturbOffIcon from '@mui/icons-material/DoDisturbOff';
+
 function TypeButton(value) {
   switch (value) {
     case 1:
@@ -53,6 +55,8 @@ function TypeButton(value) {
       return(<ModeIcon />)
     case 16:
       return(<ChatIcon />)
+    case 17:
+      return (<DoDisturbOffIcon />)
     default:
       break;
   }
@@ -64,7 +68,8 @@ export default function ButtonFormControl({
   onClick,
   float = '',
   type = 0,
-  disabled = false
+  disabled = false,
+  top = 'mt-1'
 }) {
   function colorBackGround() {
     let color = '';
@@ -86,7 +91,7 @@ export default function ButtonFormControl({
   return (
     <>
       <Tooltip title={title}>
-        <button disabled={disabled} className={`${color} text-white mt-1`} onClick={onClick} style={{ float: float, backgroundColor: colorBackGround() }}>
+        <button disabled={disabled} className={`${color} text-white ${top}`} onClick={onClick} style={{ float: float, backgroundColor: colorBackGround() }}>
           {TypeButton(type)}&nbsp;
           {title}
         </button>
@@ -101,5 +106,6 @@ ButtonFormControl.propTypes = {
   icon: PropTypes.string,
   onClick: PropTypes.func,
   float: PropTypes.string,
+  top: PropTypes.string,
   type: PropTypes.number
 };

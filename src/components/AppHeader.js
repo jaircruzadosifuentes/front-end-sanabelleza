@@ -23,8 +23,11 @@ import Badge from '@mui/material/Badge';
 import { fuDevolverDatosUsuario } from 'src/utils/utils'
 import { useGetAllMsgForId } from 'src/api/hooks/message/message-hooks'
 import SidebarLeft from './template/messages/sidebar-left'
+import PropTypes from 'prop-types';
 
-const AppHeader = () => {
+const AppHeader = ({
+  routes = []
+}) => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
@@ -87,9 +90,9 @@ const AppHeader = () => {
               Dashboard
             </CNavLink>
           </CNavItem>
-          <CNavItem>
+          {/* <CNavItem>
             <CNavLink to="/paciente/en-espera" component={NavLink}>Pacientes en Espera</CNavLink>
-          </CNavItem>
+          </CNavItem> */}
           {/* <CNavItem>
             <CNavLink href="#">Configuraciones</CNavLink>
           </CNavItem> */}
@@ -116,7 +119,7 @@ const AppHeader = () => {
       </CContainer>
       <CHeaderDivider />
       <CContainer fluid>
-        <AppBreadcrumb />
+        <AppBreadcrumb routes={routes}/>
       </CContainer>
 
       <Popover
@@ -143,5 +146,7 @@ const AppHeader = () => {
     </CHeader>
   )
 }
-
+AppHeader.propTypes = {
+  routes: PropTypes.array,
+};
 export default AppHeader

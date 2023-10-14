@@ -11,6 +11,7 @@ const VentanillaHorarios = React.lazy(() => import('../views/ventanilla/ventanil
 //PAQUETES
 const MntPaquetes = React.lazy(() => import('../views/mantenimiento/paquetes/paquete-layout'));
 const MntRoles = React.lazy(() => import('../views/mantenimiento/role-layout'));
+const MntEnvironmentSystemLayout = React.lazy(() => import('../views/mantenimiento/environmet-system-layout'));
 //FINALIZA ATENCIÓN
 const FinalizaAtencionSolicitud = React.lazy(() => import('../views/paciente/finalizaAtencion/finaliza-atencion-layout'));
 //PENDIENTES DE ANALISIS
@@ -28,7 +29,14 @@ const EmployeedSolicitudeLayout = React.lazy(() => import('../views/employeed/em
 const EmployeedAprobacionLayout = React.lazy(() => import('../views/employeed/employeed-aproval-layout'));
 const EmployeedProfileLayout = React.lazy(() => import('../views/employeed/employeed-profile-layout'));
 const MessagesLayout = React.lazy(() => import('../views/messages/messages-layout'))
-const DashboardPacienteLayout = React.lazy(() => import('../views/dashboard-paciente/dashboard-paciente-layout'))
+const DashboardPatientLayout = React.lazy(() => import('../views/dashboard-paciente/dashboard-paciente-layout'));
+//Caja chica
+const AccountingLayout = React.lazy(() => import('../views/accounting/accounting-layout'));
+//Ventas
+const SaleLayout = React.lazy(() => import('../views/sale/sale-layout'));
+const SaleListLayout = React.lazy(() => import('../views/sale/sale-list-layout'));
+//Logística
+const LogisticKardexLayout = React.lazy(() => import('../views/logistic/kardex/kardex-layout'));
 
 export const GetComponentBasedOnRoute = (name) => {
   const COMPONENT_BASE_ON_ROUTE = {
@@ -49,8 +57,13 @@ export const GetComponentBasedOnRoute = (name) => {
     'EmployeedSolicitudeLayout': EmployeedSolicitudeLayout,
     'EmployeedAprobacionLayout': EmployeedAprobacionLayout,
     'MessagesLayout': MessagesLayout,
-    'DashboardPacienteLayout': DashboardPacienteLayout,
+    'DashboardPatientLayout': DashboardPatientLayout,
     'EmployeedProfileLayout': EmployeedProfileLayout,
+    'MntEnvironmentSystemLayout': MntEnvironmentSystemLayout,
+    'AccountingLayout': AccountingLayout,
+    'SaleLayout': SaleLayout,
+    'SaleListLayout': SaleListLayout,
+    'LogisticKardexLayout': LogisticKardexLayout,
   }
   const COMPONENT_DEFAULT_BASE_ON_ROUTE = Dashboard
   return COMPONENT_BASE_ON_ROUTE[name] || COMPONENT_DEFAULT_BASE_ON_ROUTE;

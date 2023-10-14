@@ -29,7 +29,7 @@ export function getDateNow() {
   return new Date(Date.now());
 }
 export function convertDateTimeToDate(fullDate) {
-  return new Date(fullDate).toLocaleDateString()
+  return new Date(fullDate).toLocaleDateString('en-GB')
 }
 export function formatDecimales(value = 0) {
   return parseFloat(value.toFixed(2));

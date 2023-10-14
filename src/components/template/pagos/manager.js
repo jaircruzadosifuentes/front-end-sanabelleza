@@ -8,15 +8,24 @@ import { Modal } from "src/components/molecules";
 import FormPay from './form-pay';
 import { useGetAllPayMethods } from '../paciente/finalizaAtencion/hooks';
 import Filter from '../../organism/filter';
+import { formatDecimales } from 'src/utils/utils';
+import { useGetInSelectVoucherDocument } from 'src/hooks/common/common-hook';
 
 export default function Manager(props) {
   const { payments, setPayments } = useGetAllPayments(props);
+  const { vouchers } = useGetInSelectVoucherDocument(props);
   const { payMethods } = useGetAllPayMethods(props);
   const [payMethodId, setPayMethodId] = useState(0);
   const [haveConcept, setHaveConcept] = useState(false);
   const [openModalFormPago, setOpenModalFormPago] = useState(false);
   const [conceptoPago, setConceptoPago] = useState('');
   const [result, setResult] = useState([]);
+  const [vuelto, setVuelto] = useState(0.00);
+  const [cash, setCash] = useState(0.00);
+  const [debtNumberFlagMax, setDebNumberFlagMax] = useState(false);
+  const [vouDocumentId, setVouDocumentId] = useState(0);
+  const [selectedValue, setSelectValue] = useState('p');
+  const [isNewCustomer, setIsNewCustomer] = useState(false);
 
   const [objetoPago, setObjetoPago] = useState({
     paymentScheduleDetailId: 0,
@@ -29,6 +38,8 @@ export default function Manager(props) {
   const handleRealizarPago = (e, row) => {
     setOpenModalFormPago(true);
     setObjetoPago(row);
+    let isDebtMax = payments.filter(p => parseInt(p.debtNumbertMax) === parseInt(row.debtNumber) && p.paymentId === row?.payment?.paymentId).map(pa => pa.paymentId)[0]
+    setDebNumberFlagMax(isDebtMax > 0)
   }
   const handleCargarDataPagosPendientes = async () => {
     let listPaymentService = await ServiceGetPayments();
@@ -46,6 +57,18 @@ export default function Manager(props) {
   }
   const handlePagarCuota = (e) => {
     let userPayment = "SIST"
+    if (payMethodId === 3) {
+      if(cash < parseFloat(objetoPago.amount)) {
+        Swal.fire({
+          icon: 'warning',
+          title: 'Advertencia',
+          text: `El monto a pagar debe de ser el establecido en el cronograma de pagos. No puede cancelar un monto inferior.`,
+        })
+        document.getElementById('txtMontoEfectivo').value = '';
+        setVuelto(0.00)
+        return;
+      }
+    }
     if(!payMethodId || payMethodId === 0) {
       Swal.fire({
         icon: 'warning',
@@ -62,7 +85,13 @@ export default function Manager(props) {
       payMethod: {
         value: payMethodId,
       },
-      conceptoPago
+      conceptoPago,
+      cash: cash,
+      monetaryExchange: vuelto,
+      voucherDocument: {
+        value: parseInt(vouDocumentId)
+      },
+      isNewCustomer: isNewCustomer
     }
     Swal.fire({
       title: `¿Desea realizar el pago de la cuota nro ${debtNumber}?`,
@@ -77,6 +106,7 @@ export default function Manager(props) {
       if (result.isConfirmed) {
         let actualiza = await ServicePutUpdateDebtPayment(data);
         if (actualiza.ok) {
+          clearControls();
           await handleCargarDataPagosPendientes();
           Swal.fire(
             'Actualización exitosa',
@@ -89,6 +119,10 @@ export default function Manager(props) {
       }
     })
   }
+  const clearControls = () => {
+    setPayMethodId(0);
+    setCash(0.00);
+  }
   const handleSearchForSurNames = (e) => {
     let searchVal = '';
     searchVal = e.target.value;
@@ -100,13 +134,29 @@ export default function Manager(props) {
     })
     setResult(filterBySearch);
   }
+  const handleChangeMontoEfectivo = (e) => {
+    let monto = parseFloat(e.target.value);
+    setCash(monto);
+    if(!isNaN(monto) && (monto - objetoPago.amount) > 0) {
+      setVuelto(monto - objetoPago.amount)
+    } else {
+      setVuelto(formatDecimales(0.00))
+    }
+  }
+  const handleChangeTipoDocumento = (e) => {
+    setVouDocumentId(e?.value);
+  }
+  const handleChangeRadioButton = (event) => {
+    setIsNewCustomer(event.target.value === 'n')
+    setSelectValue(event.target.value);
+  };
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
         type={'h1'}
         value={`MÓDULO DE PAGOS PENDIENTES`}
       />
-      <div className='row'>
+      <div className='row mb-3'>
         <div className='col-md-4'>
           <Filter 
             handleSearchForSurNames={handleSearchForSurNames}
@@ -134,6 +184,14 @@ export default function Manager(props) {
               haveConcept={haveConcept}
               handlePagarCuota={handlePagarCuota}
               handleChangeConceptoPago={handleChangeConceptoPago}
+              handleChangeMontoEfectivo={handleChangeMontoEfectivo}
+              vuelto={vuelto}
+              payMethodId={payMethodId}
+              debtNumberFlagMax={debtNumberFlagMax}
+              vouchers={vouchers}
+              handleChangeTipoDocumento={handleChangeTipoDocumento}
+              selectedValue={selectedValue}
+              handleChangeRadioButton={handleChangeRadioButton}
             />
           </Modal>
         )

@@ -18,4 +18,16 @@ export const Uri_GetReportMensualCategoryTTO = `${URI_DEV}/api/Common/GetReportM
 
 export const Uri_GetOptions = (employeedId) => `${URI_DEV}/api/Common/GetOptions/${employeedId}`;
 export const Uri_GetRoutes = (employeedId) => `${URI_DEV}/api/Common/GetRoutes/${employeedId}`;
+export const Uri_GetOptionsGeneral = `${URI_DEV}/api/Common/GetOptionsGeneral`;
+export const Uri_GetOptionsItemGeneral = `${URI_DEV}/api/Common/GetOptionsItemGeneral`;
+export const Uri_GetInSelectVoucherDocument = `${URI_DEV}/api/Common/GetInSelectVoucherDocument`;
+export const Uri_GetAllConfigs = `${URI_DEV}/api/Common/GetAllConfigs`;
+export const Uri_PutConfig= `${URI_DEV}/api/Common/PutConfig`;
+export const Uri_GetRoutesSpecial = (userAccess) => `${URI_DEV}/api/Common/GetRoutesSpecial/${userAccess}`;
 
+export const Uri_GetOptionsItemsByCodeEmployeed = (code) => `${URI_DEV}/api/Common/GetOptionsItemsByCodeEmployeed/${code}`;
+export const Uri_GetOptionsByCodeEmployeed = (code) => `${URI_DEV}/api/Common/GetOptionsByCodeEmployeed/${code}`;
+export const Uri_PutRemoveAddOptionEmployeed = (optionItemId) => `${URI_DEV}/api/Common/PutRemoveAddOptionEmployeed/${optionItemId}`;
+export const Uri_AddOptionEmployeed = (optionItemId, optionId, code) => `${URI_DEV}/api/Common/PutAddOptionEmployeed/${optionItemId}/${optionId}/${code}`;
+export const Uri_PutAddOptionFather = (codeEmployeed, optionId) => `${URI_DEV}/api/Common/PutAddOptionFather/${codeEmployeed}/${optionId}`;
+export const Uri_VerifyPatientByFullName = (surnames, names) => `${URI_DEV}/api/Common/VerifyPatientByFullName/${surnames}/${names}`;

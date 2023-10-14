@@ -8,7 +8,6 @@ import Radio from '@mui/joy/Radio';
 export default function Form({
   handleViewDisponibilty,
   handleSave,
-  handleSaveTemporality,
   documents = [],
   employeed = '',
   dateOfRegister,
@@ -24,10 +23,10 @@ export default function Form({
   handleChangeEmail,
   selectedValue,
   handleChange,
-  handleVerEnBorrador,
   handleLimpiarControles,
-  listaPacientesEnBorrador = [],
-  handleChangeCancelar
+  handleChangeCancelar,
+  handleKeyUpNroDocument,
+  objPersonConRenic = {}
 }) {
   return (
     <div className="form-group">
@@ -41,6 +40,7 @@ export default function Form({
           isLabel
           onChange={handleChangeSurNames}
           id={'idApellidosSolicitud'}
+          defaultValue={objPersonConRenic?.nombresCompletos}
         />
         <InputFormControl
           type="text"
@@ -49,6 +49,7 @@ export default function Form({
           label="Nombres"
           onChange={handleChangeNames}
           id={'idNombresSolicitud'}
+          defaultValue={objPersonConRenic?.nombres}
         />
         <InputFormControl
           type="date"
@@ -64,6 +65,7 @@ export default function Form({
           placeHolder="Tipo de Documento"
           titleLabel="Tipo de Documento"
           options={documents}
+          autoFocus
           handleChange={handleChangeTipoDocumento}
         />
         <InputFormControl
@@ -73,6 +75,7 @@ export default function Form({
           label="Nro Documento"
           maxLength={sizeDocument}
           onChange={handleChangeNroDocument}
+          onKeyUp={handleKeyUpNroDocument}
           id="idNroDocumentoSolicitud"
         />
         <div className="col-md-4 mt-4">
@@ -175,6 +178,7 @@ export default function Form({
   )
 }
 Form.propTypes = {
+  objPersonConRenic: PropTypes.object,
   selectedValue: PropTypes.string,
   handleChange: PropTypes.func,
   handleLimpiarControles: PropTypes.func,
@@ -182,6 +186,7 @@ Form.propTypes = {
   handleViewDisponibilty: PropTypes.func,
   handleVerEnBorrador: PropTypes.func,
   handleChangeSurNames: PropTypes.func,
+  handleKeyUpNroDocument: PropTypes.func,
   handleChangeNames: PropTypes.func,
   handleChangeBirthDate: PropTypes.func,
   handleChangeNroDocument: PropTypes.func,

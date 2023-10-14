@@ -10,7 +10,8 @@ export default function SelectedFormControl({
   handleChange,
   defaultValue = '',
   placeHolder = '',
-  titleLabel = ''
+  titleLabel = '',
+  autoFocus = false
 }) {
 
   return (
@@ -24,6 +25,7 @@ export default function SelectedFormControl({
         isClearable
         placeholder={placeHolder}
         isSearchable
+        autoFocus={autoFocus}
       />
     </div>
   )
@@ -35,6 +37,7 @@ SelectedFormControl.propTypes = {
   matchName: PropTypes.string,
   defaultValue: PropTypes.string,
   error: PropTypes.bool,
+  autoFocus: PropTypes.bool,
   options: PropTypes.array,
   classNameDiv: PropTypes.string,
   handleChange: PropTypes.func,
