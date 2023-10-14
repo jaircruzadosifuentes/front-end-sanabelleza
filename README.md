@@ -47,7 +47,7 @@ $ yarn build
 Arquitectura Atomic Design
 
 ```
-coreui-free-react-admin-template
+front-end
 ├── public/          # static files
 │   └── index.html   # html template
 │
