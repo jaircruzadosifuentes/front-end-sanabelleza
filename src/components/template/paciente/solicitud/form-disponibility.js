@@ -4,25 +4,15 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Autocomplete from '@mui/material/Autocomplete';
-import TextField from '@mui/material/TextField';
 import ListEmployeedDisponibility from "./list-employeed-disponibility";
 import { Label } from "src/components/atoms";
 import { ButtonFormControl, InputFormControl } from "src/components/molecules";
 import Alert from "@mui/material/Alert/Alert";
-import { ReactAgenda } from 'react-agenda';
-import { COLOR_BUTTON_MAB, COLOR_YELLOW } from "src/config/config";
-import { COLOR_GREEN } from "src/utils/constants";
 import { getDateNow } from "src/utils/utils";
+import AutoCompleteTextField from "src/components/organism/autocomplete-text-field";
+import AgendaView from "src/components/organism/agenda-view";
 require('moment/locale/es.js'); // this is important for traduction purpose
 
-const COLOR_SCHEDULE = {
-  'color-1': COLOR_GREEN,
-  "color-2": COLOR_BUTTON_MAB,
-  "color-3": COLOR_YELLOW,
-  "color-4": COLOR_GREEN,
-  "color-5": COLOR_BUTTON_MAB
-}
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
 
@@ -73,11 +63,7 @@ export default function FormDisponibilty({
   handleCloseModalEmployeedDisponibility,
   handleItemEditSchedule
 }) {
-  const [value, setValue] = React.useState(0);
-  const [startDate, setStartDate] = useState(new Date());
-  const [numberOfDays, setNumberOfDays] = useState(5);
-  console.log(setStartDate, setNumberOfDays);
-  let now = new Date();
+  const [value, setValue] = useState(0);
   employeedsDisponibiltyResult.map(s => {
     s.startDateTime = new Date(s.startDateTime) 
     s.endDateTime = new Date(s.endDateTime)
@@ -100,47 +86,20 @@ export default function FormDisponibilty({
       default:
         break;
     };
-    return null;
+    return s;
   });
-  const handleChange = (e, newValue) => {
+  const handleChange = (_, newValue) => {
     setValue(newValue);
   };
   return (
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <div className="row">
-          <div className="col-md-6 mt-3 mb-3">
-            <Autocomplete
-              disablePortal
-              id="combo-box-demo"
-              options={employeeds}
-              autoHighlight
-              getOptionLabel={(option) => option.label}
-              onChange={handleChangeEmployeed}
-              sx={{ width: '100%' }}
-              renderOption={(props, option) => (
-                <Box component="li" sx={{ '& > img': { mr: 2, flexShrink: 0 } }} {...props}>
-                  <img
-                    loading="lazy"
-                    width="45"
-                    src={`images/avatars/${option.person.profilePicture}`}
-                    srcSet={`images/avatars/${option.person.profilePicture} 2x`}
-                    alt=""
-                  />
-                  {option.label}
-                </Box>
-              )}
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  label="Trabajador"
-                  inputProps={{
-                    ...params.inputProps,
-                    autoComplete: 'new-password', // disable autocomplete and autofill
-                  }}
-                />
-              )} />
-          </div>
+          <AutoCompleteTextField 
+            rows={employeeds} 
+            className="col-md-6 mt-3 mb-3"
+            handleOnChange={handleChangeEmployeed}
+          />
           <InputFormControl
             type="date"
             autoFocus
@@ -164,27 +123,13 @@ export default function FormDisponibilty({
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Ver Modo Horario" {...a11yProps(0)} />
           <Tab label="Ver Modo Listado" {...a11yProps(1)} />
-          {/* <Tab label="Registro de Disponibilidad" {...a11yProps(2)} /> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
         <div className="col-md-12">
-          <ReactAgenda
-            minDate={new Date(now.getFullYear(), now.getMonth() - 2)}
-            maxDate={new Date(now.getFullYear(), now.getMonth() + 2)}
-            startDate={startDate}
-            items={employeedsDisponibiltyResult}
-            numberOfDays={numberOfDays}
-            rowsPerHour={6}
-            itemColors={COLOR_SCHEDULE}
-            locale={'es'}
-            autoScale={false}
-            fixedHeader={false}
-            startAtTime={9}
-            onItemEdit={handleItemEditSchedule}
-            endAtTime={20.90}
-            cellHeight={15}
-            disablePrevButton={false}
+          <AgendaView 
+            rows={employeedsDisponibiltyResult}
+            handleItemEdit={handleItemEditSchedule}
           />
         </div>
       </TabPanel>

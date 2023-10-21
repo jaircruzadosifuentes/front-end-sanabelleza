@@ -10,6 +10,7 @@ import { useGetAllPayMethods } from '../paciente/finalizaAtencion/hooks';
 import Filter from '../../organism/filter';
 import { formatDecimales } from 'src/utils/utils';
 import { useGetInSelectVoucherDocument } from 'src/hooks/common/common-hook';
+import { employeedCashRegisterId } from 'src/utils/functions';
 
 export default function Manager(props) {
   const { payments, setPayments } = useGetAllPayments(props);
@@ -56,7 +57,15 @@ export default function Manager(props) {
     setConceptoPago(e.target.value);
   }
   const handlePagarCuota = (e) => {
-    let userPayment = "SIST"
+    let userPayment = "SIST";
+    if(employeedCashRegisterId() === 0) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `El trabajador no tiene asignado una caja, por favor de comunicarse con SISTEMAS.`,
+      })
+      return;
+    }
     if (payMethodId === 3) {
       if(cash < parseFloat(objetoPago.amount)) {
         Swal.fire({

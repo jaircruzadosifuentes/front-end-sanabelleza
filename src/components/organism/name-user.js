@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from 'prop-types';
 import { useNavigate } from "react-router-dom";
-import { Link } from "@mui/joy";
 import Popover from '@mui/material/Popover';
 import Typography from '@mui/material/Typography';
 import { COLOR_BLUE_MAB } from "src/config/config";
 import ImgProfile from "./img-profile";
 import SpanFormControl from "../atoms/SpanFormControl";
-import CancelIcon from '@mui/icons-material/Cancel';
 
 export default function NameUser({
   profile = {},

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Title } from "src/components/atoms";
-import { getDateNow, getValueInBrackets } from "src/utils/utils";
+import { getValueInBrackets } from "src/utils/utils";
 import Form from "./form";
 import PropTypes from "prop-types";
 import { Modal } from "src/components/molecules";
@@ -13,7 +13,7 @@ import { ServiceGetPatientsSolicitudeInDraft, ServicePostRegistrSolicitudAttenti
 import { useNavigate } from "react-router-dom";
 import { EntityGetByDni } from "src/utils/api-rest";
 import Switch from '@mui/material/Switch';
-import { COLOR_BUTTON_MAB, COLOR_GREEN } from "src/config/config";
+import { AREA_FISIOTERAPIA_ATENCION, COLOR_BUTTON_MAB, COLOR_GREEN } from "src/config/config";
 import { ServiceVerifyPatientByFullName } from "src/service/common/service.common";
 
 export default function Manager(props) {
@@ -392,11 +392,8 @@ export default function Manager(props) {
         setSurNames(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno);
         setNames(objectPerson?.data?.nombres);
         setNombresReniec(objectPerson?.data?.nombres);
-        console.log(objectPerson?.data?.nombre_completo.split(',')[0]);
-        console.log(objectPerson?.data?.nombres);
         listVerify = await ServiceVerifyPatientByFullName(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno, objectPerson?.data?.nombres);
         let isExists = isExistsPatient(listVerify);
-        console.log(isExists);
         if(isExists) {
           Swal.fire({
             icon: 'warning',
@@ -410,7 +407,6 @@ export default function Manager(props) {
     }
   }
   const isExistsPatient = (listVerify = []) => {
-    console.log(listVerify);
     return listVerify[0].isExitsPerson;
   }
   const getNameIsExistsPatient = (listVerify = []) => {
@@ -475,7 +471,7 @@ export default function Manager(props) {
             onClose={handleCloseModalViewDisponibility}
           >
             <FormDisponibilty
-              employeeds={employeeds}
+              employeeds={employeeds.filter(e => parseInt(e.areaId) === AREA_FISIOTERAPIA_ATENCION)}
               employeedsWithScheduleResult={employeedsWithScheduleResult}
               employeedsDisponibiltyResult={employeedsDisponibiltyResult}
               handleChangeEmployeed={handleChangeEmployeed}

@@ -5,7 +5,6 @@ import IconButton from '@mui/material/IconButton';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import ImgProfile from 'src/components/organism/img-profile';
 import PropTypes from 'prop-types';
-import { Badge, Tooltip } from '@mui/material';
 import SpanFormControl from 'src/components/atoms/SpanFormControl';
 
 export default function CardViewItem({

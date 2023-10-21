@@ -11,12 +11,12 @@ export default function DetailUser({
 
   return (
     <Fragment>
-      <div className="row mb-4">
+      <div className="row">
         <div className="col-md-2">
           <ImgProfile profile={employeedDetail.person} isUploadImg />
         </div>
         <div className="col-md-1"></div>
-        <div className="col-md-9 mt-4">
+        <div className="col-md-9">
           <div className="row">
             <div className="col-md-12">
               <Title value={`${employeedDetail?.person?.names} ${employeedDetail?.person?.surnames}`} type={'h1'} isStaff={employeedDetail?.isStaff} />

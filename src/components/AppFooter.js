@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { CFooter } from '@coreui/react'
 import { COLOR_BLUE_MAB, COLOR_GREEN } from 'src/config/config'
 import PropTypes from 'prop-types';

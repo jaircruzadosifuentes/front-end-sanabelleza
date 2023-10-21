@@ -127,7 +127,7 @@ export default function TreeViewOptionsEmployeed({
             <>
               <StyledTreeItem key={index} nodeId={o.optionId} labelText={o.name} labelIcon={GetIconBasedOnComponent(o.icon)}>
                 {
-                  optionsItem.map((i, index) => {
+                  optionsItem.map((i) => {
                     if(o.optionId === i.option.optionId) {
                       return (
                         <>

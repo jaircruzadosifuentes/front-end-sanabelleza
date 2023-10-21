@@ -21,7 +21,7 @@ export default function Manager() {
   const [result, setResult] = useState([]);
   const { users, setUsers } = useGetAllUsersWithMessages(fromIdFinally, fromTypeUser);
   const { messages, setMessages } = useGetAllMessages(toIdFinally, fromIdFinally, params.tipo.toUpperCase());
-
+  console.log(objetoMessage);
   const handleClickSendMsg = async (e) => {
     let data = {
       messageContent: content

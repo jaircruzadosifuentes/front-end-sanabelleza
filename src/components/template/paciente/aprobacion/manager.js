@@ -16,6 +16,7 @@ import FormSendWssp from "./form-send-wssp";
 import FormModalReschedule from "./form-modal-reschedule";
 import { useGetAllEmployeed } from "../solicitud/hooks";
 import { ServiceGetDisponibiltyEmployeed } from "../solicitud/services";
+import { AREA_FISIOTERAPIA_ATENCION } from "src/config/config";
 
 export default function Manager(props) {
   //Variables
@@ -513,7 +514,7 @@ export default function Manager(props) {
           >
             <FormModalReschedule
               objRescheAppo={objRescheAppo}
-              employeeds={employeeds}
+              employeeds={employeeds.filter(e => parseInt(e.areaId) === AREA_FISIOTERAPIA_ATENCION)}
               handleViewDisponibilty={handleViewDisponibilty}
               handleChangeNewDate={handleChangeNewDate}
               handleChangeEmployeed={handleChangeEmployeed}

@@ -72,7 +72,8 @@ const Login = () => {
         profileImage: login?.person?.profilePicture,
         userName: login?.userName,
         typeUser: login?.typeUser,
-        role: login?.role?.name
+        role: login?.role?.name,
+        employeedCashRegisterId: login?.employeedCashRegisterId
       }
       fuGuardarDatosUsuario(JSON.stringify(objetoUsuario));
       if(login?.typeUser === 'P') {

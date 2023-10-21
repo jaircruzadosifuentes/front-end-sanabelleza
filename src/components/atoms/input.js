@@ -17,6 +17,7 @@ export default function Input({
   onKeyUp,
   upperCase = false,
   align = 'left',
+  marginTop = '',
   ...props
 }) {
   return (
@@ -33,7 +34,12 @@ export default function Input({
       onKeyUp={onKeyUp}
       autoFocus={autoFocus}
       readOnly={readOnly}
-      style={{background: isDisabled ? 'white': '', textAlign: align, textTransform: upperCase? 'uppercase': ''}}
+      style={{
+        background: isDisabled ? 'white': '', 
+        textAlign: align, 
+        textTransform: upperCase? 'uppercase': '',
+        marginTop: marginTop
+      }}
       {...props}
     />
   );
@@ -42,9 +48,10 @@ export default function Input({
 Input.propTypes = {
   readOnly: PropTypes.bool,
   align: PropTypes.string,
+  marginTop: PropTypes.string,
+  value: PropTypes.string,
   id: PropTypes.string,
   name: PropTypes.string,
-  value: PropTypes.string,
   type: PropTypes.string,
   className: PropTypes.string,
   max: PropTypes.number,

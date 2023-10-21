@@ -117,10 +117,12 @@ export default function Manager(props) {
     let result = false;
     optionPadreAgrega.map(padre => {
       optionsPadre.map(op => {
-        result = padre.name === op.name
-      })
+        result = padre.name === op.name;
+        return op;
+      });
+      return padre;
     });
-    return result;
+    return result
   }
   const handleRemoveAddItem = async () => {
     optionHijoElimina.map(async hijo => {
@@ -138,6 +140,7 @@ export default function Manager(props) {
       if (parseInt(p.optionId) === parseInt(hijoId)) {
         optionPapaId = p.optionId;
       }
+      return p;
     });
     return optionPapaId
   }
@@ -287,7 +290,8 @@ export default function Manager(props) {
           break;
         default:
           break;
-      }
+      };
+      return c;
     });
     return listConfigUpdate;
   }

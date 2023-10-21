@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ServiceGetAllConfigs, ServiceGetInSelectVoucherDocument, ServiceGetOptionsByCodeEmployeed, ServiceGetOptionsGeneral, ServiceGetOptionsItemGeneral, ServiceGetOptionsItemsByCodeEmployeed } from "src/service/common/service.common"
+import { ServiceGetAllConfigs, ServiceGetCategoriesInSelect, ServiceGetInSelectVoucherDocument, ServiceGetOptionsByCodeEmployeed, ServiceGetOptionsGeneral, ServiceGetOptionsItemGeneral, ServiceGetOptionsItemsByCodeEmployeed, ServiceGetSubCategoriesInSelect } from "src/service/common/service.common"
 
 export const useGetAllOptionsGeneral = () => {
   const [options, setOptions] = useState([]);
@@ -53,7 +53,7 @@ export const useGetByCodeEmployeedOptionsItem = (code) => {
       setOptions(lstOptions);
     }
     getByCodeEmployeedOptionsItem();
-  }, []);
+  }, [code]);
   return {optionsItemEmployeed}
 }
 export const useGetAllConfigs = () => {
@@ -65,11 +65,34 @@ export const useGetAllConfigs = () => {
       let lstConfigs = await ServiceGetAllConfigs();
       setConfigsList(lstConfigs)
       lstConfigs.map(m => {
-        objConfig[m.name] = m.value
+        objConfig[m.name] = m.value;
+        return m;
       });
       setConfigs(objConfig)
     }
     getAllConfigs();
   }, []);
   return {configs, configsList}
+}
+export const useGetAllCategory = () => {
+  const [categories, setCategories] = useState([]);
+  useEffect(() => {
+    async function getAllCategory() {
+      let lstCategory = await ServiceGetCategoriesInSelect();
+      setCategories(lstCategory);
+    }
+    getAllCategory();
+  }, []);
+  return {categories}
+}
+export const useGetSubCategoryByCategoryId = (categoryId) => {
+  const [subCategories, setSubCategories] = useState([]);
+  useEffect(() => {
+    async function getSubCategory() {
+      let lstSubCategory = await ServiceGetSubCategoriesInSelect(categoryId);
+      setSubCategories(lstSubCategory);
+    }
+    getSubCategory();
+  }, [categoryId]);
+  return {subCategories}
 }

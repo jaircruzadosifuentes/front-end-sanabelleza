@@ -31,3 +31,5 @@ export const Uri_PutRemoveAddOptionEmployeed = (optionItemId) => `${URI_DEV}/api
 export const Uri_AddOptionEmployeed = (optionItemId, optionId, code) => `${URI_DEV}/api/Common/PutAddOptionEmployeed/${optionItemId}/${optionId}/${code}`;
 export const Uri_PutAddOptionFather = (codeEmployeed, optionId) => `${URI_DEV}/api/Common/PutAddOptionFather/${codeEmployeed}/${optionId}`;
 export const Uri_VerifyPatientByFullName = (surnames, names) => `${URI_DEV}/api/Common/VerifyPatientByFullName/${surnames}/${names}`;
+export const Uri_GetCategoriesInSelect = `${URI_DEV}/api/Common/GetCategoriesInSelect`;
+export const Uri_GetSubCategoriesInSelect = (categoryId) => `${URI_DEV}/api/Common/GetSubCategoriesInSelect/${categoryId}`;

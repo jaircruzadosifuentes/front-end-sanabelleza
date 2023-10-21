@@ -25,6 +25,7 @@ export default function InputFormControl(props) {
     isBold = false,
     upperCase = false,
     onKeyUp,
+    marginTop = '',
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -74,6 +75,7 @@ export default function InputFormControl(props) {
         align={align}
         readOnly={readOnly}
         upperCase={upperCase}
+        marginTop={marginTop}
       />
       <div className="invalid-feedback">{message}</div>
     </div>
@@ -85,8 +87,10 @@ InputFormControl.propTypes = {
   isBold: PropTypes.bool,
   align: PropTypes.string,
   className: PropTypes.string,
+  value: PropTypes.string,
   id: PropTypes.string,
   children: PropTypes.string,
+  marginTop: PropTypes.string,
   matchName: PropTypes.string,
   type: PropTypes.string,
   defaultValue: PropTypes.string,

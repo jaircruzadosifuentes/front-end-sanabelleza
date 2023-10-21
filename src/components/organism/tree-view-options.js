@@ -125,7 +125,7 @@ export default function TreeViewOptions({
             <>
               <StyledTreeItem key={index} nodeId={o.optionId} labelText={o.name} labelIcon={GetIconBasedOnComponent(o.icon)}>
                 {
-                  optionsItem.map((i, index) => {
+                  optionsItem.map((i) => {
                     if(o.optionId === i.option.optionId) {
                       return (
                         <>
@@ -143,7 +143,7 @@ export default function TreeViewOptions({
                             bgColor="#e8f0fe"
                           />
                         </>
-                      )
+                      );
                     }
                   })
                 }

@@ -13,7 +13,6 @@ import AlarmOnIcon from '@mui/icons-material/AlarmOn';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import { COLOR_BLUE_MAB, COLOR_BUTTON_MAB, COLOR_GREEN, COLOR_YELLOW } from 'src/config/config';
-import { COLOR_BLUE } from 'src/utils/constants';
 
 export default function AdvanceClinic({
   lstAdvanceClinic = []
