@@ -25,9 +25,38 @@ export default function Manager(props) {
     setResult(filterBySearch);
   }
   const handleChange = (event) => {
-    
     setSelectedValue(event.target.value);
   };
+  const handleChangeFilterTipDoc = (e) => {
+    let searchVal = e?.value;
+    const filterBySearch = saleBuyOuts.filter((item) => {
+      if (item.voucherDocumentId === (searchVal)) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
+  const handleChangeFilSerie = (e) => {
+    let searchVal = e.target.value;
+    const filterBySearch = saleBuyOuts.filter((item) => {
+      if (item.serie.toLowerCase().includes(searchVal.toLowerCase())) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
+  const handleChangeFilNumber = (e) => {
+    let searchVal = e.target.value;
+    const filterBySearch = saleBuyOuts.filter((item) => {
+      if (item.number.toLowerCase().includes(searchVal.toLowerCase())) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
   return (
     <div className="row">
       <div className="col-md-12">
@@ -35,7 +64,7 @@ export default function Manager(props) {
       </div>
       <div className="row">
         <div className="col-md-12">
-          <Box sx={{ display: 'flex', gap: 2, marginTop: '1em', marginBottom: '1em' }}>
+          <Box sx={{ display: 'flex', gap: 2, marginTop: '0.5em', marginBottom: '0.5em' }}>
             <Radio
               checked={selectedValue === 'v'}
               onChange={handleChange}
@@ -65,6 +94,7 @@ export default function Manager(props) {
           placeHolder="Tipo de documento"
           titleLabel="Tipo de documento"
           options={vouchers}
+          handleChange={handleChangeFilterTipDoc}
         />
 
         <InputFormControl
@@ -73,6 +103,8 @@ export default function Manager(props) {
           isLabel
           label="Serie"
           upperCase
+          onChange={handleChangeFilSerie}
+          maxLength={6}
         />
         <InputFormControl
           type="text"
@@ -80,6 +112,8 @@ export default function Manager(props) {
           isLabel
           label="Número"
           upperCase
+          onChange={handleChangeFilNumber}
+          maxLength={8}
         />
         <div className="col-md-2 mt-4">
           <ButtonFormControl

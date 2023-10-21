@@ -4,8 +4,6 @@ import CardContent from '@mui/material/CardContent';
 import { Title } from 'src/components/atoms';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
-import { COLOR_GREEN } from 'src/utils/constants';
-import { COLOR_BUTTON_MAB } from 'src/config/config';
 
 export default function CardAmountDetail({
   rows = [],

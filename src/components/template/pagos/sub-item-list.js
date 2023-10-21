@@ -7,7 +7,6 @@ import Popper from '@mui/base/Popper';
 import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import PageviewIcon from '@mui/icons-material/Pageview';
 import PaymentIcon from '@mui/icons-material/Payment';
 
 function MenuSection({ children, label }) {

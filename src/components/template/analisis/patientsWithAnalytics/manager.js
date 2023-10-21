@@ -13,6 +13,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import FormEditHour from "src/components/organism/form-edit-hour";
 import { convertDateTimeToDate, getValueInBrackets } from "src/utils/utils";
 import { useGetAllEmployeed } from "../../paciente/solicitud/hooks";
+import { AREA_FISIOTERAPIA_ATENCION } from "src/config/config";
 
 export default function Manager(props) {
   const [result, setResult] = useState([]);
@@ -147,7 +148,6 @@ export default function Manager(props) {
     })
     setResult(filterBySearch);
   }
-   
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
@@ -169,7 +169,6 @@ export default function Manager(props) {
             handleViewAdvanceClinic={handleViewAdvanceClinic}
             handleStarEvaluation={handleStarEvaluation}
             handleEditSesion={handleEditSesion}
-            // handleGenerateSessions={handleGenerateSessions}
           />
         </div>
       </div>
@@ -217,7 +216,7 @@ export default function Manager(props) {
               handleChangeHourAttention={handleChangeHourAttention}
               handleSaveHour={handleSaveHour}
               handleChangeEmployeed={handleChangeEmployeed}
-              employeeds={employeeds}
+              employeeds={employeeds.filter(e => parseInt(e?.areaId) === AREA_FISIOTERAPIA_ATENCION)}
               objSesion={objSesion}
             />
           </Modal>

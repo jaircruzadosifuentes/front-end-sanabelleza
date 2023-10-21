@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { convertDateTimeToDate, formatDecimales } from 'src/utils/utils';
+import { convertDateTimeToDate } from 'src/utils/utils';
 import { Badge } from 'src/components/atoms';
 import ItemList from './item-list';
 import { Fragment } from 'react';

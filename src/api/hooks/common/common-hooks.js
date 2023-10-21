@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { GetIconBasedOnComponent, GetTypeComponent } from "src/layout/Nav";
 import { GetComponentBasedOnRoute } from "src/layout/Routes";
@@ -104,7 +103,9 @@ export const useGetAllOptions = (employeedId) => {
         m.icon = GetIconBasedOnComponent(m.icon);
         m.items?.map(i => {
           i.component = GetTypeComponent(i.component);
+          return i;
         });
+        return m;
       })
       setOptions(listOptions);
     }
@@ -118,7 +119,8 @@ export const useGetRoutes = (employeedId) => {
     async function getAllRoutes() {
       let listRoutes = await ServiceGetRoutes(employeedId);
       listRoutes.map(r => {
-        r.element = GetComponentBasedOnRoute(r.element)
+        r.element = GetComponentBasedOnRoute(r.element);
+        return r;
       })
       setRoutes(listRoutes);
     }

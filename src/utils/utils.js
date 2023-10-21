@@ -1,6 +1,6 @@
 
 export const getTitle = (value) => {
-  return document.title = `Sana Belleza - ${value}`;
+  return document.title = `${value}`;
 }
 export const getValueInBrackets = (cadena) => {
   if (cadena.includes('[')) {
@@ -32,7 +32,7 @@ export function convertDateTimeToDate(fullDate) {
   return new Date(fullDate).toLocaleDateString('en-GB')
 }
 export function formatDecimales(value = 0) {
-  return parseFloat(value.toFixed(2));
+  return (Math.round(value * 100) / 100).toFixed(2) ;
 }
 export const formatoNumero = (valor) => {
   return valor < 10 ? '0' + valor : valor;

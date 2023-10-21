@@ -4,7 +4,6 @@ import Tab from '@mui/material/Tab';
 import TabContext from '@mui/lab/TabContext';
 import TabList from '@mui/lab/TabList';
 import TabPanel from '@mui/lab/TabPanel';
-import { useState } from "react";
 import PropTypes from 'prop-types';
 import SpanFormControl from "src/components/atoms/SpanFormControl";
 import { convertDateTimeToDate } from "src/utils/utils";
@@ -17,28 +16,19 @@ import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
-
-const bull = (
-  <Box
-    component="span"
-    sx={{ display: 'inline-block', mx: '2px', transform: 'scale(0.8)' }}
-  >
-    •
-  </Box>
-);
+import AgendaView from "src/components/organism/agenda-view";
+import { AREA_FISIOTERAPIA_ATENCION } from "src/config/config";
 
 export default function TabsUser({
-  employeedDetail = {}
+  employeedDetail = {},
+  value,
+  handleChange,
+  rowsScheduleSessions = []
 }) {
-  const [value, setValue] = useState('1');
-
-  const handleChange = (_, newValue) => {
-    setValue(newValue);
-  };
-
+  console.log(employeedDetail);
   return (
     <>
-      <Box sx={{ maxWidth: { xs: 640, sm: 960 }, bgcolor: 'background.paper' }}>
+      <Box sx={{ maxWidth: { xs: 640, sm: '100%' }, bgcolor: 'background.paper' }}>
         <TabContext value={value}>
           <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
             <hr />
@@ -46,8 +36,11 @@ export default function TabsUser({
               <Tab label="Datos Personales" value="1" />
               <Tab label="Historial Clinico" value="2" />
               <Tab label="Actividades" value="3" />
-              <Tab label="Sesiones Programadas" value="4" />
-              <Tab label="Pagos" value="5" />
+              {
+                AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId)?
+                <Tab label="Sesiones Programadas" value="4" />: ''
+              }
+              {/* <Tab label="Pagos" value="5" /> */}
             </TabList>
           </Box>
           <TabPanel value="1">
@@ -56,7 +49,15 @@ export default function TabsUser({
             />
           </TabPanel>
           <TabPanel value="2">Historial Clínico</TabPanel>
-          <TabPanel value="3">Actividades</TabPanel>
+          {
+            AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId)?
+            <TabPanel value="4">
+              <AgendaView 
+                numberOfDays={5}
+                rows={rowsScheduleSessions}
+              />
+            </TabPanel>: ''
+          }
         </TabContext>
       </Box>
     </>
@@ -64,6 +65,9 @@ export default function TabsUser({
 }
 TabsUser.propTypes = {
   employeedDetail: PropTypes.object,
+  value: PropTypes.number,
+  rowsScheduleSessions: PropTypes.array,
+  handleChange: PropTypes.func,
 };
 
 const ComponentDatosPersonales = ({

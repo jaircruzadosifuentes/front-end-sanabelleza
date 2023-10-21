@@ -3,11 +3,13 @@ import List from "./list";
 import { useGetAllEmployeed } from "../paciente/solicitud/hooks";
 import Filter from "../../organism/filter";
 import { Title } from "src/components/atoms";
-import { Modal } from "src/components/molecules";
+import { Modal, SelectedFormControl } from "src/components/molecules";
 import FormUpdate from "./form-update";
+import { useGetAllAreas } from "src/api/hooks/common/common-hooks";
 
 export default function Manager(props) {
   const { employeeds } = useGetAllEmployeed(props);
+  const { areas } = useGetAllAreas(props);
   const [result, setResult] = useState([]);
   const [openModalEdit, setOpenModalEdit] = useState(false);
   const [objEmployeed, setObjEmployeed] = useState({});
@@ -23,6 +25,17 @@ export default function Manager(props) {
     })
     setResult(filterBySearch);
   }
+  const handleChangeArea = (e) => {
+    let searchVal = '';
+    searchVal = e?.value;
+    const filterBySearch = employeeds.filter((item) => {
+      if (parseInt(item?.areaId) === parseInt(searchVal)) {
+        return item;
+      }
+      return null;
+    })
+    setResult(filterBySearch);
+  }
   const handleEditEmployeed = (e, row) => {
     setOpenModalEdit(true);
     setObjEmployeed(row);
@@ -30,7 +43,7 @@ export default function Manager(props) {
   const handleCloseModalEdit = (e) => {
     setOpenModalEdit(false);
   }
-  
+
   return (
     <div className="container-fluid">
       <div className="row">
@@ -40,6 +53,13 @@ export default function Manager(props) {
         <div className="col-md-4 col-xs-4 col-lg-4">
           <Filter handleSearchForSurNames={handleSearchForSurNames} />
         </div>
+        <SelectedFormControl
+          className="col-md-4 mt-1"
+          placeHolder="Seleccione un área"
+          titleLabel="Seleccione un área:"
+          options={areas}
+          handleChange={handleChangeArea}
+        />
       </div>
       <div className="row">
         <div className="col-md-12">
@@ -58,9 +78,9 @@ export default function Manager(props) {
             openModal={openModalEdit}
             onClose={handleCloseModalEdit}
           >
-           <FormUpdate 
+            <FormUpdate
               objEmployeed={objEmployeed}
-           />
+            />
           </Modal>
         )
       }
