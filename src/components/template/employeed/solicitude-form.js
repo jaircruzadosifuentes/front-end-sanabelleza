@@ -733,7 +733,7 @@ const MostrarControlesExpHojaVida = ({
               /> : ''
           }
         </div>
-        <div className="row">
+        <div className="row mt-2">
           <TextAreaFormControl
             className="col-md-6"
             label="Detalle las actividades realizadas"

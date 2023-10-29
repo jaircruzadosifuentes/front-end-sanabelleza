@@ -137,19 +137,20 @@ export default function FormModalReschedule({
             )} />
         </div>
         <InputFormControl
-          type="date"
+          type="text"
           className="col-md-3"
           isLabel
+          readOnly
           label="Nueva Fecha"
           onChange={handleChangeNewDate}
-          
+          defaultValue={convertDateTimeToDate(objRescheAppo.dateOfAttention)}
         />
         <div className="col-md-2 mt-4">
           <ButtonFormControl
             title="Buscar"
             color='btn btn-primary'
             type={9}
-            onClick={handleViewDisponibilty}
+            onClick={(e) =>handleViewDisponibilty(e, (objRescheAppo.dateOfAttention))}
           />
         </div>
         <hr />

@@ -19,7 +19,8 @@ import CleaningServicesIcon from '@mui/icons-material/CleaningServices';
 import PaymentIcon from '@mui/icons-material/Payment';
 import ModeIcon from '@mui/icons-material/Mode';
 import ChatIcon from '@mui/icons-material/Chat';
-import DoDisturbOffIcon from '@mui/icons-material/DoDisturbOff';
+import VpnKeyOffIcon from '@mui/icons-material/VpnKeyOff';
+import VpnKeyIcon from '@mui/icons-material/VpnKey';
 
 function TypeButton(value) {
   switch (value) {
@@ -56,7 +57,9 @@ function TypeButton(value) {
     case 16:
       return(<ChatIcon />)
     case 17:
-      return (<DoDisturbOffIcon />)
+      return (<VpnKeyOffIcon />)
+    case 18:
+      return (<VpnKeyIcon />)
     default:
       break;
   }
@@ -92,7 +95,7 @@ export default function ButtonFormControl({
     <>
       <Tooltip title={title}>
         <button disabled={disabled} className={`${color} text-white ${top}`} onClick={onClick} style={{ float: float, backgroundColor: colorBackGround() }}>
-          {TypeButton(type)}&nbsp;
+          {TypeButton(parseInt(type))}&nbsp;
           {title}
         </button>
       </Tooltip>

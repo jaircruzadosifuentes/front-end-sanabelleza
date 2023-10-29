@@ -32,6 +32,7 @@ const MessagesLayout = React.lazy(() => import('../views/messages/messages-layou
 const DashboardPatientLayout = React.lazy(() => import('../views/dashboard-paciente/dashboard-paciente-layout'));
 //Caja chica
 const AccountingLayout = React.lazy(() => import('../views/accounting/accounting-layout'));
+const PettyCashOpeningLayout = React.lazy(() => import('../views/accounting/petty-cash-opening-layout'));
 //Ventas
 const SaleLayout = React.lazy(() => import('../views/sale/sale-layout'));
 const SaleListLayout = React.lazy(() => import('../views/sale/sale-list-layout'));
@@ -64,6 +65,7 @@ export const GetComponentBasedOnRoute = (name) => {
     'SaleLayout': SaleLayout,
     'SaleListLayout': SaleListLayout,
     'LogisticKardexLayout': LogisticKardexLayout,
+    'PettyCashOpeningLayout': PettyCashOpeningLayout,
   }
   const COMPONENT_DEFAULT_BASE_ON_ROUTE = Dashboard
   return COMPONENT_BASE_ON_ROUTE[name] || COMPONENT_DEFAULT_BASE_ON_ROUTE;

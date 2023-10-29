@@ -95,7 +95,6 @@ export default function Manager() {
     setProductsAddCart(productsAddCart);
   }
   const handleSaveSale = (e) => {
-    console.log(objPersonManual);
     if (!isExistsPerson && reniecManual) {
       Swal.fire({
         icon: 'warning',

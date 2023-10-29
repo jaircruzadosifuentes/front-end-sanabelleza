@@ -386,21 +386,30 @@ export default function Manager(props) {
     if(e.keyCode === 13) {
       if(consultReniec) {
         let objectPerson = await EntityGetByDni(nroDocument);
-        setApellidoPaternoReniec(objectPerson?.data?.apellido_paterno);
-        setApellidoMaternoReniec(objectPerson?.data?.apellido_materno);
-        setNombresCompletos(objectPerson?.data?.nombre_completo.split(',')[0]);
-        setSurNames(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno);
-        setNames(objectPerson?.data?.nombres);
-        setNombresReniec(objectPerson?.data?.nombres);
-        listVerify = await ServiceVerifyPatientByFullName(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno, objectPerson?.data?.nombres);
-        let isExists = isExistsPatient(listVerify);
-        if(isExists) {
+        if(objectPerson.success) {
+          setApellidoPaternoReniec(objectPerson?.data?.apellido_paterno);
+          setApellidoMaternoReniec(objectPerson?.data?.apellido_materno);
+          setNombresCompletos(objectPerson?.data?.nombre_completo.split(',')[0]);
+          setSurNames(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno);
+          setNames(objectPerson?.data?.nombres);
+          setNombresReniec(objectPerson?.data?.nombres);
+          listVerify = await ServiceVerifyPatientByFullName(objectPerson?.data?.apellido_paterno + ' ' + objectPerson?.data?.apellido_materno, objectPerson?.data?.nombres);
+          let isExists = isExistsPatient(listVerify);
+          if(isExists) {
+            Swal.fire({
+              icon: 'warning',
+              title: 'Advertencia',
+              text: `El(la) paciente ${getNameIsExistsPatient(listVerify)}, ya se encuentra en tratamiento actualmente. Por favor, debe de esperar que su tratamiento finalice.`,
+            });
+            handleClearControls();
+            return;
+          }
+        } else {
           Swal.fire({
             icon: 'warning',
             title: 'Advertencia',
-            text: `El(la) paciente ${getNameIsExistsPatient(listVerify)}, ya se encuentra en tratamiento actualmente. Por favor, debe de esperar que su tratamiento finalice.`,
+            text: `${objectPerson.message}`,
           });
-          handleClearControls();
           return;
         }
       } 

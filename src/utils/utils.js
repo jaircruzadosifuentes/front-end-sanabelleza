@@ -28,6 +28,7 @@ export function getDay() {
 export function getDateNow() {
   return new Date(Date.now());
 }
+
 export function convertDateTimeToDate(fullDate) {
   return new Date(fullDate).toLocaleDateString('en-GB')
 }

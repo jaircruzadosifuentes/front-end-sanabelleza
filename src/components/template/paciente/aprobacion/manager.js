@@ -354,20 +354,23 @@ export default function Manager(props) {
   const handleCloseModalRescheduleApp = (e) => {
     setOpenModalResCheApp(false);
   }
-  const handleViewDisponibilty = async (e) => {
-    if(!dateDisponibiltySearch) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Advertencia',
-        text: `Debe de ingresar una fecha nueva a buscar.`,
-      })
-      return;
-    }
+  const handleViewDisponibilty = async (_, dateDisponibilty) => {
+    // if(!dateDisponibiltySearch) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Advertencia',
+    //     text: `Debe de ingresar una fecha nueva a buscar.`,
+    //   })
+    //   return;
+    // }
+    setDateDisponibilitySearch(dateDisponibilty);
     if (employeedsDisponibiltyResult.length > 0) {
       setEmployeedDisponibilityResult([]);
     }
-    let result = await ServiceGetDisponibiltyEmployeed(dateDisponibiltySearch, employeedId);
-    setEmployeedDisponibilityResult(result);
+    if(employeedId > 0) {
+      let result = await ServiceGetDisponibiltyEmployeed(dateDisponibilty, employeedId);
+      setEmployeedDisponibilityResult(result);
+    }
   }
   const handleChangeNewDate = (e) => {
     setDateDisponibilitySearch(e.target.value);

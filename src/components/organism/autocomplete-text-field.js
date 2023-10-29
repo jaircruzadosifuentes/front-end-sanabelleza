@@ -8,7 +8,8 @@ export default function AutoCompleteTextField({
   rows = [],
   handleOnChange,
   className,
-  label = 'Trabajador'
+  label = 'Trabajador',
+  routImage = 'images/avatars/'
 }) {
   return (
     <div className={className}>
@@ -25,11 +26,13 @@ export default function AutoCompleteTextField({
             <img
               loading="lazy"
               width="45"
-              src={`images/avatars/${option.person.profilePicture}`}
-              srcSet={`images/avatars/${option.person.profilePicture} 2x`}
+              src={`${routImage}${option.person.profilePicture}`}
+              srcSet={`${routImage}${option.person.profilePicture} 2x`}
               alt=""
             />
             {option.label}
+            <br />
+            Cargo: {option?.role?.name}
           </Box>
         )}
         renderInput={(params) => (
@@ -51,4 +54,5 @@ AutoCompleteTextField.propTypes = {
   handleOnChange: PropTypes.func,
   className: PropTypes.string,
   label: PropTypes.string,
+  routImage: PropTypes.string,
 };
