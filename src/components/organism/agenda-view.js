@@ -17,8 +17,8 @@ export default function AgendaView({
   rows = [],
   handleItemEdit,
   numberOfDays = 5,
+  cellHeight = 15
 }) {
-  console.log(rows);
   let now = new Date();
   let startDate = new Date();
   rows.map(s => {
@@ -63,7 +63,7 @@ export default function AgendaView({
           startAtTime={9}
           onItemEdit={handleItemEdit}
           endAtTime={20.90}
-          cellHeight={15}
+          cellHeight={cellHeight}
           disablePrevButton={false}
           onRangeSelection={handleRangeSelection}
           helper
@@ -76,5 +76,6 @@ AgendaView.propTypes = {
   rows: PropTypes.array,
   handleItemEdit: PropTypes.func,
   handleRangeSelection: PropTypes.func,
-  numberOfDays: PropTypes.number
+  numberOfDays: PropTypes.number,
+  cellHeight: PropTypes.number
 };

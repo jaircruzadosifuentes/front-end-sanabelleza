@@ -25,7 +25,6 @@ export default function TabsUser({
   handleChange,
   rowsScheduleSessions = []
 }) {
-  console.log(employeedDetail);
   return (
     <>
       <Box sx={{ maxWidth: { xs: 640, sm: '100%' }, bgcolor: 'background.paper' }}>
@@ -55,6 +54,7 @@ export default function TabsUser({
               <AgendaView 
                 numberOfDays={5}
                 rows={rowsScheduleSessions}
+                cellHeight={11}
               />
             </TabPanel>: ''
           }

@@ -4,12 +4,12 @@ import CardContent from '@mui/material/CardContent';
 import { Title } from 'src/components/atoms';
 import PropTypes from 'prop-types';
 import { Typography } from '@mui/material';
+import { formatDecimales } from 'src/utils/utils';
 
 export default function CardAmountDetail({
   rows = [],
-  handleChangeSelectCardType,
-  idSelectTypeCard = 0,
-  typeCard = []
+  cardId = 0,
+  handleChangeSelectCardType
 }) {
   return (
     <div className='mt-2 mb-2'>
@@ -22,16 +22,15 @@ export default function CardAmountDetail({
                   sx={{ 
                     maxWidth: '100%', 
                     cursor: 'pointer',
-                    // color: p.value === 'RECHAZADO'? COLOR_BUTTON_MAB: COLOR_GREEN,
-                    // border: parseInt(idSelectTypeCard) === parseInt(p.id) ? '3px solid': ''
+                    color: `${p.color}`,
+                    border: parseInt(cardId) === parseInt(p.cajaChicaMontosId) ? `3px solid ${p.color}`: ''
                   }}
-                  // onClick={(e) =>handleChangeSelectCardType(e, p)}
+                  onClick={(e) =>handleChangeSelectCardType(e, p)}
                   >
                   <CardContent>
-                    <Title value={p.value} type={'h4'} />
+                    <Title value={p.description} type={'h4'} />
                     <Typography variant="body2" color="text.secondary">
-                      {/* {p.contador}  */}
-                      1000
+                      S/.{formatDecimales(p.amount)}
                     </Typography>
                   </CardContent>
                 </Card>
@@ -47,6 +46,6 @@ CardAmountDetail.propTypes = {
   typeCard: PropTypes.array,
   rows: PropTypes.array,
   handleChangeSelectCardType: PropTypes.func,
-  idSelectTypeCard: PropTypes.number,
+  cardId: PropTypes.number,
 
 };

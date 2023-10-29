@@ -100,7 +100,8 @@ export default function Manager(props) {
       voucherDocument: {
         value: parseInt(vouDocumentId)
       },
-      isNewCustomer: isNewCustomer
+      isNewCustomer: isNewCustomer,
+      employeedCashRegisterId: employeedCashRegisterId()
     }
     Swal.fire({
       title: `¿Desea realizar el pago de la cuota nro ${debtNumber}?`,
