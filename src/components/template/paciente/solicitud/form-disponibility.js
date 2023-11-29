@@ -11,6 +11,8 @@ import Alert from "@mui/material/Alert/Alert";
 import { getDateNow } from "src/utils/utils";
 import AutoCompleteTextField from "src/components/organism/autocomplete-text-field";
 import AgendaView from "src/components/organism/agenda-view";
+import { Chip, Stack } from "@mui/material";
+import { COLOR_BLUE_MAB } from "src/config/config";
 require('moment/locale/es.js'); // this is important for traduction purpose
 
 function TabPanel(props) {
@@ -65,7 +67,7 @@ export default function FormDisponibilty({
 }) {
   const [value, setValue] = useState(0);
   employeedsDisponibiltyResult.map(s => {
-    s.startDateTime = new Date(s.startDateTime) 
+    s.startDateTime = new Date(s.startDateTime)
     s.endDateTime = new Date(s.endDateTime)
     switch (parseInt(s.state)) {
       case 1:
@@ -95,8 +97,8 @@ export default function FormDisponibilty({
     <Box sx={{ width: '100%' }}>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <div className="row">
-          <AutoCompleteTextField 
-            rows={employeeds} 
+          <AutoCompleteTextField
+            rows={employeeds}
             className="col-md-6 mt-3 mb-3"
             handleOnChange={handleChangeEmployeed}
           />
@@ -112,7 +114,7 @@ export default function FormDisponibilty({
           <div className="col-md-2 mt-4 mb-2 col-xs-2 col-lg-2">
             <ButtonFormControl
               title="Buscar"
-              color='btn btn-primary btn-lg'
+              color='btn btn-primary btn-block'
               type={9}
               onClick={handleViewDisponibiltyForIdEmployeed}
             />
@@ -126,11 +128,31 @@ export default function FormDisponibilty({
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <div className="col-md-12">
-          <AgendaView 
-            rows={employeedsDisponibiltyResult}
-            handleItemEdit={handleItemEditSchedule}
-          />
+        <div className="row">
+          <div className="col-md-12">
+            <Label title={'Horarios libres'} isBold/>
+          </div>
+          {
+            employeedsDisponibiltyResult.length > 0 ? employeedsDisponibiltyResult.map((d, index) => {
+              return (
+                <div className="col-md-3 mt-1 mb-1" key={index}>
+                  <Stack direction="col" spacing={1} >
+                    <Chip
+                      label={`${d.hourInitial} - ${d.hourFinished}`}
+                      component="a"
+                      onClick={(e) => handleItemEditSchedule(e, d)}
+                      variant="outlined"
+                      style={{ background: (`${hourInitial} - ${hourFinished}`) === (`${d.hourInitial} - ${d.hourFinished}`) ? COLOR_BLUE_MAB : '', color: (`${hourInitial} - ${hourFinished}`) === (`${d.hourInitial} - ${d.hourFinished}`) ? 'white' : '' }}
+                      clickable
+                    />
+                  </Stack>
+                </div>
+              )
+            }) :
+              <span>
+                No existen datos para mostrar
+              </span>
+          }
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
@@ -158,7 +180,7 @@ export default function FormDisponibilty({
             isLabel
             onChange={handleChangeHourInitialRegisterSchedule}
             defaultValue={hourInitial}
-            />
+          />
           <InputFormControl
             type="time"
             autoFocus
@@ -172,19 +194,19 @@ export default function FormDisponibilty({
           <div className="col-md-12 mt-3 mb-4">
             {
               employeedsWithScheduleResult.length > 0 ?
-              <>
-                <Alert severity="error">
-                  {
-                    employeedsWithScheduleResult.map((e, index) => {
-                      return(
-                        <li key={index}>{`Ya existe una cita programada para ${e.patientWithSchedule} a horas de: ${e.hourInitial} - ${e.hourFinished}. Por favor, escoja otro horario.`}</li>
-                      )
-                    })
-                  }
+                <>
+                  <Alert severity="error">
+                    {
+                      employeedsWithScheduleResult.map((e, index) => {
+                        return (
+                          <li key={index}>{`Ya existe una cita programada para ${e.patientWithSchedule} a horas de: ${e.hourInitial} - ${e.hourFinished}. Por favor, escoja otro horario.`}</li>
+                        )
+                      })
+                    }
 
-                </Alert>
-              </>:
-              <Alert severity="success">No existe interferencia entre las horas ingresadas. Proceda a asignar la disponibilidad al paciente.</Alert>
+                  </Alert>
+                </> :
+                <Alert severity="success">No existe interferencia entre las horas ingresadas. Proceda a asignar la disponibilidad al paciente.</Alert>
 
             }
           </div>

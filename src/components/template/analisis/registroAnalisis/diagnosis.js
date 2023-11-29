@@ -50,10 +50,10 @@ export default function Diagnosis({
               className="col-md-8"
               label="Exploración física"
               isLabel
-              rows={4}
+              rows={3}
               onChange={handleChangeExploracionFisica}
             />
-            <div className="col-md-4 mt-4">
+            <div className="col-md-4 mt-2">
               <Label title={`Rango del umbral del dolor`}/>
               <Box sx={{ width: 300 }}>
                 <Slider
@@ -74,7 +74,7 @@ export default function Diagnosis({
               className="col-md-5"
               label="Diagnóstico: (Escriba detalladamente)"
               isLabel
-              rows={4}
+              rows={3}
               onChange={handleChangeDescDiag}
             />
             <div className="col-md-2 mt-4">

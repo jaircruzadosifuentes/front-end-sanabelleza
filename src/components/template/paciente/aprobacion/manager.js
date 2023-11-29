@@ -509,7 +509,7 @@ export default function Manager(props) {
       {
         openModalRescheduleApp && (
           <Modal
-            title={`REPROGRAMACIÓN DE CITA DEL PACIENTE: ${objRescheAppo.patient?.person?.names} ${objRescheAppo.patient?.person?.surnames}`}
+            title={`PROGRAMACIÓN DE CITA DEL PACIENTE: ${objRescheAppo.patient?.person?.names} ${objRescheAppo.patient?.person?.surnames}`}
             size={"modal-lg"}
             close
             openModal={openModalRescheduleApp}

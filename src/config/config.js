@@ -10,3 +10,4 @@ export const TOKEN_CONSULTA_DNI = '08737a6cb5e7b2d725e07e33fd75771ff75884e1ede68
 export const AREA_FISIOTERAPIA_ATENCION = 3;
 export const VENTA = 'v';
 export const COMPRA = 'c';
+export const DATE_FOR_DEFAULT = '1900-01-01T00:00:00';

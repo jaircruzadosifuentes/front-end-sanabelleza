@@ -14,6 +14,17 @@ export async function  EntityCreate (endpoint, entity) {
     throw error
   }
 }
+export async function EntityUpload (endpoint, entity) { 
+  try {
+    return await fetch(endpoint, {
+      method: 'POST',
+      body: entity,
+    })
+  }
+  catch (error) {
+    throw error
+  }
+}
 export async function EntityUpdate (endpoint, data ) {
   try { 
     return await fetch(endpoint, {

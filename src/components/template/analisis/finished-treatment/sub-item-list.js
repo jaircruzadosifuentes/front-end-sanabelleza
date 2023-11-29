@@ -26,11 +26,8 @@ MenuSection.propTypes = {
 
 export default function SubItemList({
   row = {},
-  handleCancelRequest,
+  handleServicedVersion,
   disabled = false,
-  handleStarEvaluation,
-  disabledAttention = false,
-  handleEditSesion
 }) {
   const [buttonElement, setButtonElement] = React.useState(null);
 
@@ -99,7 +96,7 @@ export default function SubItemList({
         slotProps={{ listbox: { id: 'simple-menu' } }}
       >
         <MenuSection label="Opción de Sesiones">
-          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
+          <StyledMenuItem onClick={(e) => handleServicedVersion(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
             <PageviewIcon />&nbsp;
             Ver Sesión Atendida
           </StyledMenuItem>
@@ -112,13 +109,8 @@ export default function SubItemList({
 SubItemList.propTypes = {
   row: PropTypes.object,
   dataHead: PropTypes.object,
-  handleChangeSendMsgWssp: PropTypes.func,
-  handleApproveRequest: PropTypes.func,
-  handleCancelRequest: PropTypes.func,
-  handleStarEvaluation: PropTypes.func,
+  handleServicedVersion: PropTypes.func,
   disabled: PropTypes.bool,
-  disabledAttention: PropTypes.bool,
-  handleEditSesion: PropTypes.func
 };
 
 const blue = {

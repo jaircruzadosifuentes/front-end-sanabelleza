@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from 'prop-types';
 import { InputFormControl } from "src/components/molecules";
 import { Label } from "src/components/atoms";
+import { convertDateTimeToDate } from "src/utils/utils";
 
 export default function Form({
   objPatient = {}
@@ -85,7 +86,7 @@ export default function Form({
               </div>
               <div className="col-md-2">
                 <Label title={'Fecha Atención'} /> <br />
-                <span>{objPatient?.patientSolicitude?.dateAttention}</span>
+                <span>{convertDateTimeToDate(objPatient?.patientSolicitude?.dateAttention)}</span>
               </div>
               <div className="col-md-2">
                 <Label title={'Tiempo Estimado'} /> <br />
@@ -98,7 +99,7 @@ export default function Form({
               <div className="col-md-4">
                 <Label 
                 title={'Celular'} /> <br />
-                <span>-</span>
+                <span>{objPatient?.person?.personCellphone?.cellphone}</span>
               </div>
               <div className="col-md-4">
                 <Label title={'Email'} /> <br />

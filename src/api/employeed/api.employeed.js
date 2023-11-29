@@ -7,5 +7,6 @@ export const Uri_GetDisponibiltyEmployeed = (dateToConsult, employeedId) => `${U
 export const Uri_PostRegisterEmployeed = `${URI_DEV}/api/employeed/PostRegisterEmployeed`;
 export const Uri_PutAppproveContractEmployeed = `${URI_DEV}/api/employeed/PutAppproveContractEmployeed`;
 export const Uri_GetByUserNameEmployeed = (userName) => `${URI_DEV}/api/employeed/GetByUserNameEmployeed/${userName}`;
+export const Uri_UploadProfile = `${URI_DEV}/api/employeed/UploadProfile`;
 
 

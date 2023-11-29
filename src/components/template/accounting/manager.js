@@ -6,10 +6,12 @@ import List from "./list";
 import { useGetAllMontosCajaChica, useGetDetailMovementsCajaChica, useVerifyCajaChica } from "src/hooks/contabilidad/contabilidad-hook";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { ServicePostCloseCajaChica, ServiceVerifyCajaChica } from "src/service/contabilidad/service.contabilidad";
-import { employeedCashRegisterId, getDateNowWithFormat } from "src/utils/functions";
+import { employeedCashRegisterId, getDateNowWithFormat, getHoraActual } from "src/utils/functions";
+import { useGetAllConfigs } from "src/hooks/common/common-hook";
 
 export default function Manager() {
-  const [fecha, setFecha] = useState(getDateNowWithFormat())
+  const [fecha, setFecha] = useState(getDateNowWithFormat());
+  const {configs} = useGetAllConfigs();
   const { listMontosCajaChica } = useGetDetailMovementsCajaChica(fecha, employeedCashRegisterId());
   const { objCajaChica, setObjCajaChica } = useVerifyCajaChica(fecha, employeedCashRegisterId());
   const { listMonto } = useGetAllMontosCajaChica(fecha, employeedCashRegisterId());
@@ -36,16 +38,16 @@ export default function Manager() {
       montoEgreso: objMonto.MONTO_EGRESO,
       montoEsperado: objMonto.MONTO_ESPERADO,
       fechaCierre: fecha,
-      employeedCashId: 1
+      employeedCashId: employeedCashRegisterId() 
     };
-    // if(getHoraActual() < configs.hora_fin_cierre_caja_chica) {
-    //   Swal.fire({
-    //     icon: 'warning',
-    //     title: 'Advertencia',
-    //     text: `No puede cerrar caja, la hora de cierre de ser mayor a las ${configs.hora_fin_cierre_caja_chica} PM. De ser un caso extremo, contactarse con el administrador del sistema, para que reconfigure la hora de cierre de caja chica programada.`,
-    //   })
-    //   return;
-    // }
+    if(getHoraActual() < configs.hora_fin_cierre_caja_chica) {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Advertencia',
+        text: `No puede cerrar caja, la hora de cierre de ser mayor a las ${configs.hora_fin_cierre_caja_chica} PM. De ser un caso extremo, contactarse con el administrador del sistema, para que reconfigure la hora de cierre de caja chica programada.`,
+      })
+      return;
+    }
     Swal.fire({
       title: '¿Desea cerrar la caja chica?',
       text: `¿Usted está seguro de cerrar la caja chica?`,

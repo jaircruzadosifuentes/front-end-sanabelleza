@@ -7,13 +7,14 @@ import { Modal } from "src/components/molecules";
 import ListSchedulePay from '../../../organism/list-schedule-pay';
 import { ServiceGetPayDueDetailForPatientId } from "src/service/pay/service.pay";
 import AdvanceClinic from "./advance-clinic";
-import { ServiceGetAdvanceCliniciForPatientId, ServiceGetAllPatientsInTreatment, ServiceGetByIdPatientProgress, ServicePutUpdateHourSesion } from "src/service/patient/service.patient";
+import { ServiceGetAdvanceCliniciForPatientId, ServiceGetAllPatientsInTreatment, ServiceGetByIdPatientProgress, ServiceGetItemSesionDetailById, ServicePutUpdateHourSesion } from "src/service/patient/service.patient";
 import { useNavigate } from "react-router-dom";
 import Swal from 'sweetalert2/dist/sweetalert2.js'
 import FormEditHour from "src/components/organism/form-edit-hour";
 import { convertDateTimeToDate, getValueInBrackets } from "src/utils/utils";
 import { useGetAllEmployeed } from "../../paciente/solicitud/hooks";
-
+import ViewDetailSesion from "./view-detail-sesion";
+ 
 export default function Manager(props) {
   const [result, setResult] = useState([]);
   const [openModalPayItem, setOpenModalPayItem] = useState(false);
@@ -26,6 +27,8 @@ export default function Manager(props) {
   const [hourAttention, setHourAttention] = useState('');
   const [employeedId, setEmployeedId] = useState(0);
   const { employeeds } = useGetAllEmployeed(props);
+  const [objItemSesion, setObjItemSesion] = useState({});
+  const [opeModalItemSession, setOpeModalItemSession] = useState(false);
 
   let navigate = useNavigate();
 
@@ -145,6 +148,18 @@ export default function Manager(props) {
     })
     setResult(filterBySearch);
   }
+  const handleServicedVersion = async(e, row) => {
+    setOpeModalItemSession(true);
+    const {patientProgressId} = row;
+    let patientDetailSesionId = patientProgressId
+    let objItemSesion = await ServiceGetItemSesionDetailById(patientDetailSesionId)
+    if(objItemSesion !== null) {
+      setObjItemSesion(objItemSesion);
+    }
+  }
+  const handleCloseModalItemSession = () => {
+    setOpeModalItemSession(false);
+  }
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
@@ -166,6 +181,7 @@ export default function Manager(props) {
             handleViewAdvanceClinic={handleViewAdvanceClinic}
             handleStarEvaluation={handleStarEvaluation}
             handleEditSesion={handleEditSesion}
+            handleServicedVersion={handleServicedVersion}
           />
         </div>
       </div>
@@ -214,6 +230,23 @@ export default function Manager(props) {
               handleSaveHour={handleSaveHour}
               handleChangeEmployeed={handleChangeEmployeed}
               employeeds={employeeds}
+            />
+          </Modal>
+        )
+      }
+       {
+        opeModalItemSession && (
+          <Modal
+            title={`DETALLE DE LA SESIÓN ATENDIDA DEL DÍA: ${convertDateTimeToDate(objItemSesion?.dateOfAttention)} a las ${objItemSesion.hourOffAttention}`}
+            size={"modal-xl"}
+            close
+            openModal={opeModalItemSession}
+            onClose={handleCloseModalItemSession}
+          >
+            <ViewDetailSesion
+              objItemSesion={objItemSesion}
+              person={objItemSesion?.employeed?.person.names + ', ' + objItemSesion?.employeed?.person?.surnames}
+              handleCloseModalItemSession={handleCloseModalItemSession}
             />
           </Modal>
         )

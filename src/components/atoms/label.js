@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from 'prop-types';
 import { COLOR_BLUE } from "src/utils/constants";
-import { COLOR_BUTTON_MAB } from "src/config/config";
+import { COLOR_BUTTON_MAB, COLOR_GREEN } from "src/config/config";
 
 export default function Label({ 
   title, 
@@ -12,6 +12,7 @@ export default function Label({
   textAlign = '',
   isTextAlign = false,
   isWarning = false,
+  isSuccess = false,
   ...props 
 }) {
   return (
@@ -19,7 +20,7 @@ export default function Label({
       htmlFor={htmlFor}
       className={className + 'mt-1 mb-1'}
       {...props}
-      style={{fontWeight: isBold ? 'bold': '', color: isColor? COLOR_BLUE: isWarning? COLOR_BUTTON_MAB: '', textAlign: isTextAlign ? textAlign: ''}}
+      style={{fontWeight: isBold ? 'bold': '', color: isColor? COLOR_BLUE: isWarning? COLOR_BUTTON_MAB: isSuccess? COLOR_GREEN: '', textAlign: isTextAlign ? textAlign: ''}}
     >
       {title}
     </label>
@@ -35,4 +36,5 @@ Label.propTypes = {
   isBold: PropTypes.bool,
   isColor: PropTypes.bool,
   isWarning: PropTypes.bool,
+  isSuccess: PropTypes.bool,
 };

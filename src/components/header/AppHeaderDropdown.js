@@ -70,7 +70,7 @@ const AppHeaderDropdown = () => {
           variant="dot"
         >
           {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" /> */}
-          <CAvatar src={`../../images/avatars/${JSON.parse(fuDevolverDatosUsuario()).profileImage}`} size="md" />
+          <CAvatar src={`${JSON.parse(fuDevolverDatosUsuario()).profileImage}`} size="md" />
         </StyledBadge>
       </CDropdownToggle>
       <CDropdownMenu className="pt-0" placement="bottom-end">

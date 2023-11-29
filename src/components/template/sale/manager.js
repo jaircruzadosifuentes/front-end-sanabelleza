@@ -42,7 +42,6 @@ export default function Manager() {
   const [objPersonManual, setObjPersonManual] = useState({});
   const {vouchers} = useGetInSelectVoucherDocument();
   const [tipoDocVou, setTipoDocVou] = useState(0);
-  console.log(openEditCant, cantidad);
   const handleChange = (event) => {
     setSelectedValue(event.target.value);
   };
