@@ -8,6 +8,7 @@ import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PaymentIcon from '@mui/icons-material/Payment';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 
 function MenuSection({ children, label }) {
   return (
@@ -97,8 +98,8 @@ export default function SubItemList({
       >
         <MenuSection label="Opciónes">
           <StyledMenuItem onClick={(e) => handleRealizarPago(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
-            <PaymentIcon />&nbsp;
-            Realizar Pago
+            <VisibilityIcon />&nbsp;
+            Ver cuotas de pago
           </StyledMenuItem>
         </MenuSection>
       </Menu>

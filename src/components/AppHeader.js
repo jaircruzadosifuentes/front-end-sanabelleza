@@ -80,7 +80,6 @@ const AppHeader = ({
           <div className='row'>
             <div className='col-md-12'>
               <small>SISB ADMINISTRACIÓN</small>
-              <h2>SANA BELLEZA</h2>
             </div>
           </div>
         </CHeaderBrand>
@@ -90,12 +89,6 @@ const AppHeader = ({
               Dashboard
             </CNavLink>
           </CNavItem>
-          {/* <CNavItem>
-            <CNavLink to="/paciente/en-espera" component={NavLink}>Pacientes en Espera</CNavLink>
-          </CNavItem> */}
-          {/* <CNavItem>
-            <CNavLink href="#">Configuraciones</CNavLink>
-          </CNavItem> */}
         </CHeaderNav>
         <CHeaderNav>
           <CNavItem>

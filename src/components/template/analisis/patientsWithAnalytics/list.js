@@ -21,9 +21,9 @@ import { COLOR_GREEN } from 'src/utils/constants';
 import Tooltip from '@mui/material/Tooltip';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
 import SubItemList from './sub-item-list';
-import ProgressBarSesion from '../../../organism/progress-bar-sesion';
 import NameUser from 'src/components/organism/name-user';
-import { TablePagination, Typography } from '@mui/material';
+import { TablePagination } from '@mui/material';
+import { Badge, Label } from 'src/components/atoms';
 
 function Row({
   row = {},
@@ -76,9 +76,13 @@ function Row({
           </div>
         </TableCell>
         <TableCell align="center">
-          <ProgressBarSesion
-            patientId={row.patientId}
-          />
+          {row?.clinicalHistory?.descriptionDiagnostica}
+        </TableCell>
+        <TableCell align="center">
+          <Badge value={row?.isDoneQuiz ? 1 : 2} text={row?.isDoneQuiz ? 'SI' : 'NO'} />
+        </TableCell>
+        <TableCell align="center">
+          <Badge value={row?.isGenerateCredentials ? 1 : 2} text={row?.isGenerateCredentials ? 'SI' : 'NO'} />
         </TableCell>
         <TableCell align="center">
           <span>
@@ -86,9 +90,7 @@ function Row({
           </span>
         </TableCell>
         <TableCell align="center">
-          <span>
-            {row.patientState.description}
-          </span>
+          <Badge value={2} text={row.patientState.description} />
         </TableCell>
         <td>
           <ItemList
@@ -99,12 +101,20 @@ function Row({
         </td>
       </TableRow>
       <TableRow >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12} >
           <Collapse in={open} timeout="auto" unmountOnExit >
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Sesiones programadas ({(row.patientProgresses.length)})
-              </Typography>
+            {/* <Box sx={{ margin: 2.5 }}>
+              <div className='row'>
+                <div className='col-md-6'>
+                  <Label title={`PROGRESO CLÍNICO (Fechas estimadas, puede reprogramarse)`} isBold />
+                  <ProgressBarSesion
+                    patientId={row.patientId}
+                  />
+                </div>
+              </div>
+            </Box> */}
+            <Box sx={{ margin: 2.5 }}>
+              <Label title={`SESIONES PROGRAMADAS (${row.patientProgresses.length})`} isBold />
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -229,14 +239,17 @@ export default function List({
     <React.Fragment>
 
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table" size='large'>
+        <Table aria-label="collapsible table" size='small'>
           <TableHead>
             <TableRow>
               <TableCell />
               <TableCell>Nro</TableCell>
               <TableCell align="left">Paciente</TableCell>
               {/* <TableCell align="center">Hoja Consentimiento</TableCell> */}
-              <TableCell align="center">Progreso Clínico</TableCell>
+              {/* <TableCell align="center">Progreso Clínico</TableCell> */}
+              <TableCell align="center">Diagnóstico general</TableCell>
+              <TableCell align="center">¿Respondió encuesta?</TableCell>
+              <TableCell align="center">¿Credenciales generadas?</TableCell>
               <TableCell align="center">Género</TableCell>
               <TableCell align="center">Estado</TableCell>
               <TableCell align="left"></TableCell>

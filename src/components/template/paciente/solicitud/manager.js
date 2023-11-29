@@ -312,6 +312,7 @@ export default function Manager(props) {
     document.getElementById('idNroDocumentoSolicitud').value = '';
   }
   const handleAsignarSchedule = (data) => {
+    console.log(data);
     Swal.fire({
       title: `¿Desea asignar el horario seleccionado?`,
       text: `Usted está seleccionando el horario de atención de ${data.hourInitial} - ${data.hourFinished}`,
@@ -367,7 +368,7 @@ export default function Manager(props) {
   const handleChangeCellPhone = (e) => {
     setCellPhone(e.target.value);
   }
-  const handleItemEditSchedule = (item) => {
+  const handleItemEditSchedule = (e, item) => {
     handleAsignarSchedule(item);
   }
   const handleVerEnBorrador = async(e) => {
@@ -474,7 +475,7 @@ export default function Manager(props) {
         openModalViewDisponibilty && (
           <Modal
             title={`BUSCAR DISPONIBILIDAD PARA EL PACIENTE ${surNames.toUpperCase()}/${names.toUpperCase()}`}
-            size={"modal-xl"}
+            size={"modal-lg"}
             close
             openModal={openModalViewDisponibilty}
             onClose={handleCloseModalViewDisponibility}

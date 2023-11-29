@@ -9,6 +9,7 @@ import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import RateReviewIcon from '@mui/icons-material/RateReview';
 import StartIcon from '@mui/icons-material/Start';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 
 function MenuSection({ children, label }) {
   return (
@@ -112,10 +113,10 @@ export default function SubItemList({
             <RateReviewIcon />&nbsp;
             Editar Hora Programada
           </StyledMenuItem>
-          {/* <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
-            <PageviewIcon />&nbsp;
-            Ver Sesión
-          </StyledMenuItem> */}
+          <StyledMenuItem onClick={(e) => handleCancelRequest(e, row)} style={{ cursor: 'pointer' }} disabled={disabled}>
+            <TransferWithinAStationIcon />&nbsp;
+            Ver Evolución del paciente
+          </StyledMenuItem>
         </MenuSection>
       </Menu>
     </div>

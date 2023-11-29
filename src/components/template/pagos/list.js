@@ -7,23 +7,36 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { formatDecimales } from 'src/utils/utils';
-// import ItemList from './item-list';
 import { Fragment } from 'react';
-import { Box, Collapse, TablePagination, Typography } from '@mui/material';
+import { Box, Collapse, TablePagination } from '@mui/material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import ArrowUpwardIcon from '@mui/icons-material/ArrowUpward';
 import IconButton from '@mui/material/IconButton';
 import SubItemList from './sub-item-list';
 import NameUser from 'src/components/organism/name-user';
-import { Badge } from 'src/components/atoms';
+import { Badge, Label } from 'src/components/atoms';
+import { formatFullHour } from 'src/utils/functions';
+import { convertDateTimeToDate } from 'src/utils/utils';
+import SpanFormControl from 'src/components/atoms/SpanFormControl';
+import { DATE_FOR_DEFAULT } from 'src/config/config';
+import { useState } from 'react';
+import { ServiceGetDetailPayPendingGetByIdPayment } from 'src/service/payment/service.payment';
 
 function Row({
   row = {},
   handleRealizarPago,
 }) {
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
+  const [lstDetailPayment, setLstDetailPayment] = useState([]);
 
+  const handleOpenCollapse = async () => {
+    setOpen(!open);
+    const { paymentId } = row;
+    let lstDetailPay = await ServiceGetDetailPayPendingGetByIdPayment(paymentId);
+    if (lstDetailPay.length > 0) {
+      setLstDetailPayment(lstDetailPay)
+    }
+  }
   return (
     <React.Fragment>
       <TableRow sx={{ '& > *': { borderBottom: 'unset' } }}>
@@ -32,7 +45,7 @@ function Row({
             aria-label="expand row"
             size="small"
             title='Detalle de la solicitud'
-            onClick={() => setOpen(!open)}
+            onClick={handleOpenCollapse}
           >
             {open ? <ArrowUpwardIcon /> : <ArrowDownwardIcon />}
           </IconButton>
@@ -40,45 +53,60 @@ function Row({
         <TableCell align="center">
           <NameUser patient profile={row?.patient} />
         </TableCell>
-        <TableCell align="center">{row?.patient?.clinicalHistory?.packetsOrUnitSessions?.description}</TableCell>
-        <TableCell align="right">S/.{formatDecimales(row.total)}</TableCell>
-        <TableCell align="right">S/.{formatDecimales(row.igv)}</TableCell>
-        <TableCell align="right">S/.{formatDecimales(row.subTotal)}</TableCell>
-        <TableCell align="right">S/.{formatDecimales(row.totalCancelled)}</TableCell>
-        <TableCell align="right">S/.{formatDecimales(row.totalDebt)}</TableCell>
+        <TableCell align="center">{formatFullHour(row?.dateOfIssue)}</TableCell>
+        <TableCell align="center">{row?.campus.name}</TableCell>
+
+        <TableCell align="center">{row?.cuoPendingPayment} cuotas</TableCell>
+        <TableCell align="center">{row?.lateDays} días</TableCell>
         <TableCell align="center">
-          <Badge value={row?.state === 'PENDIENTE DE PAGO' ? 2: 1} text={row?.state} />
+          <Badge value={row?.statePayId} text={row?.statePay} />
         </TableCell>
-        {/* <td>
-          <ItemList
-            row={row}
-            selectedValue={selectedValue}
-            handleEditar={handleEditar}
-          />
-        </td> */}
       </TableRow>
       <TableRow >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12} >
           <Collapse in={open} timeout="auto" unmountOnExit >
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div" >
-                Detalle de Cuotas
-              </Typography>
+            <Box sx={{ margin: 2 }}>
+              <SpanFormControl title='Detalle de pagos pendientes por citas programada' />
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
-                    <TableCell align="center">Monto</TableCell>
-                    <TableCell align="center">Nro de Cuota</TableCell>
-                    <TableCell align="center">Estado</TableCell>
+                    <TableCell align="center">Nro</TableCell>
+                    <TableCell align="center">Fecha Inicio - Fecha Fin</TableCell>
+                    <TableCell align="center">Última persona quien atendió la cita</TableCell>
+                    <TableCell align="center">Última persona quien atendió el pago</TableCell>
+                    <TableCell align="center">Próxima fecha de pago</TableCell>
+                    {/* <TableCell align="center">Paquete y frecuencia</TableCell> */}
+                    {/* <TableCell align="center">Frecuencia</TableCell> */}
+                    <TableCell align="center">Estado del tratamiento </TableCell>
+                    <TableCell align="center">Estado de pago </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {row.paymentScheduleDetails.map((p, index) => (
+                  {lstDetailPayment.map((p, index) => (
                     <>
                       <TableRow key={index}>
-                        <TableCell align="center">{p.amount}</TableCell>
-                        <TableCell align="center">{p.debtNumber}</TableCell>
-                        <TableCell align="center">{p.state}</TableCell>
+                        <TableCell align="center">{index + 1}</TableCell>
+                        <TableCell align="center">{convertDateTimeToDate(p.sesionDateMin)} - {convertDateTimeToDate(p.sesionDateMax)}</TableCell>
+                        <TableCell align="center">{p?.employeed?.person?.surnames}, {p?.employeed?.person?.names}</TableCell>
+                        <TableCell align="center">{p.userPay}</TableCell>
+                        <TableCell align="center">
+                          {row?.nextPaymentDate === DATE_FOR_DEFAULT ?
+                            '-'
+                            : p?.paymentId === row?.paymentId ?<Label
+                              title={convertDateTimeToDate(row?.nextPaymentDate)}
+                              isBold
+                              isSuccess={parseInt(row?.lateDays) >= 0 ? true : false}
+                              isWarning={parseInt(row?.lateDays) < 0 ? true : false}
+                            />: '-'
+                          }
+                        </TableCell>
+                        {/* <TableCell align="center">{p?.patient?.clinicalHistory?.packetsOrUnitSessions?.description} - {p?.patient?.clinicalHistory?.frecuency?.frecuencyDescription}</TableCell> */}
+                        <TableCell align="center">
+                          <Badge text={p.state} value={p.stateValue} />
+                        </TableCell>
+                        <TableCell align="center">
+                          <Badge text={p.statePay} value={p.statePayValue} />
+                        </TableCell>
                         <td align="center">
                           <SubItemList
                             row={p}
@@ -142,18 +170,24 @@ export default function List({
   return (
     <Fragment>
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table" size='medium'>
+        <Table aria-label="collapsible table" size='small'>
           <TableHead>
             <TableRow>
               <TableCell align="left"></TableCell>
-              <TableCell align="left">Paciente</TableCell>
-              <TableCell align="center">Paquete</TableCell>
-              <TableCell align="right">Total</TableCell>
+              <TableCell align="left">Nombres y Apellidos del paciente</TableCell>
+              <TableCell align="center">Fecha de emisión</TableCell>
+              <TableCell align="center">Sede</TableCell>
+              {/* <TableCell align="center">Próxima fecha de pago</TableCell> */}
+              <TableCell align="center">Nro de cuotas pendientes</TableCell>
+              <TableCell align="center">Dias atrazados</TableCell>
+              {/* <TableCell align="center">Paquete</TableCell>
+              <TableCell align="center">Frecuencia</TableCell> */}
+              {/* <TableCell align="right">Total</TableCell>
               <TableCell align="right">Igv</TableCell>
               <TableCell align="right">Sub Total</TableCell>
               <TableCell align="right">Total Cancelado</TableCell>
-              <TableCell align="right">Total Debe</TableCell>
-              <TableCell align="center">Estado</TableCell>
+              <TableCell align="right">Total Debe</TableCell> */}
+              <TableCell align="center">Estado del pago</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>

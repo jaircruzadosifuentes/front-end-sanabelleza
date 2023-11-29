@@ -7,7 +7,8 @@ import Popper from '@mui/base/Popper';
 import { styled } from '@mui/system';
 import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
-import AirlineSeatReclineExtraIcon from '@mui/icons-material/AirlineSeatReclineExtra';
+import MedicationLiquidIcon from '@mui/icons-material/MedicationLiquid';
+
 function MenuSection({ children, label }) {
   return (
     <MenuSectionRoot>
@@ -95,7 +96,7 @@ export default function WrappedMenuItems({
       >
         <MenuSection label="Análisis Clínico del paciente">
           <StyledMenuItem onClick={(e) =>handleStartAnalyzing(e, row)} style={{cursor: 'pointer'}}>
-            <AirlineSeatReclineExtraIcon />  Realizar Análisis Clínico
+            <MedicationLiquidIcon />  Realizar Análisis Clínico
           </StyledMenuItem>
         </MenuSection>
       </Menu>

@@ -9,7 +9,6 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
 import { convertDateTimeToDate } from 'src/utils/utils';
 import ItemList from './item-list';
@@ -22,20 +21,16 @@ import { COLOR_GREEN } from 'src/utils/constants';
 import Tooltip from '@mui/material/Tooltip';
 import RuleFolderIcon from '@mui/icons-material/RuleFolder';
 import SubItemList from './sub-item-list';
-import ProgressBarSesion from '../../../organism/progress-bar-sesion';
 import NameUser from 'src/components/organism/name-user';
 import { TablePagination } from '@mui/material';
+import { Badge, Label } from 'src/components/atoms';
 
 function Row({
   row = {},
-  handleClickAprobarSolicitud,
-  handleCancelRequest,
+  handleServicedVersion,
   index = 0,
   handleViewShedulePay,
-  handleChangeSendMsgWssp,
   handleViewAdvanceClinic,
-  handleStarEvaluation,
-  handleEditSesion
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -76,10 +71,14 @@ function Row({
             </div>
           </div>
         </TableCell>
-        <TableCell>
-          <ProgressBarSesion
-            patientId={row.patientId}
-          />
+        <TableCell align='center'>
+          {row?.clinicalHistory?.descriptionDiagnostica}
+        </TableCell>
+        <TableCell align='center'>
+          <Badge value={row?.isDoneQuiz ? 1: 2} text={row?.isDoneQuiz ? 'SI': 'NO'} />
+        </TableCell>
+        <TableCell align='center'>
+          <Badge value={row?.isGenerateCredentials ? 1: 2} text={row?.isGenerateCredentials ? 'SI': 'NO'} />
         </TableCell>
         <TableCell align="center">
           <span>
@@ -87,9 +86,7 @@ function Row({
           </span>
         </TableCell>
         <TableCell align="center">
-          <span>
-            {row.patientState.description}
-          </span>
+          <Badge value={1} text={row.patientState.description} />
         </TableCell>
         <td>
           <ItemList
@@ -100,12 +97,20 @@ function Row({
         </td>
       </TableRow>
       <TableRow >
-        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={6} >
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={12} >
           <Collapse in={open} timeout="auto" unmountOnExit >
-            <Box sx={{ margin: 1 }}>
-              <Typography variant="h6" gutterBottom component="div">
-                Sesiones programadas ({(row.patientProgresses.length)})
-              </Typography>
+            {/* <Box sx={{ margin: 2.5 }}>
+              <div className='row'>
+                <div className='col-md-6'>
+                  <Label title={`PROGRESO CLÍNICO (Fechas estimadas, puede reprogramarse)`} isBold />
+                  <ProgressBarSesion
+                    patientId={row.patientId}
+                  />
+                </div>
+              </div>
+            </Box> */}
+            <Box sx={{ margin: 2.5 }}>
+              <Label title={`SESIONES PROGRAMADAS (${row.patientProgresses.length})`} isBold />
               <Table size="small" aria-label="purchases">
                 <TableHead>
                   <TableRow>
@@ -153,13 +158,8 @@ function Row({
                           <SubItemList
                             row={p}
                             dataHead={row}
-                            handleApproveRequest={handleClickAprobarSolicitud}
-                            handleCancelRequest={handleCancelRequest}
-                            handleChangeSendMsgWssp={handleChangeSendMsgWssp}
+                            handleServicedVersion={handleServicedVersion}
                             disabled={p.isFlag}
-                            handleStarEvaluation={handleStarEvaluation}
-                            disabledAttention={p.isAttention}
-                            handleEditSesion={handleEditSesion}
                           />
                         </td>
                       </TableRow>
@@ -178,8 +178,7 @@ function Row({
 
 Row.propTypes = {
   patientId: PropTypes.number,
-  handleStarEvaluation: PropTypes.func,
-  handleEditSesion: PropTypes.func,
+  handleServicedVersion: PropTypes.func,
   handleViewAdvanceClinic: PropTypes.func,
   handleViewShedulePay: PropTypes.func,
   handleChangeSendMsgWssp: PropTypes.func,
@@ -212,7 +211,8 @@ export default function List({
   handleViewShedulePay,
   handleViewAdvanceClinic,
   handleStarEvaluation,
-  handleEditSesion
+  handleEditSesion,
+  handleServicedVersion
 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -229,14 +229,17 @@ export default function List({
     <React.Fragment>
 
       <TableContainer component={Paper}>
-        <Table aria-label="collapsible table" size='large'>
+        <Table aria-label="collapsible table" size='small'>
           <TableHead>
             <TableRow>
               <TableCell />
               <TableCell>Nro</TableCell>
               <TableCell align="left">Paciente</TableCell>
               {/* <TableCell align="center">Hoja Consentimiento</TableCell> */}
-              <TableCell align="center">Progreso Clínico</TableCell>
+              {/* <TableCell align="center">Progreso Clínico</TableCell> */}
+              <TableCell align="center">Diagnóstico general</TableCell>
+              <TableCell align="center">¿Respondió encuesta?</TableCell>
+              <TableCell align="center">¿Credenciales generadas?</TableCell>
               <TableCell align="center">Género</TableCell>
               <TableCell align="center">Estado</TableCell>
               <TableCell align="left"></TableCell>
@@ -257,6 +260,7 @@ export default function List({
                 handleViewAdvanceClinic={handleViewAdvanceClinic}
                 handleStarEvaluation={handleStarEvaluation}
                 handleEditSesion={handleEditSesion}
+                handleServicedVersion={handleServicedVersion}
               />
             )) : <span>No existen datos para mostrar</span>
             }
@@ -286,4 +290,5 @@ List.propTypes = {
   handleViewAdvanceClinic: PropTypes.func,
   handleStarEvaluation: PropTypes.func,
   handleEditSesion: PropTypes.func,
+  handleServicedVersion: PropTypes.func,
 };

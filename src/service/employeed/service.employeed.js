@@ -1,5 +1,5 @@
-import { EntityCreate, EntityGetAll, EntityUpdate } from 'src/utils/api-rest';
-import { Uri_GetAllEmployeed, Uri_GetAllEmployeedPendingAproval, Uri_GetByUserNameEmployeed, Uri_GetDisponibiltyEmployeed, Uri_PostAccessSystem, Uri_PostRegisterEmployeed, Uri_PutAppproveContractEmployeed } from '../../api/employeed/api.employeed';
+import { EntityCreate, EntityGetAll, EntityUpdate, EntityUpload } from 'src/utils/api-rest';
+import { Uri_GetAllEmployeed, Uri_GetAllEmployeedPendingAproval, Uri_GetByUserNameEmployeed, Uri_GetDisponibiltyEmployeed, Uri_PostAccessSystem, Uri_PostRegisterEmployeed, Uri_PutAppproveContractEmployeed, Uri_UploadProfile } from '../../api/employeed/api.employeed';
 
 export async function ServiceGetAllEmployeed() {
   return await EntityGetAll(Uri_GetAllEmployeed());
@@ -21,5 +21,9 @@ export async function ServicePostRegisterEmployeed(data) {
 }
 export async function ServicePutAppproveContractEmployeed(data) {
   return await EntityUpdate(Uri_PutAppproveContractEmployeed, data);
+}
+ 
+export async function ServiceUploadProfile(data) {
+  return await EntityUpload(Uri_UploadProfile, data);
 }
  

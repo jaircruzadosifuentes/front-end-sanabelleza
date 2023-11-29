@@ -16,7 +16,7 @@ export default function CardProduct({
         <CardMedia
           component="img"
           height="100%"
-          image="https://www.logarsalud.com/5945-tm_large_default/kyrocream-60ml-kyro60.jpg"
+          image={product.imagen}
           alt={product.name}
         />
         <CardContent>

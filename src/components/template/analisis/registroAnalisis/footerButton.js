@@ -12,28 +12,28 @@ export default function FooterButton({
       <div className="row mb-4">
         <TextAreaFormControl
           type="text"
-          className="col-md-8"
+          className="col-md-10"
           label="Información adicional"
           isLabel
           rows={4}
           onChange={handleChangeInformationAdi}
         />
-        <div className="col-md-4 mt-4">
-          <div className="btn-toolbar mt-4" style={{ float: 'right'}}>
-            <div className="btn-group mt-2">
-              <ButtonFormControl
-                title="Guardar Análisis"
-                color='btn btn-success'
+        <div className="col-md-2 mt-4" >
+          <div className="row mt-2">
+            <div className="col-md-12" >
+              <ButtonFormControl  
+                title="Guardar"
+                color='btn btn-success btn-lg btn-block'
                 type={1}
                 onClick={handleSaveAnalysis}
               />
-            </div>&nbsp;
-            <div className="btn-group mt-2">
+            </div>
+            <div className="col-md-12">
               <ButtonFormControl
-                title="Cancelar Registro"
-                color='btn btn-danger'
+                title="Cancelar"
+                color='btn btn-secondary btn-lg btn-block'
                 onClick={handleCancelRegister}
-                type={2}
+                type={8}
               />
             </div>
           </div>

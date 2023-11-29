@@ -1,233 +1,3 @@
-// import React from "react";
-// import PropTypes from "prop-types";
-// import Box from '@mui/material/Box';
-// import Table from '@mui/material/Table';
-// import TableBody from '@mui/material/TableBody';
-// import TableCell from '@mui/material/TableCell';
-// import TableContainer from '@mui/material/TableContainer';
-// import TableHead from '@mui/material/TableHead';
-// import TablePagination from '@mui/material/TablePagination';
-// import TableRow from '@mui/material/TableRow';
-// import TableSortLabel from '@mui/material/TableSortLabel';
-// import Paper from '@mui/material/Paper';
-// import { visuallyHidden } from '@mui/utils';
-
-// function descendingComparator(a, b, orderBy) {
-//   if (b[orderBy] < a[orderBy]) {
-//     return -1;
-//   }
-//   if (b[orderBy] > a[orderBy]) {
-//     return 1;
-//   }
-//   return 0;
-// }
-
-// function getComparator(order, orderBy) {
-//   return order === 'desc'
-//     ? (a, b) => descendingComparator(a, b, orderBy)
-//     : (a, b) => -descendingComparator(a, b, orderBy);
-// }
-
-// // Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// // stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// // only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// // with exampleArray.slice().sort(exampleComparator)
-// function stableSort(array, comparator) {
-//   const stabilizedThis = array.map((el, index) => [el, index]);
-//   stabilizedThis.sort((a, b) => {
-//     const order = comparator(a[0], b[0]);
-//     if (order !== 0) {
-//       return order;
-//     }
-//     return a[1] - b[1];
-//   });
-//   return stabilizedThis.map((el) => el[0]);
-// }
-
-// const headCells = [
-//   {
-//     id: 'nro',
-//     disablePadding: false,
-//     label: 'Nro',
-//   },
-//   {
-//     id: 'personnelInCharge',
-//     disablePadding: false,
-//     label: 'Personal a Cargo',
-//   },
-//   {
-//     id: 'dateProgramming',
-//     disablePadding: false,
-//     label: 'Fecha Programada',
-//   },
-//   {
-//     id: 'hourInitial',
-//     disablePadding: false,
-//     label: 'Hora Inicio',
-//   },
-//   {
-//     id: 'hourFinished',
-//     disablePadding: false,
-//     label: 'Hora Fin',
-//   },
-//   {
-//     id: 'title',
-//     disablePadding: false,
-//     label: 'Motivo',
-//   },
-// ];
-
-// function EnhancedTableHead(props) {
-//   const { order, orderBy, onRequestSort } = props;
-//   const createSortHandler = (property) => (event) => {
-//     onRequestSort(event, property);
-//   };
-
-//   return (
-//     <TableHead>
-//       <TableRow>
-//         {headCells.map((headCell) => (
-//           <TableCell
-//             key={headCell.id}
-//             align={headCell.numeric ? 'right' : 'left'}
-//             padding={headCell.disablePadding ? 'none' : 'normal'}
-//             sortDirection={orderBy === headCell.id ? order : false}
-//           >
-//             <TableSortLabel
-//               active={orderBy === headCell.id}
-//               direction={orderBy === headCell.id ? order : 'asc'}
-//               onClick={createSortHandler(headCell.id)}
-//             >
-//               {headCell.label}
-//               {orderBy === headCell.id ? (
-//                 <Box component="span" sx={visuallyHidden}>
-//                   {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-//                 </Box>
-//               ) : null}
-//             </TableSortLabel>
-//           </TableCell>
-//         ))}
-//       </TableRow>
-//     </TableHead>
-//   );
-// }
-
-// EnhancedTableHead.propTypes = {
-//   numSelected: PropTypes.number.isRequired,
-//   onRequestSort: PropTypes.func.isRequired,
-//   onSelectAllClick: PropTypes.func.isRequired,
-//   order: PropTypes.oneOf(['asc', 'desc']).isRequired,
-//   orderBy: PropTypes.string.isRequired,
-//   rowCount: PropTypes.number.isRequired,
-// };
-
-// export default function ListEmployeed({
-//   employeedsDisponibiltyResult = []
-// }) {
-//   const [page, setPage] = React.useState(0);
-//   const [rowsPerPage, setRowsPerPage] = React.useState(5);
-//   const [order, setOrder] = React.useState('asc');
-//   const [orderBy, setOrderBy] = React.useState('hourInitial');
-
-//   const handleChangePage = (event, newPage) => {
-//     setPage(newPage);
-//   };
-
-//   const handleChangeRowsPerPage = (event) => {
-//     setRowsPerPage(parseInt(event.target.value, 5));
-//     setPage(0);
-//   };
-
-//   // Avoid a layout jump when reaching the last page with empty rows.
-//   const emptyRows =
-//     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - employeedsDisponibiltyResult.length) : 0;
-
-//     const handleRequestSort = (e, property) => {
-//       const isAsc = orderBy === property && order === 'asc';
-//       setOrder(isAsc ? 'desc' : 'asc');
-//       setOrderBy(property);
-//     };
-
-//   console.log(employeedsDisponibiltyResult);
-//   const visibleRows = React.useMemo(
-//     () =>
-//       stableSort(employeedsDisponibiltyResult, getComparator(order, orderBy)).slice(
-//         page * rowsPerPage,
-//         page * rowsPerPage + rowsPerPage,
-//       ),
-//     [order, orderBy, page, rowsPerPage],
-//   );
-
-//   return (
-//     <Box sx={{ width: '100%' }}>
-//       <Paper sx={{ width: '100%', mb: 2 }}>
-//         <TableContainer>
-//           <Table
-//             sx={{ minWidth: 750 }}
-//             aria-labelledby="tableTitle"
-//             size={'medium'}
-//           >
-//             <EnhancedTableHead
-//               onRequestSort={handleRequestSort}
-//               rowCount={employeedsDisponibiltyResult.length}
-//               order={order}
-//               orderBy={orderBy}
-//             />
-//             <TableBody>
-//               {
-//                 visibleRows.map((row, i) => {
-//                   return (
-//                     <TableRow
-//                       hover
-//                       role="checkbox"
-//                       tabIndex={-1}
-//                       key={row.name}
-//                     >
-//                       <TableCell component="th"
-//                         scope="row"
-//                         padding="none">{i + 1}</TableCell>
-//                       <TableCell align="left">{row.personnelInCharge}</TableCell>
-//                       <TableCell align="left">{row.dateProgramming}</TableCell>
-//                       <TableCell align="left">{row.hourInitial}</TableCell>
-//                       <TableCell align="left">{row.hourFinished}</TableCell>
-//                       <TableCell align="left">{row.name}</TableCell>
-//                       <TableCell
-//                         component="th"
-//                         scope="row"
-//                         padding="none"
-//                       >
-//                       </TableCell>
-//                     </TableRow>
-//                   );
-//                 })}
-//               {emptyRows > 0 && (
-//                 <TableRow
-//                   style={{
-//                     height: (53) * emptyRows,
-//                   }}
-//                 >
-//                   <TableCell colSpan={6} />
-//                 </TableRow>
-//               )}
-//             </TableBody>
-//           </Table>
-//         </TableContainer>
-//         <TablePagination
-//           rowsPerPageOptions={[5, 10, 25]}
-//           component="div"
-//           count={employeedsDisponibiltyResult.length}
-//           rowsPerPage={rowsPerPage}
-//           page={page}
-//           onPageChange={handleChangePage}
-//           onRowsPerPageChange={handleChangeRowsPerPage}
-//         />
-//       </Paper>
-//     </Box>
-//   );
-// }
-// ListEmployeed.propTypes = {
-//   employeedsDisponibiltyResult: PropTypes.array,
-// };
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Box from '@mui/material/Box';
@@ -276,7 +46,7 @@ function EnhancedTableHead(props) {
         {headCells.map((headCell) => (
           <TableCell
             key={headCell.id}
-            align={headCell.numeric ? 'right' : 'left'}
+            align={headCell.numeric ? 'right' : 'center'}
             padding={headCell.disablePadding ? 'none' : 'normal'}
             sortDirection={orderBy === headCell.id ? order : false}
           >
@@ -409,12 +179,13 @@ export default function ListEmployeedDisponibility({
                       id={labelId}
                       scope="row"
                       padding="none"
+                      align="center"
                     >
                       &nbsp;{row.name}
                     </TableCell>
-                    <TableCell align="left">{row.personnelInCharge}</TableCell>
-                    <TableCell align="left">{convertDateTimeToDate(row.dateProgramming)}</TableCell>
-                    <TableCell align="left">{row.hourInitial} - {row.hourFinished}</TableCell>
+                    <TableCell align="center">{row.personnelInCharge}</TableCell>
+                    <TableCell align="center">{convertDateTimeToDate(row.dateProgramming)}</TableCell>
+                    <TableCell align="center">{row.hourInitial} - {row.hourFinished}</TableCell>
                   </TableRow>
                 );
               })}

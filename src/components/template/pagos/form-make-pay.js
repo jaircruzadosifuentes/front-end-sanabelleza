@@ -5,12 +5,9 @@ import PropTypes from "prop-types";
 import { convertDateTimeToDate, formatDecimales } from "src/utils/utils";
 import Chip from '@mui/material/Chip';
 import Alert from '@mui/material/Alert';
-import Box from '@mui/joy/Box';
-import Radio from '@mui/joy/Radio';
 
-export default function FormPay({
-  objetoPago,
-  handleCloseModalPago,
+export default function FormMakePay({
+  objetoPago = {},
   payMethods = [],
   handleChangePayMethod,
   haveConcept = false,
@@ -23,7 +20,9 @@ export default function FormPay({
   vouchers = [],
   handleChangeTipoDocumento,
   selectedValue = '',
-  handleChangeRadioButton
+  handleChangeRadioButton,
+  listDetailPayments = [],
+  handleCloseModalMakePay
 }) {
   return (
     <div className="container-fluid">
@@ -41,15 +40,15 @@ export default function FormPay({
           <span>Cuota: </span>
         </div>
         <div className="col-md-4">
-          <span>{objetoPago.debtNumber}</span>
+          <span>{(objetoPago?.debtNumber)}</span>
         </div>
       </div>
       <div className="row">
         <div className="col-md-4" style={{ textAlign: 'left' }}>
-          <span>Monto: </span>
+          <span>Monto de pago: </span>
         </div>
         <div className="col-md-4">
-          <span>S/.{formatDecimales(objetoPago.amount)}</span>
+          <span>S/.{formatDecimales(objetoPago?.amount)}</span>
         </div>
       </div>
       <div className="row">
@@ -61,14 +60,23 @@ export default function FormPay({
         </div>
       </div>
       <br />
-      <Label title={'FORMA DE PAGO'} isBold />
-
+      <div className="row mb-2">
+        <div className="col-md-4 mt-4" style={{ textAlign: 'left' }}>
+          <span>Tipo de documento: </span>
+        </div>
+        <SelectedFormControl
+          className="col-md-8"
+          placeHolder="Seleccione..."
+          options={vouchers}
+          handleChange={handleChangeTipoDocumento}
+        />
+      </div>
       <div className="row">
         <div className="col-md-4 mt-4 mb-4" style={{ textAlign: 'left' }}>
           <span>Método de pago: </span>
         </div>
         <SelectedFormControl
-          className="col-md-4"
+          className="col-md-8"
           placeHolder="Seleccione..."
           options={payMethods}
           handleChange={handleChangePayMethod}
@@ -83,7 +91,7 @@ export default function FormPay({
                   <div className="col-md-4" style={{ textAlign: 'left' }}></div>
                   <InputFormControl
                     type="text"
-                    className="col-md-4"
+                    className="col-md-8"
                     isLabel
                     label="Ingrese concepto"
                     onChange={handleChangeConceptoPago}
@@ -101,7 +109,7 @@ export default function FormPay({
                     id="txtMontoEfectivo"
                     autoFocus
                   />
-                  <div className="col-md-3 mt-3">
+                  <div className="col-md-4 mt-3">
                     Vuelto en efectivo:
                     <Chip label={`S/. ${formatDecimales(vuelto)}`} color="success" />
                   </div>
@@ -110,38 +118,6 @@ export default function FormPay({
           </div> : ''
       }
 
-      <div className="row mb-4">
-        <div className="col-md-4 mt-4" style={{ textAlign: 'left' }}>
-          <span>Tipo de documento: </span>
-        </div>
-        <SelectedFormControl
-          className="col-md-4"
-          placeHolder="Seleccione..."
-          options={vouchers}
-          handleChange={handleChangeTipoDocumento}
-        />
-      </div>
-      <div className="row mt-4">
-        <div className="col-md-4"></div>
-        <div className="col-md-8">
-          <Box sx={{ display: 'flex', gap: 2, marginTop: '1em', marginBottom: '1em' }}>
-            <Radio
-              checked={selectedValue === 'p'}
-              onChange={handleChangeRadioButton}
-              value="p"
-              name="radio-buttons"
-              label="¿Documento emitido a nombre de Paciente?"
-            />
-            <Radio
-              checked={selectedValue === 'n'}
-              onChange={handleChangeRadioButton}
-              value="n"
-              name="radio-buttons"
-              label="¿Documento emitido aún cliente nuevo?"
-            />
-          </Box>
-        </div>
-      </div>
       <div className="row mt-3">
         <div className="col-md-12">
           <div className="btn-toolbar" style={{ float: 'right' }}>
@@ -149,7 +125,7 @@ export default function FormPay({
               <ButtonFormControl
                 title="Salir"
                 color='btn btn-danger'
-                onClick={handleCloseModalPago}
+                onClick={handleCloseModalMakePay}
                 type={2}
               />
             </div>&nbsp;
@@ -167,9 +143,10 @@ export default function FormPay({
     </div>
   )
 }
-FormPay.propTypes = {
+FormMakePay.propTypes = {
   objetoPago: PropTypes.object,
-  handleCloseModalPago: PropTypes.func,
+  handleCloseModalMakePay: PropTypes.func,
+  handleMakePay: PropTypes.func,
   handleChangeConceptoPago: PropTypes.func,
   handleChangePayMethod: PropTypes.func,
   handlePagarCuota: PropTypes.func,
@@ -177,6 +154,7 @@ FormPay.propTypes = {
   handleChangeTipoDocumento: PropTypes.func,
   handleChangeRadioButton: PropTypes.func,
   payMethods: PropTypes.array,
+  listDetailPayments: PropTypes.array,
   vouchers: PropTypes.array,
   haveConcept: PropTypes.bool,
   vuelto: PropTypes.number,

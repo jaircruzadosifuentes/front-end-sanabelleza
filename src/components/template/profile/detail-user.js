@@ -6,14 +6,22 @@ import { ButtonFormControl } from "src/components/molecules";
 
 export default function DetailUser({
   employeedDetail = {},
-  handleClickSendMessage
+  handleClickSendMessage,
+  handleImageChange,
+  selectedImageTmp = null,
+  handleEditarPerfil
 }) {
 
   return (
     <Fragment>
       <div className="row">
         <div className="col-md-2">
-          <ImgProfile profile={employeedDetail.person} isUploadImg />
+          <ImgProfile 
+            profile={employeedDetail.person} 
+            isUploadImg 
+            handleImageChange={handleImageChange}
+            selectedImageTmp={selectedImageTmp}
+          />
         </div>
         <div className="col-md-1"></div>
         <div className="col-md-9">
@@ -53,6 +61,7 @@ export default function DetailUser({
               <ButtonFormControl
                 title="Editar perfil"
                 color='btn btn-secondary'
+                onClick={handleEditarPerfil}
                 type={15}
               />
             </div>
@@ -64,5 +73,8 @@ export default function DetailUser({
 }
 DetailUser.propTypes = {
   employeedDetail: PropTypes.object,
+  selectedImageTmp: PropTypes.object,
   handleClickSendMessage: PropTypes.func,
+  handleImageChange: PropTypes.func,
+  handleEditarPerfil: PropTypes.func,
 };

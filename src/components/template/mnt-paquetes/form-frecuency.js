@@ -31,7 +31,7 @@ export default function Form({
         />
         <InputFormControl
           type="number"
-          className="col-md-4"
+          className="col-md-6"
           isLabel
           label="Valor (Diario: 1, Cada 2 días: 2)..."
           align="center"

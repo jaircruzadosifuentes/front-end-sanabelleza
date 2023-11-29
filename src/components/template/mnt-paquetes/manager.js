@@ -210,6 +210,7 @@ export default function Manager(props) {
               `El registro de la frecuencia se ha realizado exitosamente.`,
               'success'
             );
+            handleClearControlsNew();
             setOpenModalFrecuency(false);
           }
         }
@@ -332,6 +333,7 @@ export default function Manager(props) {
             `La actualización de la frecuencia se ha realizado exitosamente.`,
             'success'
           );
+          handleClearControlsEdit();
           setOpenModalEditarFrecuencia(false);
         }
       }
@@ -345,6 +347,21 @@ export default function Manager(props) {
   }
   const handleChangeAbbreviationFrecuencyEdit = (e) => {
     setAbbreviationEdit(e.target.value);
+  }
+  const handleClearControlsEdit = () => {
+    setAbbreviationEdit('');
+    setDescriptionEdit('');
+    setValueEdit(0);
+    setCostoPorSesionEdit(0);
+    setNumeroSesionEdit(0)
+  }
+  const handleClearControlsNew = () => {
+    setAbbreviation('');
+    setDescription('');
+    setValorFrecuencia(0);
+    setCosto(0);
+    setMaximoNumeroPago(0);
+    setNroSesion(0);
   }
   const handleChangeGuardaPacketsEdit = (e) => {
     if (!(/^\d+$/).test(maximoNumeroPago)) {

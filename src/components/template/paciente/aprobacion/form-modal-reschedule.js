@@ -97,12 +97,6 @@ export default function FormModalReschedule({
       <hr />
       <div className="row">
         <Label title={'NUEVAS FECHAS DE LA CITA'} isBold />
-        {/* <InputFormControl
-          type="time"
-          className="col-md-3"
-          isLabel
-          label="Nueva hora"
-        /> */}
         <div className="col-md-7 mt-3 mb-3">
           <Autocomplete
             disablePortal
@@ -118,8 +112,8 @@ export default function FormModalReschedule({
                 <img
                   loading="lazy"
                   width="45"
-                  src={`images/avatars/${option.person.profilePicture}`}
-                  srcSet={`images/avatars/${option.person.profilePicture} 2x`}
+                  src={`${option.person.profilePicture}`}
+                  srcSet={`${option.person.profilePicture} 2x`}
                   alt=""
                 />
                 {option.label}

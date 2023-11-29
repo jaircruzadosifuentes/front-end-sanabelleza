@@ -10,17 +10,16 @@ export default function FormRegister({
   handleSaveApertuCajaChica,
   handleChangeMontoApertura
 }) {
-  console.log(objDetailEmplo);
   return (
     <>
-      <div className="col-md-7">
+      <div className="col-md-8">
         <div className="row">
           <div className="col-md-12">
             <Label title={'DATOS DE APERTURA'} isBold isColor />
           </div>
           <InputFormControl
             type="text"
-            className="col-md-5"
+            className="col-md-4"
             isLabel
             label="Descripción de sede"
             readOnly
@@ -28,7 +27,7 @@ export default function FormRegister({
           />
           <InputFormControl
             type="text"
-            className="col-md-4"
+            className="col-md-2"
             isLabel
             label="Nro de caja"
             readOnly
@@ -36,7 +35,7 @@ export default function FormRegister({
           />
           {
             parseInt(objDetailEmplo?.isApertu) === 1 ?
-              <div className="col-md-3">
+              <div className="col-md-3 text-center">
                 <div className="row">
                   <div className="col-md-12">
                     Monto aperturado
@@ -59,32 +58,28 @@ export default function FormRegister({
                 onChange={handleChangeMontoApertura}
               />
           }
-        </div>
-        <div className="row mt-2">
-          <div className="col-md-12">
-            <div className="row" style={{ float: 'right' }}>
-              <div className="col-md-12" >
-                <div className="btn-group">
-                  <ButtonFormControl
-                    title="Cancelar"
-                    color='btn btn-danger btn-lg'
-                    type={2}
-                  />
-                </div>&nbsp;
-                <div className="btn-group">
-                  <ButtonFormControl
-                    title="Guardar"
-                    color='btn btn-success btn-lg'
-                    disabled={objDetailEmplo?.isApertu === 1}
-                    type={1}
-                    onClick={handleSaveApertuCajaChica}
-                  />
-                </div>&nbsp;
+          <div className="col-md-3">
+            <div className="row">
+              <div className="col-md-6" >
+                <ButtonFormControl
+                  title="Guardar"
+                  color='btn btn-success btn-lg'
+                  disabled={objDetailEmplo?.isApertu === 1}
+                  type={1}
+                  onClick={handleSaveApertuCajaChica}
+                />
               </div>
-            </div>
+              <div className="col-md-6">
+                <ButtonFormControl
+                  title="Cancelar"
+                  color='btn btn-danger btn-lg'
+                  type={2}
+                />
+              </div>
           </div>
         </div>
       </div>
+    </div >
     </>
   )
 }

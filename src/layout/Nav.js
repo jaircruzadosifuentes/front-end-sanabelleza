@@ -16,7 +16,7 @@ export const GetTypeComponent = (name) => {
     'CNavGroup': CNavGroup,
     'CNavItem': CNavItem,
   }
-  return TYPE_COMPONENT[name] ;
+  return TYPE_COMPONENT[name];
 }
 
 export const GetIconBasedOnComponent = (name) => {

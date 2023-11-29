@@ -4,6 +4,7 @@ import { ButtonFormControl, InputFormControl, SelectedFormControl } from "src/co
 import PropTypes from "prop-types";
 import Box from '@mui/joy/Box';
 import Radio from '@mui/joy/Radio';
+import { convertDateTimeToDate } from "src/utils/utils";
 
 export default function Form({
   handleViewDisponibilty,
@@ -120,7 +121,7 @@ export default function Form({
         </div>
         <div className="col-md-2">
           <Label title={'Fecha Atención'} /> <br />
-          <Label title={`${dateOfRegister}`} />
+          <Label title={`${convertDateTimeToDate(dateOfRegister)}`} />
         </div>
       </div>
       <br />

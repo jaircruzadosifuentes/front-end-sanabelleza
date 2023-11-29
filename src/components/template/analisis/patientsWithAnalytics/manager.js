@@ -31,6 +31,7 @@ export default function Manager(props) {
   let navigate = useNavigate();
 
   const handleViewShedulePay = async(e, row) => {
+    console.log(row);
     let { patientId } = row;
     let lstPays = await ServiceGetPayDueDetailForPatientId(patientId);
     setLstPayDeDetail(lstPays);

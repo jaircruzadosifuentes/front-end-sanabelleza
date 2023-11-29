@@ -7,4 +7,5 @@ export const Uri_PostCloseCajaChica =  `${URI_DEV}/api/Contabilidad/PostCloseCaj
 export const Uri_PostApertuCajaChica =  `${URI_DEV}/api/Contabilidad/PostApertuCajaChica`;
 export const Uri_DetailDataEmployeedCajaChica = (employeedId, dateApertu) => `${URI_DEV}/api/Contabilidad/DetailDataEmployeedCajaChica/${employeedId}/${dateApertu}`;
 export const Uri_GetHistDetailCajaChicaByIdEmployeed= (employeedId) => `${URI_DEV}/api/Contabilidad/GetHistDetailCajaChicaByIdEmployeed/${employeedId}`;
+export const Uri_CloseCashRegisterById =  `${URI_DEV}/api/Contabilidad/CloseCashRegisterById`;
 

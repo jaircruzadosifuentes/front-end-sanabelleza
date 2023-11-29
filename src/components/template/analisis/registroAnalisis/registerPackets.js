@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import { Label, Title } from 'src/components/atoms';
 import { COLOR_BLUE } from 'src/utils/constants';
 import PropTypes from 'prop-types';
-import { COLOR_GREEN } from 'src/config/config';
+import { COLOR_BUTTON_MAB, COLOR_GREEN } from 'src/config/config';
 import { formatDecimales } from 'src/utils/utils';
 
 const listPeriodo = [
@@ -40,8 +40,8 @@ export default function RegisterPackets({
           {
             packetsOrUnitSession.map((p, index) => {
               return (
-                <div className='col-md-4 mt-2 mb-4 text-center' key={index}>
-                  <Card sx={{ maxWidth: 470, cursor: 'pointer', color: parseInt(p.costPerUnit) === 0 && (parseInt(idSelectPacket) === parseInt(p.packetsOrUnitSessionsId)) ? COLOR_GREEN : COLOR_BLUE, border: (parseInt(idSelectPacket) === parseInt(p.packetsOrUnitSessionsId)) ? '3px solid' : '' }} onClick={(e) => handleClickItemPackets(e, p.packetsOrUnitSessionsId)}>
+                <div className='col-md-3 mt-1 mb-1 text-center' key={index}>
+                  <Card sx={{ maxWidth: '100%', cursor: 'pointer', color: parseInt(p.costPerUnit) === 0 && (parseInt(idSelectPacket) === parseInt(p.packetsOrUnitSessionsId)) ? COLOR_GREEN : COLOR_BLUE, border: (parseInt(idSelectPacket) === parseInt(p.packetsOrUnitSessionsId)) ? '3px solid' : '' }} onClick={(e) => handleClickItemPackets(e, p.packetsOrUnitSessionsId)}>
                     <CardContent>
                       <Title value={p.abbreviation} type={'h4'} />
                       <Typography variant="body2" color="text.secondary">
@@ -50,8 +50,11 @@ export default function RegisterPackets({
                     </CardContent>
                     <CardActions>
                       <div className='row'>
-                        <div className='col-md-12'>
-                          <span>Costo por sesión S/.{formatDecimales(p.costPerUnit)}</span> <br />
+                        <div className='col-md-6'>
+                          <span style={{textDecoration: 'line-through', color: COLOR_BUTTON_MAB}}>S/.{formatDecimales(p.costPerUnit + 10)} c/u sesión</span> <br />
+                        </div>
+                        <div className='col-md-6'>
+                          <span style={{color: COLOR_GREEN}}>S/.{formatDecimales(p.costPerUnit)} c/u  sesión</span> <br />
                         </div>
                       </div>
                     </CardActions>

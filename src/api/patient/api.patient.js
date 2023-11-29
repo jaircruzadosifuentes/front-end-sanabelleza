@@ -15,6 +15,7 @@ export const Uri_PostRegistrProgressSesion = `${URI_DEV}/api/patient/PostRegistr
 export const Uri_PutUpdateHourSesion = `${URI_DEV}/api/patient/PutUpdateHourSesion`;
 export const Uri_GetAllPatientsInWaiting = `${URI_DEV}/api/patient/GetAllPatientsInWaiting`;
 export const Uri_GetAllPatientsInAttention = `${URI_DEV}/api/patient/GetAllPatientsInAttention`;
+export const Uri_GetItemSesionDetailById = (patientDetailSesionId) => `${URI_DEV}/api/patient/GetItemSesionDetailById/${patientDetailSesionId}`;
 
 
  

@@ -9,7 +9,6 @@ export default function AutoCompleteTextField({
   handleOnChange,
   className,
   label = 'Trabajador',
-  routImage = 'images/avatars/'
 }) {
   return (
     <div className={className}>
@@ -26,8 +25,8 @@ export default function AutoCompleteTextField({
             <img
               loading="lazy"
               width="45"
-              src={`${routImage}${option.person.profilePicture}`}
-              srcSet={`${routImage}${option.person.profilePicture} 2x`}
+              src={`${option.person.profilePicture}`}
+              srcSet={`${option.person.profilePicture} 2x`}
               alt=""
             />
             {option.label}
@@ -54,5 +53,4 @@ AutoCompleteTextField.propTypes = {
   handleOnChange: PropTypes.func,
   className: PropTypes.string,
   label: PropTypes.string,
-  routImage: PropTypes.string,
 };

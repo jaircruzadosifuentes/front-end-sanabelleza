@@ -108,7 +108,7 @@ export default function WrappedMenuItems({
           </StyledMenuItem>
           <StyledMenuItem onClick={(e) => handleRescheduleAppointment(e, row)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <PublishedWithChangesIcon />&nbsp;
-            Reprogramar Cita
+            Programar Cita
           </StyledMenuItem>
           <StyledMenuItem onClick={(e) => handleChangeSendMsgWssp(e, row, dataHead)} style={{ cursor: 'pointer' }} disabled={disabledAttention}>
             <WhatsAppIcon />&nbsp;
