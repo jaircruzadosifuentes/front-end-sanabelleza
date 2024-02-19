@@ -31,8 +31,8 @@ export default function FormEditHour({
                 <img
                   loading="lazy"
                   width="45"
-                  src={`../../images/avatars/${option.person.profilePicture}`}
-                  srcSet={`../../images/avatars/${option.person.profilePicture} 2x`}
+                  src={`${option.person.profilePicture}`}
+                  srcSet={`${option.person.profilePicture} 2x`}
                   alt=""
                 />
                 {option.label}

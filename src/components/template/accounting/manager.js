@@ -8,6 +8,7 @@ import Swal from 'sweetalert2/dist/sweetalert2.js'
 import { ServicePostCloseCajaChica, ServiceVerifyCajaChica } from "src/service/contabilidad/service.contabilidad";
 import { employeedCashRegisterId, getDateNowWithFormat, getHoraActual } from "src/utils/functions";
 import { useGetAllConfigs } from "src/hooks/common/common-hook";
+import { getDateNow } from "src/utils/utils";
 
 export default function Manager() {
   const [fecha, setFecha] = useState(getDateNowWithFormat());
@@ -61,7 +62,7 @@ export default function Manager() {
       if (result.isConfirmed) {
         let insert = await ServicePostCloseCajaChica(data);
         if (insert.ok) {
-          await getVerifyCajaChica(fecha, 1);
+          await getVerifyCajaChica(fecha, employeedCashRegisterId());
           Swal.fire(
             'Cierre exitoso',
             'La caja chica se ha cerrado con éxito',

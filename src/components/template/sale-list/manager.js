@@ -72,13 +72,13 @@ export default function Manager(props) {
               name="radio-buttons"
               label="VENTA"
             />
-            <Radio
+            {/* <Radio
               checked={selectedValue === 'c'}
               onChange={handleChange}
               value="c"
               name="radio-buttons"
               label="COMPRA"
-            />
+            /> */}
           </Box>
         </div>
       </div>

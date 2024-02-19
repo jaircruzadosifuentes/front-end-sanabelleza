@@ -8,6 +8,10 @@ export const useGetAllPacketsOrUnitSessions = () => {
   useEffect(() => {
     async function GetAllPacketsOrUnitSessions() {
       let listPackets = await ServiceGetAllPacketsOrUnitSessions();
+      listPackets.map(p => {
+        p.value = p.packetsOrUnitSessionsId;
+        p.label = p.description
+      })
       setPacketsOrUnitSession(listPackets);
     }
     GetAllPacketsOrUnitSessions();

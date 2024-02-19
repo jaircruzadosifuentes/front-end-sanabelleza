@@ -44,7 +44,7 @@ export default function FormClinicalTreatment({
           label="Observaciones: (Escriba detalladamente)"
           isLabel
           onChange={handleChangeDiagnostico}
-          rows={6}
+          rows={3}
         />
 
         <TextAreaFormControl
@@ -52,7 +52,7 @@ export default function FormClinicalTreatment({
           className="col-md-4"
           label="Recomendación: (Escriba detalladamente)"
           isLabel
-          rows={6}
+          rows={3}
           onChange={handleChangeRecomendacion}
         />
         <div className="col-md-4 mt-4">

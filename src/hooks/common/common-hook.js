@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { ServiceGetAllConfigs, ServiceGetCategoriesInSelect, ServiceGetInSelectVoucherDocument, ServiceGetOptionsByCodeEmployeed, ServiceGetOptionsGeneral, ServiceGetOptionsItemGeneral, ServiceGetOptionsItemsByCodeEmployeed, ServiceGetSubCategoriesInSelect } from "src/service/common/service.common"
+import { ServiceGetAllConfigs, ServiceGetCategoriesInSelect, ServiceGetInSelectVoucherDocument, ServiceGetOptionsByCodeEmployeed, ServiceGetOptionsGeneral, ServiceGetOptionsItemGeneral, ServiceGetOptionsItemsByCodeEmployeed, ServiceGetPathologies, ServiceGetSubCategoriesInSelect } from "src/service/common/service.common"
 
 export const useGetAllOptionsGeneral = () => {
   const [options, setOptions] = useState([]);
@@ -95,4 +95,19 @@ export const useGetSubCategoryByCategoryId = (categoryId) => {
     getSubCategory();
   }, [categoryId]);
   return {subCategories}
+}
+export const useGetAllPathologiesInCombo = () => {
+  const [pathologiesInCombo, setPathologiesInCombo] = useState([]);
+  useEffect(() => {
+    async function getAllPathologies() {
+      let lstPathologies = await ServiceGetPathologies();
+      lstPathologies.map(pa => {
+        pa.value = pa.pathologiesId;
+        pa.label = pa.description
+      })
+      setPathologiesInCombo(lstPathologies);
+    }
+    getAllPathologies();
+  }, []);
+  return {pathologiesInCombo}
 }

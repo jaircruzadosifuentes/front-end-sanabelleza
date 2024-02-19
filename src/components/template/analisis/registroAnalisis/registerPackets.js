@@ -22,7 +22,6 @@ const listPeriodo = [
     id: 3,
     value: '3 VECES POR SEMANA'
   },
-
 ]
 
 export default function RegisterPackets({

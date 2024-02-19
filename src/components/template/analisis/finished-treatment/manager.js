@@ -160,6 +160,9 @@ export default function Manager(props) {
   const handleCloseModalItemSession = () => {
     setOpeModalItemSession(false);
   }
+  const viewMedicalHistory = (e) => {
+    
+  }
   return (
     <div className="container-fluid mt-1 mb-1">
       <Title
@@ -182,6 +185,7 @@ export default function Manager(props) {
             handleStarEvaluation={handleStarEvaluation}
             handleEditSesion={handleEditSesion}
             handleServicedVersion={handleServicedVersion}
+            viewMedicalHistory={viewMedicalHistory}
           />
         </div>
       </div>

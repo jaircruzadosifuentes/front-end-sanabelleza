@@ -18,6 +18,7 @@ export default function Input({
   upperCase = false,
   align = 'left',
   marginTop = '',
+  onInput,
   ...props
 }) {
   return (
@@ -34,6 +35,7 @@ export default function Input({
       onKeyUp={onKeyUp}
       autoFocus={autoFocus}
       readOnly={readOnly}
+      onInput={onInput}
       style={{
         background: isDisabled ? 'white': '', 
         textAlign: align, 
@@ -61,5 +63,6 @@ Input.propTypes = {
   autoFocus: PropTypes.bool,
   isDisabled: PropTypes.bool, 
   upperCase: PropTypes.bool, 
-  onKeyUp: PropTypes.func
+  onKeyUp: PropTypes.func,
+  onInput: PropTypes.func
 };

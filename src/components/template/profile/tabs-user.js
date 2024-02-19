@@ -17,13 +17,18 @@ import AttachEmailIcon from '@mui/icons-material/AttachEmail';
 import FemaleIcon from '@mui/icons-material/Female';
 import MaleIcon from '@mui/icons-material/Male';
 import AgendaView from "src/components/organism/agenda-view";
-import { AREA_FISIOTERAPIA_ATENCION } from "src/config/config";
-
+import { AREA_FISIOTERAPIA_ATENCION, COLOR_BLUE_MAB, COLOR_BUTTON_MAB, COLOR_GREEN, COLOR_YELLOW } from "src/config/config";
+import FilePresentIcon from '@mui/icons-material/FilePresent';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import { ButtonFormControl } from "src/components/molecules";
+import { formatFullHour } from "src/utils/functions";
 export default function TabsUser({
   employeedDetail = {},
   value,
   handleChange,
-  rowsScheduleSessions = []
+  rowsScheduleSessions = [],
+  lstHistoriesClinic = [],
+  handleDownloadHistoryClinic
 }) {
   return (
     <>
@@ -36,8 +41,8 @@ export default function TabsUser({
               <Tab label="Historial Clinico" value="2" />
               <Tab label="Actividades" value="3" />
               {
-                AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId)?
-                <Tab label="Sesiones Programadas" value="4" />: ''
+                AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId) ?
+                  <Tab label="Sesiones Programadas" value="4" /> : ''
               }
               {/* <Tab label="Pagos" value="5" /> */}
             </TabList>
@@ -47,16 +52,57 @@ export default function TabsUser({
               employeedDetail={employeedDetail}
             />
           </TabPanel>
-          <TabPanel value="2">Historial Clínico</TabPanel>
+          <TabPanel value="2">
+            <div className="row">
+              <div className="col-md-12">
+                <SpanFormControl title={'Historial Clínico'} isBold />
+              </div>
+              {lstHistoriesClinic.map((l, index) => {
+                return (
+                  <div key={index} className="col-md-4">
+                    <div className="row">
+                      <div className="col-md-2">
+                        <ReceiptLongIcon style={{fontSize: '60px'}} />
+                      </div>
+                      <div className="col-md-10">
+                        <div className="row">
+                          <div className="col-md-12">
+                            <small>{l.nameFileHistoryClinicTmp}</small>
+                          </div>
+                          <div className="col-md-12">
+                            <small style={{color: l.state === 'En tratamiento'? COLOR_BLUE_MAB: COLOR_GREEN}}>Estado: {l.state}</small>
+                          </div>
+                          <div className="col-md-12">
+                            <small>Fecha emitida: {formatFullHour(l.createdAt)}</small>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="row mt-2">
+                      <div className="col-md-12">
+                        <ButtonFormControl
+                          title="Descargar"
+                          color='btn btn-success'
+                          type={10}
+                          onClick={(e) =>handleDownloadHistoryClinic(e, l.nameFileHistoryClinic)}
+                        />
+                      </div>
+
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
+          </TabPanel>
           {
-            AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId)?
-            <TabPanel value="4">
-              <AgendaView 
-                numberOfDays={5}
-                rows={rowsScheduleSessions}
-                cellHeight={11}
-              />
-            </TabPanel>: ''
+            AREA_FISIOTERAPIA_ATENCION === parseInt(employeedDetail?.role?.area?.areaId) ?
+              <TabPanel value="4">
+                <AgendaView
+                  numberOfDays={5}
+                  rows={rowsScheduleSessions}
+                  cellHeight={11}
+                />
+              </TabPanel> : ''
           }
         </TabContext>
       </Box>
@@ -67,7 +113,9 @@ TabsUser.propTypes = {
   employeedDetail: PropTypes.object,
   value: PropTypes.number,
   rowsScheduleSessions: PropTypes.array,
+  lstHistoriesClinic: PropTypes.array,
   handleChange: PropTypes.func,
+  handleDownloadHistoryClinic: PropTypes.func,
 };
 
 const ComponentDatosPersonales = ({
@@ -115,12 +163,12 @@ const ComponentDatosPersonales = ({
                 <div className="col-md-1 col-xs-3">
                   {
                     employeedDetail.person?.gender === 'F' ?
-                    <FemaleIcon style={{ color: COLOR_BLUE }}/>
-                    : <MaleIcon style={{ color: COLOR_BLUE }}/>
+                      <FemaleIcon style={{ color: COLOR_BLUE }} />
+                      : <MaleIcon style={{ color: COLOR_BLUE }} />
                   }
                 </div>
                 <div className="col-md-11 col-xs-12">
-                  <SpanFormControl title={`${employeedDetail?.person?.gender === 'F'? 'Femenino': 'Masculino'}`} />
+                  <SpanFormControl title={`${employeedDetail?.person?.gender === 'F' ? 'Femenino' : 'Masculino'}`} />
                 </div>
               </div>
             </CardContent>

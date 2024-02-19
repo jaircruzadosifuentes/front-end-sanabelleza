@@ -76,14 +76,14 @@ export default function Manager() {
     setMontoApertura(e.target.value);
   }
   const handleCloseCash = (e, row) => {
-    if(getHoraActual() < configs.hora_fin_cierre_caja_chica) {
-      Swal.fire({
-        icon: 'warning',
-        title: 'Advertencia',
-        text: `No puede cerrar caja, ya que es del día de hoy. La hora de cierre de ser mayor a las ${configs.hora_fin_cierre_caja_chica} PM. De ser un caso extremo, contactarse con el administrador del sistema, para que reconfigure la hora de cierre de caja chica programada.`,
-      })
-      return;
-    }
+    // if(getHoraActual() < configs.hora_fin_cierre_caja_chica) {
+    //   Swal.fire({
+    //     icon: 'warning',
+    //     title: 'Advertencia',
+    //     text: `No puede cerrar caja, ya que es del día de hoy. La hora de cierre de ser mayor a las ${configs.hora_fin_cierre_caja_chica} PM. De ser un caso extremo, contactarse con el administrador del sistema, para que reconfigure la hora de cierre de caja chica programada.`,
+    //   })
+    //   return;
+    // }
     const { cajaChicaId } = row;
     let data = {
       cashRegisterDetailId: cajaChicaId

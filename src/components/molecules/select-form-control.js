@@ -16,7 +16,10 @@ export default function SelectedFormControl({
 
   return (
     <div className={className}>
-      <Label title={titleLabel} />
+      {
+        titleLabel ?
+        <Label title={titleLabel} />: ''
+      }
       <Select
         options={options}
         onChange={handleChange}

@@ -1,5 +1,5 @@
 import { EntityCreate, EntityGetAll, EntityGetById, EntityUpdate } from 'src/utils/api-rest';
-import { Uri_AddOptionEmployeed, Uri_GetAllConfigs, Uri_GetAllFrecuency, Uri_GetAllPayMethods, Uri_GetAreasInSelect, Uri_GetCategoriesInSelect, Uri_GetCountPatientsType, Uri_GetInComboAfpSure, Uri_GetInComboModalityContract, Uri_GetInComboRole, Uri_GetInComboTypeOfContract, Uri_GetInSelectVoucherDocument, Uri_GetOptions, Uri_GetOptionsByCodeEmployeed, Uri_GetOptionsGeneral, Uri_GetOptionsItemGeneral, Uri_GetOptionsItemsByCodeEmployeed, Uri_GetReportMensualCategoryTTO, Uri_GetRoles, Uri_GetRoutes, Uri_GetRoutesSpecial, Uri_GetSubCategoriesInSelect, Uri_PostRegisterFrecuencyClinic, Uri_PostRegisterRole, Uri_PutAddOptionFather, Uri_PutConfig, Uri_PutDisabledEnabledRole, Uri_PutRemoveAddOptionEmployeed, Uri_PutRole, Uri_PutUpdateFrecuencyClinic, Uri_VerifyPatientByFullName } from '../../api/common/api.common';
+import { Uri_AddOptionEmployeed, Uri_GetAllConfigs, Uri_GetAllFrecuency, Uri_GetAllPayMethods, Uri_GetAreasInSelect, Uri_GetCategoriesInSelect, Uri_GetCountPatientsType, Uri_GetInComboAfpSure, Uri_GetInComboModalityContract, Uri_GetInComboRole, Uri_GetInComboTypeOfContract, Uri_GetInSelectVoucherDocument, Uri_GetOptions, Uri_GetOptionsByCodeEmployeed, Uri_GetOptionsGeneral, Uri_GetOptionsItemGeneral, Uri_GetOptionsItemsByCodeEmployeed, Uri_GetPathologies, Uri_GetReportMensualCategoryTTO, Uri_GetRoles, Uri_GetRoutes, Uri_GetRoutesSpecial, Uri_GetSubCategoriesInSelect, Uri_PostRegisterFrecuencyClinic, Uri_PostRegisterRole, Uri_PutAddOptionFather, Uri_PutConfig, Uri_PutDisabledEnabledRole, Uri_PutRemoveAddOptionEmployeed, Uri_PutRole, Uri_PutUpdateFrecuencyClinic, Uri_VerifyPatientByFullName } from '../../api/common/api.common';
 
 export async function ServiceGetAllPayMethods() {
   return await EntityGetAll(Uri_GetAllPayMethods);
@@ -21,6 +21,9 @@ export async function ServiceGetInComboModalityContract() {
 }
 export async function ServiceGetInComboAfpSure() {
   return await EntityGetAll(Uri_GetInComboAfpSure);
+}
+export async function ServiceGetPathologies() {
+  return await EntityGetAll(Uri_GetPathologies);
 }
 export async function ServiceGetInComboRole() {
   return await EntityGetAll(Uri_GetInComboRole);

@@ -9,7 +9,8 @@ import { ListActionTypes } from '@mui/base/useList';
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import PaymentIcon from '@mui/icons-material/Payment';
 import AttachEmailIcon from '@mui/icons-material/AttachEmail';
-
+import HistoryEduIcon from '@mui/icons-material/HistoryEdu';
+import FeedIcon from '@mui/icons-material/Feed';
 function MenuSection({ children, label }) {
   return (
     <MenuSectionRoot>
@@ -28,7 +29,8 @@ MenuSection.propTypes = {
 export default function WrappedMenuItems({
   row = {},
   handleViewShedulePay,
-  handleViewAdvanceClinic
+  handleViewAdvanceClinic,
+  viewMedicalHistory
 }) {
   const [buttonElement, setButtonElement] = React.useState(null);
 
@@ -97,6 +99,12 @@ export default function WrappedMenuItems({
         slotProps={{ listbox: { id: 'simple-menu' } }}
       >
         <MenuSection label="Operaciones">
+          <StyledMenuItem onClick={(e) =>viewMedicalHistory(e, row)} style={{cursor: 'pointer'}}>
+            <HistoryEduIcon /> Ver Historia Clínica
+          </StyledMenuItem>
+          <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
+            <FeedIcon /> Ver Informe de resultados
+          </StyledMenuItem>
           <StyledMenuItem onClick={(e) =>handleViewShedulePay(e, row)} style={{cursor: 'pointer'}}>
             <PaymentIcon /> Ver Cronograma de Pagos
           </StyledMenuItem>
@@ -113,6 +121,7 @@ WrappedMenuItems.propTypes = {
   row: PropTypes.object,
   handleViewShedulePay: PropTypes.func,
   handleViewAdvanceClinic: PropTypes.func,
+  viewMedicalHistory: PropTypes.func,
 };
 
 const blue = {

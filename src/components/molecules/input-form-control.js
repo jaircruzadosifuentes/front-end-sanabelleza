@@ -26,6 +26,7 @@ export default function InputFormControl(props) {
     upperCase = false,
     onKeyUp,
     marginTop = '',
+    onInput,
     ...rest
   } = props;
   const [message, setMessage] = useState("");
@@ -55,7 +56,7 @@ export default function InputFormControl(props) {
       {
         isFilter?
         <FilterListIcon style={{cursor: 'pointer'}} />: ''
-      }&nbsp;
+      }{" "}
       {
         isLabel ?
         <Label title={label + ':'} htmlFor={matchName} isBold={isBold} />: ''
@@ -76,6 +77,7 @@ export default function InputFormControl(props) {
         readOnly={readOnly}
         upperCase={upperCase}
         marginTop={marginTop}
+        onInput={onInput}
       />
       <div className="invalid-feedback">{message}</div>
     </div>
@@ -105,4 +107,5 @@ InputFormControl.propTypes = {
   maxLength: PropTypes.number,
   onKeyUp: PropTypes.func,
   upperCase: PropTypes.bool,
+  onInput: PropTypes.func,
 };

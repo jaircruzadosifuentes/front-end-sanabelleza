@@ -61,7 +61,6 @@ export default function DetailUser({
               <ButtonFormControl
                 title="Editar perfil"
                 color='btn btn-secondary'
-                onClick={handleEditarPerfil}
                 type={15}
               />
             </div>

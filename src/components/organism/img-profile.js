@@ -65,7 +65,7 @@ export default function ImgProfile({
                 skeletonShow ? <RenderSkeleton /> :
                   <img
                     alt={profile.name}
-                    src={selectedImageTmp ? selectedImageTmp: profile.profilePicture}
+                    src={selectedImageTmp ? selectedImageTmp : profile.profilePicture}
                     className="float-right"
                     title={`${profile.surnames}/${profile.names}`}
                     height={'100%'}
@@ -73,36 +73,36 @@ export default function ImgProfile({
                     style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
                   />
               }
-            </Badge> : defaultImage? 
-            <img
-            alt={profile.name}
-            src={"../../images/avatars/default.png"}
-            className="float-right"
-            title={`${profile.surnames}/${profile.names}`}
-            height={'100%'}
-            width={width}
-            style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
-          />
-            :
-            skeletonShow ? 
-            <img
-              alt={profile.name}
-              src={"../../images/avatars/default.png"}
-              className="float-right"
-              title={`${profile.surnames}/${profile.names}`}
-              height={'100%'}
-              width={width}
-              style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
-            /> :
+            </Badge> : defaultImage ?
               <img
                 alt={profile.name}
-                src={selectedImageTmp? selectedImageTmp: profile.profilePicture}
+                src={"../../images/avatars/default.png"}
                 className="float-right"
                 title={`${profile.surnames}/${profile.names}`}
                 height={'100%'}
                 width={width}
                 style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
               />
+              :
+              skeletonShow ?
+                <img
+                  alt={profile.name}
+                  src={"../../images/avatars/default.png"}
+                  className="float-right"
+                  title={`${profile.surnames}/${profile.names}`}
+                  height={'100%'}
+                  width={width}
+                  style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
+                /> :
+                <img
+                  alt={profile.name}
+                  src={selectedImageTmp ? selectedImageTmp : profile.profilePicture}
+                  className="float-right"
+                  title={`${profile.surnames}/${profile.names}`}
+                  height={'100%'}
+                  width={width}
+                  style={{ borderRadius: isBordered ? '10em' : '50%', display: 'flex' }}
+                />
         }
       </>
     )

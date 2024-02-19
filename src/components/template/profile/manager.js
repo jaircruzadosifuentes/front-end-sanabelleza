@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import DetailUser from "./detail-user";
 import { useGetByUserNameEmployeed } from "src/api/hooks/employeed/employeed-hook";
@@ -9,6 +9,7 @@ import { formatDate } from "src/utils/functions";
 import { ServiceUploadProfile } from "src/service/employeed/service.employeed";
 import { Modal } from "src/components/molecules";
 import PreviewImg from "./preview-img";
+import { ServiceGetHistoryForPatientId } from "src/service/patient/service.patient";
 
 export default function Manager(props) {
   const navigate = useNavigate()
@@ -19,10 +20,14 @@ export default function Manager(props) {
   const [selectedImageTmp, setSelectedImage] = useState(null);
   const [selectedImageTmpPrev, setSelectedImagePrev] = useState(null);
   const [openModalPreview, setOpenModalPreview] = useState(false);
+  const [lstHistoriesClinic, setLstHistoriesClinic] = useState([]);
 
   const handleChange = async (_, newValue) => {
     const { employeedId } = employeedDetail;
     switch (parseInt(newValue)) {
+      case 2:
+        let lstHistoryClinics = await ServiceGetHistoryForPatientId(employeedId, true);
+        setLstHistoriesClinic(lstHistoryClinics);
       case 4:
         let lstRowSchedule = await ServiceGetAllScheduleEmployeed(employeedId);
         setRowsScheduleSessions(lstRowSchedule)
@@ -131,6 +136,14 @@ export default function Manager(props) {
     setOpenModalPreview(false);
     setSelectedImagePrev(null);
   }
+  const handleDownloadHistoryClinic = (_, url) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.target = "_blank";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  }
   return (
     <div className="container">
       <div className="row">
@@ -149,6 +162,8 @@ export default function Manager(props) {
             value={value}
             handleChange={handleChange}
             rowsScheduleSessions={rowsScheduleSessions}
+            lstHistoriesClinic={lstHistoriesClinic}
+            handleDownloadHistoryClinic={handleDownloadHistoryClinic}
           />
         </div>
       </div>

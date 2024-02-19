@@ -1,5 +1,5 @@
 import { EntityCreate, EntityGetAll, EntityGetById, EntityUpdate } from 'src/utils/api-rest';
-import { Uri_GetAdvanceCliniciForPatientId, Uri_GetAlLPatientsNewAttentionByEmployeedId, Uri_GetAllPatientsFinishedTreatment, Uri_GetAllPatientsInAttention, Uri_GetAllPatientsInPercentajeTreatment, Uri_GetAllPatientsInTreatment, Uri_GetAllPatientsInWaiting, Uri_GetAllPatientsPatientWithAppoiment, Uri_GetAllPatientsPendApro, Uri_GetAllPatientsWithSchedule, Uri_GetByIdPatientProgress, Uri_GetItemSesionDetailById, Uri_PostRegistrProgressSesion, Uri_PutApprovePatient, Uri_PutApprovePatientNew, Uri_PutUpdateHourSesion } from '../../api/patient/api.patient';
+import { Uri_GetAdvanceCliniciForPatientId, Uri_GetAlLPatientsNewAttentionByEmployeedId, Uri_GetAllPatientsFinishedTreatment, Uri_GetAllPatientsInAttention, Uri_GetAllPatientsInPercentajeTreatment, Uri_GetAllPatientsInTreatment, Uri_GetAllPatientsInWaiting, Uri_GetAllPatientsPatientWithAppoiment, Uri_GetAllPatientsPendApro, Uri_GetAllPatientsWithSchedule, Uri_GetByIdPatientProgress, Uri_GetHistoryForPatientId, Uri_GetItemSesionDetailById, Uri_PostRegistrProgressSesion, Uri_PutApprovePatient, Uri_PutApprovePatientNew, Uri_PutUpdateHourSesion } from '../../api/patient/api.patient';
 
 export async function ServiceGetAllPatientsWithSchedule(hourInitial, hourFinished, dateReserved, employeedId) {
   return await EntityGetAll(Uri_GetAllPatientsWithSchedule(hourInitial, hourFinished, dateReserved, employeedId));
@@ -36,6 +36,9 @@ export async function ServiceGetItemSesionDetailById(patientDetailSesionId) {
 }
 export async function ServiceGetByIdPatientProgress(patientId) {
   return await EntityGetById(Uri_GetByIdPatientProgress(patientId));
+}
+export async function ServiceGetHistoryForPatientId(patientId, mostrarTodos) {
+  return await EntityGetAll(Uri_GetHistoryForPatientId(patientId, mostrarTodos));
 }
 export async function ServicePutApprovePatientNew(patientId) {
   return await EntityUpdate(Uri_PutApprovePatientNew(patientId));

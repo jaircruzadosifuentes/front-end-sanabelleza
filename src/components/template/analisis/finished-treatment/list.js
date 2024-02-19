@@ -31,6 +31,7 @@ function Row({
   index = 0,
   handleViewShedulePay,
   handleViewAdvanceClinic,
+  viewMedicalHistory
 }) {
   const [open, setOpen] = React.useState(false);
 
@@ -93,6 +94,7 @@ function Row({
             row={row}
             handleViewShedulePay={handleViewShedulePay}
             handleViewAdvanceClinic={handleViewAdvanceClinic}
+            viewMedicalHistory={viewMedicalHistory}
           />
         </td>
       </TableRow>
@@ -179,6 +181,7 @@ function Row({
 Row.propTypes = {
   patientId: PropTypes.number,
   handleServicedVersion: PropTypes.func,
+  viewMedicalHistory: PropTypes.func,
   handleViewAdvanceClinic: PropTypes.func,
   handleViewShedulePay: PropTypes.func,
   handleChangeSendMsgWssp: PropTypes.func,
@@ -212,7 +215,8 @@ export default function List({
   handleViewAdvanceClinic,
   handleStarEvaluation,
   handleEditSesion,
-  handleServicedVersion
+  handleServicedVersion,
+  viewMedicalHistory
 }) {
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
@@ -261,6 +265,7 @@ export default function List({
                 handleStarEvaluation={handleStarEvaluation}
                 handleEditSesion={handleEditSesion}
                 handleServicedVersion={handleServicedVersion}
+                viewMedicalHistory={viewMedicalHistory}
               />
             )) : <span>No existen datos para mostrar</span>
             }
@@ -291,4 +296,5 @@ List.propTypes = {
   handleStarEvaluation: PropTypes.func,
   handleEditSesion: PropTypes.func,
   handleServicedVersion: PropTypes.func,
+  viewMedicalHistory: PropTypes.func,
 };
